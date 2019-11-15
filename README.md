@@ -1,5 +1,5 @@
 # Analyzing mutation signitures of an APOBEC super restriction factor
-### Adam S. Dingens, Jesse Bloom
+### Adam S. Dingens, Kate Crawford, Jesse Bloom
 ### In collabortation Mollie McDonnell and Michael Emerman
 
 
