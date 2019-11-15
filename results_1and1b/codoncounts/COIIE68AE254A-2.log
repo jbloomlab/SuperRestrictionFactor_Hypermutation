@@ -1,0 +1,104 @@
+2019-11-14 15:56:18,254 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-11-14 15:56:18,254 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COIIE68AE254A-2.log
+2019-11-14 15:56:18,257 - INFO - Version information:
+	Time and date: Thu Nov 14 15:56:18 2019
+	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-11-14 15:56:18,257 - INFO - Parsed the following arguments:
+	outdir = ./results_1and1b/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['205,504,35,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = True
+	name = COIIE68AE254A-2
+	R1 = ['COIIE68AE254A-2_R1.fastq.gz']
+
+2019-11-14 15:56:18,259 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-2_codoncounts.csv
+2019-11-14 15:56:18,261 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-2_readstats.csv
+2019-11-14 15:56:18,263 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-2_readsperbc.csv
+2019-11-14 15:56:18,265 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-2_bcstats.csv
+2019-11-14 15:56:18,267 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-2_bcinfo.txt.gz
+2019-11-14 15:56:18,302 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-14 15:56:18,304 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/COIIE68AE254A-2_R1.fastq.gz and ./FASTQ_files/COIIE68AE254A-2_R2.fastq.gz
+
+2019-11-14 15:56:18,304 - INFO - Now parsing read pairs...
+2019-11-14 15:56:24,809 - INFO - Reads parsed so far: 500000
+2019-11-14 15:56:30,920 - INFO - Reads parsed so far: 1000000
+2019-11-14 15:56:36,935 - INFO - Reads parsed so far: 1500000
+2019-11-14 15:56:42,321 - INFO - Reads parsed so far: 2000000
+2019-11-14 15:56:44,537 - INFO - Parsed 2129740 reads, found 959099 unique barcodes.
+2019-11-14 15:56:44,542 - INFO - Summary stats on reads:
+   total  fail filter  low Q barcode
+ 2129740            0         123973
+2019-11-14 15:56:44,542 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-2_readstats.csv
+
+2019-11-14 15:56:44,757 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            421360
+2                            241891
+3                            160766
+4                             82582
+5                             34669
+6                             12390
+7                              3927
+8                              1127
+9                               277
+10                               76
+11                               27
+12                                5
+13                                1
+186                               1
+2019-11-14 15:56:44,758 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-2_readsperbc.csv
+
+2019-11-14 15:56:44,761 - INFO - Examining the 959099 barcodes to build and align subamplicons...
+2019-11-14 15:57:00,521 - INFO - Barcodes examined so far: 200000
+2019-11-14 15:57:15,630 - INFO - Barcodes examined so far: 400000
+2019-11-14 15:57:29,609 - INFO - Barcodes examined so far: 600000
+2019-11-14 15:57:41,881 - INFO - Barcodes examined so far: 800000
+2019-11-14 15:57:49,634 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 959099         421360          12722   525017
+2019-11-14 15:57:49,635 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-2_bcstats.csv
+
+2019-11-14 15:57:49,660 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-14 15:57:49,672 - INFO - Filtered from 1016 to 101 sites.
+2019-11-14 15:57:49,672 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COIIE68AE254A-2_codoncounts.csv
+
+2019-11-14 15:57:49,682 - INFO - Successful completion of dms2_bcsubamp

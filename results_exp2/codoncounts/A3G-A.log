@@ -1,0 +1,94 @@
+2019-11-12 16:30:27,156 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-11-12 16:30:27,156 - INFO - Progress is being logged to ./results_exp2/codoncounts/A3G-A.log
+2019-11-12 16:30:27,159 - INFO - Version information:
+	Time and date: Tue Nov 12 16:30:27 2019
+	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-11-12 16:30:27,159 - INFO - Parsed the following arguments:
+	outdir = ./results_exp2/codoncounts
+	ncpus = -1
+	use_existing = yes
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['204,504,34,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files_exp2/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = False
+	name = A3G-A
+	R1 = ['A3G-A_R1.fastq.gz']
+
+2019-11-12 16:30:27,198 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-12 16:30:27,202 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files_exp2/A3G-A_R1.fastq.gz and ./FASTQ_files_exp2/A3G-A_R2.fastq.gz
+
+2019-11-12 16:30:27,202 - INFO - Now parsing read pairs...
+2019-11-12 16:30:33,514 - INFO - Reads parsed so far: 500000
+2019-11-12 16:30:40,487 - INFO - Reads parsed so far: 1000000
+2019-11-12 16:30:42,921 - INFO - Parsed 1206727 reads, found 534185 unique barcodes.
+2019-11-12 16:30:42,927 - INFO - Summary stats on reads:
+   total  fail filter  low Q barcode
+ 1206727            0          85568
+2019-11-12 16:30:42,927 - INFO - Writing these stats to ./results_exp2/codoncounts/A3G-A_readstats.csv
+
+2019-11-12 16:30:43,077 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            222821
+2                            146606
+3                             92873
+4                             45006
+5                             18191
+6                              6190
+7                              1847
+8                               483
+9                               134
+10                               23
+11                                9
+12                                1
+48                                1
+2019-11-12 16:30:43,078 - INFO - Writing these stats to ./results_exp2/codoncounts/A3G-A_readsperbc.csv
+
+2019-11-12 16:30:43,082 - INFO - Examining the 534185 barcodes to build and align subamplicons...
+2019-11-12 16:30:49,917 - INFO - Barcodes examined so far: 200000
+2019-11-12 16:30:55,429 - INFO - Barcodes examined so far: 400000
+2019-11-12 16:30:57,002 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 534185         222821           9949   301415
+2019-11-12 16:30:57,002 - INFO - Writing these stats to ./results_exp2/codoncounts/A3G-A_bcstats.csv
+
+2019-11-12 16:30:57,023 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-12 16:30:57,039 - INFO - Filtered from 1016 to 101 sites.
+2019-11-12 16:30:57,039 - INFO - Writing the counts of each codon identity at each site to ./results_exp2/codoncounts/A3G-A_codoncounts.csv
+
+2019-11-12 16:30:57,048 - INFO - Successful completion of dms2_bcsubamp

@@ -1,0 +1,10 @@
+.*
+*.pyc
+!.gitignore
+*.fasta
+!data/*.fasta
+*.sbatch
+FASTQ_files
+slurm*
+FASTQ_files_exp2
+FASTQ_files_initialMiseqOnly

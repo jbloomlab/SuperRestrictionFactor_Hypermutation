@@ -1,0 +1,104 @@
+2019-11-14 15:55:17,873 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-11-14 15:55:17,873 - INFO - Progress is being logged to ./results_1and1b/codoncounts/A3G-1.log
+2019-11-14 15:55:17,879 - INFO - Version information:
+	Time and date: Thu Nov 14 15:55:17 2019
+	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-11-14 15:55:17,879 - INFO - Parsed the following arguments:
+	outdir = ./results_1and1b/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['205,504,35,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = True
+	name = A3G-1
+	R1 = ['A3G-1_R1.fastq.gz']
+
+2019-11-14 15:55:17,881 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-1_codoncounts.csv
+2019-11-14 15:55:17,883 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-1_readstats.csv
+2019-11-14 15:55:17,885 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-1_readsperbc.csv
+2019-11-14 15:55:17,886 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-1_bcstats.csv
+2019-11-14 15:55:17,889 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-1_bcinfo.txt.gz
+2019-11-14 15:55:17,930 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-14 15:55:17,930 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/A3G-1_R1.fastq.gz and ./FASTQ_files/A3G-1_R2.fastq.gz
+
+2019-11-14 15:55:17,930 - INFO - Now parsing read pairs...
+2019-11-14 15:55:24,171 - INFO - Reads parsed so far: 500000
+2019-11-14 15:55:30,494 - INFO - Reads parsed so far: 1000000
+2019-11-14 15:55:36,423 - INFO - Reads parsed so far: 1500000
+2019-11-14 15:55:42,558 - INFO - Reads parsed so far: 2000000
+2019-11-14 15:55:47,658 - INFO - Parsed 2470811 reads, found 1386581 unique barcodes.
+2019-11-14 15:55:47,663 - INFO - Summary stats on reads:
+   total  fail filter  low Q barcode
+ 2470811            0         128361
+2019-11-14 15:55:47,663 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-1_readstats.csv
+
+2019-11-14 15:55:47,969 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            783615
+2                            358874
+3                            164091
+4                             58222
+5                             16539
+6                              4064
+7                               941
+8                               196
+9                                35
+10                                2
+16                                1
+341                               1
+2019-11-14 15:55:47,970 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-1_readsperbc.csv
+
+2019-11-14 15:55:47,973 - INFO - Examining the 1386581 barcodes to build and align subamplicons...
+2019-11-14 15:56:08,786 - INFO - Barcodes examined so far: 200000
+2019-11-14 15:56:28,223 - INFO - Barcodes examined so far: 400000
+2019-11-14 15:56:46,853 - INFO - Barcodes examined so far: 600000
+2019-11-14 15:57:04,365 - INFO - Barcodes examined so far: 800000
+2019-11-14 15:57:20,392 - INFO - Barcodes examined so far: 1000000
+2019-11-14 15:57:34,589 - INFO - Barcodes examined so far: 1200000
+2019-11-14 15:57:45,456 - INFO - Examined all barcodes. Summary stats:
+   total  too few reads  not alignable  aligned
+ 1386581         783615          16229   586737
+2019-11-14 15:57:45,456 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-1_bcstats.csv
+
+2019-11-14 15:57:45,484 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-14 15:57:45,498 - INFO - Filtered from 1016 to 101 sites.
+2019-11-14 15:57:45,498 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/A3G-1_codoncounts.csv
+
+2019-11-14 15:57:45,508 - INFO - Successful completion of dms2_bcsubamp

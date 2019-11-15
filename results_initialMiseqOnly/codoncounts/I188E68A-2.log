@@ -1,0 +1,90 @@
+2019-09-20 14:16:01,004 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-09-20 14:16:01,005 - INFO - Progress is being logged to ./results/codoncounts/I188E68A-2.log
+2019-09-20 14:16:01,009 - INFO - Version information:
+	Time and date: Fri Sep 20 14:16:00 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-09-20 14:16:01,010 - INFO - Parsed the following arguments:
+	outdir = ./results/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['204,504,34,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = False
+	name = I188E68A-2
+	R1 = ['I188E68A-2_R1.fastq.gz']
+
+2019-09-20 14:16:01,011 - INFO - Removing existing file ./results/codoncounts/I188E68A-2_codoncounts.csv
+2019-09-20 14:16:01,014 - INFO - Removing existing file ./results/codoncounts/I188E68A-2_readstats.csv
+2019-09-20 14:16:01,016 - INFO - Removing existing file ./results/codoncounts/I188E68A-2_readsperbc.csv
+2019-09-20 14:16:01,018 - INFO - Removing existing file ./results/codoncounts/I188E68A-2_bcstats.csv
+2019-09-20 14:16:01,036 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-09-20 14:16:01,037 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/I188E68A-2_R1.fastq.gz and ./FASTQ_files/I188E68A-2_R2.fastq.gz
+
+2019-09-20 14:16:01,037 - INFO - Now parsing read pairs...
+2019-09-20 14:16:06,220 - INFO - Parsed 392103 reads, found 319802 unique barcodes.
+2019-09-20 14:16:06,227 - INFO - Summary stats on reads:
+  total  fail filter  low Q barcode
+ 392103            0          11029
+2019-09-20 14:16:06,227 - INFO - Writing these stats to ./results/codoncounts/I188E68A-2_readstats.csv
+
+2019-09-20 14:16:06,327 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            266368
+2                             46422
+3                              6301
+4                               638
+5                                65
+6                                 6
+7                                 1
+39                                1
+2019-09-20 14:16:06,327 - INFO - Writing these stats to ./results/codoncounts/I188E68A-2_readsperbc.csv
+
+2019-09-20 14:16:06,333 - INFO - Examining the 319802 barcodes to build and align subamplicons...
+2019-09-20 14:16:08,449 - INFO - Barcodes examined so far: 200000
+2019-09-20 14:16:08,891 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 319802         266368           1359    52075
+2019-09-20 14:16:08,891 - INFO - Writing these stats to ./results/codoncounts/I188E68A-2_bcstats.csv
+
+2019-09-20 14:16:08,916 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-09-20 14:16:08,932 - INFO - Filtered from 1016 to 101 sites.
+2019-09-20 14:16:08,932 - INFO - Writing the counts of each codon identity at each site to ./results/codoncounts/I188E68A-2_codoncounts.csv
+
+2019-09-20 14:16:08,943 - INFO - Successful completion of dms2_bcsubamp

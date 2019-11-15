@@ -1,0 +1,96 @@
+2019-09-20 12:51:27,333 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-09-20 12:51:27,333 - INFO - Progress is being logged to ./results/codoncounts/COTDE254A-2.log
+2019-09-20 12:51:27,339 - INFO - Version information:
+	Time and date: Fri Sep 20 12:51:27 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-09-20 12:51:27,339 - INFO - Parsed the following arguments:
+	outdir = ./results/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['204,504,34,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 4
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = None
+	purgeread = 0
+	purgebc = 0
+	bcinfo = False
+	name = COTDE254A-2
+	R1 = ['COTDE254A-2_R1.fastq.gz']
+
+2019-09-20 12:51:27,342 - INFO - Removing existing file ./results/codoncounts/COTDE254A-2_codoncounts.csv
+2019-09-20 12:51:27,351 - INFO - Removing existing file ./results/codoncounts/COTDE254A-2_readstats.csv
+2019-09-20 12:51:27,361 - INFO - Removing existing file ./results/codoncounts/COTDE254A-2_readsperbc.csv
+2019-09-20 12:51:27,379 - INFO - Removing existing file ./results/codoncounts/COTDE254A-2_bcstats.csv
+2019-09-20 12:51:27,423 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-09-20 12:51:27,426 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/COTDE254A-2_R1.fastq.gz and ./FASTQ_files/COTDE254A-2_R2.fastq.gz
+
+2019-09-20 12:51:27,426 - INFO - Now parsing read pairs...
+2019-09-20 12:51:33,642 - INFO - Reads parsed so far: 500000
+2019-09-20 12:51:34,482 - INFO - Parsed 575809 reads, found 211122 unique barcodes.
+2019-09-20 12:51:34,487 - INFO - Summary stats on reads:
+  total  fail filter  low Q barcode
+ 575809            0          16862
+2019-09-20 12:51:34,487 - INFO - Writing these stats to ./results/codoncounts/COTDE254A-2_readstats.csv
+
+2019-09-20 12:51:34,561 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                             65944
+2                             46931
+3                             41556
+4                             28729
+5                             15739
+6                              7374
+7                              3104
+8                              1168
+9                               397
+10                              124
+11                               38
+12                                9
+13                                5
+14                                3
+100                               1
+2019-09-20 12:51:34,561 - INFO - Writing these stats to ./results/codoncounts/COTDE254A-2_readsperbc.csv
+
+2019-09-20 12:51:34,566 - INFO - Examining the 211122 barcodes to build and align subamplicons...
+2019-09-20 12:51:41,101 - INFO - Barcodes examined so far: 200000
+2019-09-20 12:51:41,182 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 211122          65944           7945   137233
+2019-09-20 12:51:41,182 - INFO - Writing these stats to ./results/codoncounts/COTDE254A-2_bcstats.csv
+
+2019-09-20 12:51:41,213 - INFO - Writing the counts of each codon identity at each site to ./results/codoncounts/COTDE254A-2_codoncounts.csv
+
+2019-09-20 12:51:41,272 - INFO - Successful completion of dms2_bcsubamp

@@ -1,0 +1,90 @@
+2019-11-12 16:34:52,015 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-11-12 16:34:52,015 - INFO - Progress is being logged to ./results_exp2/codoncounts/PLASMIDCTRL-A.log
+2019-11-12 16:34:52,021 - INFO - Version information:
+	Time and date: Tue Nov 12 16:34:52 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-11-12 16:34:52,021 - INFO - Parsed the following arguments:
+	outdir = ./results_exp2/codoncounts
+	ncpus = -1
+	use_existing = yes
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['204,504,34,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files_exp2/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = False
+	name = PLASMIDCTRL-A
+	R1 = ['PLASMIDCTRL-A_R1.fastq.gz']
+
+2019-11-12 16:34:52,071 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-12 16:34:52,074 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files_exp2/PLASMIDCTRL-A_R1.fastq.gz and ./FASTQ_files_exp2/PLASMIDCTRL-A_R2.fastq.gz
+
+2019-11-12 16:34:52,074 - INFO - Now parsing read pairs...
+2019-11-12 16:34:58,430 - INFO - Reads parsed so far: 500000
+2019-11-12 16:35:04,882 - INFO - Reads parsed so far: 1000000
+2019-11-12 16:35:06,231 - INFO - Parsed 1126750 reads, found 912173 unique barcodes.
+2019-11-12 16:35:06,237 - INFO - Summary stats on reads:
+   total  fail filter  low Q barcode
+ 1126750            0          79414
+2019-11-12 16:35:06,237 - INFO - Writing these stats to ./results_exp2/codoncounts/PLASMIDCTRL-A_readstats.csv
+
+2019-11-12 16:35:06,583 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            791668
+2                            107127
+3                             12237
+4                              1056
+5                                79
+6                                 5
+54                                1
+2019-11-12 16:35:06,583 - INFO - Writing these stats to ./results_exp2/codoncounts/PLASMIDCTRL-A_readsperbc.csv
+
+2019-11-12 16:35:06,587 - INFO - Examining the 912173 barcodes to build and align subamplicons...
+2019-11-12 16:35:08,610 - INFO - Barcodes examined so far: 200000
+2019-11-12 16:35:10,220 - INFO - Barcodes examined so far: 400000
+2019-11-12 16:35:11,347 - INFO - Barcodes examined so far: 600000
+2019-11-12 16:35:11,989 - INFO - Barcodes examined so far: 800000
+2019-11-12 16:35:12,125 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 912173         791668           5346   115159
+2019-11-12 16:35:12,125 - INFO - Writing these stats to ./results_exp2/codoncounts/PLASMIDCTRL-A_bcstats.csv
+
+2019-11-12 16:35:12,161 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-12 16:35:12,183 - INFO - Filtered from 1016 to 101 sites.
+2019-11-12 16:35:12,183 - INFO - Writing the counts of each codon identity at each site to ./results_exp2/codoncounts/PLASMIDCTRL-A_codoncounts.csv
+
+2019-11-12 16:35:12,194 - INFO - Successful completion of dms2_bcsubamp

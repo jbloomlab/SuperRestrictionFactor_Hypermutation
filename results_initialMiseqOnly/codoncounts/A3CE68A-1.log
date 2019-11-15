@@ -1,0 +1,95 @@
+2019-09-20 14:15:48,156 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-09-20 14:15:48,156 - INFO - Progress is being logged to ./results/codoncounts/A3CE68A-1.log
+2019-09-20 14:15:48,160 - INFO - Version information:
+	Time and date: Fri Sep 20 14:15:48 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-09-20 14:15:48,160 - INFO - Parsed the following arguments:
+	outdir = ./results/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['204,504,34,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = False
+	name = A3CE68A-1
+	R1 = ['A3CE68A-1_R1.fastq.gz']
+
+2019-09-20 14:15:48,162 - INFO - Removing existing file ./results/codoncounts/A3CE68A-1_codoncounts.csv
+2019-09-20 14:15:48,167 - INFO - Removing existing file ./results/codoncounts/A3CE68A-1_readstats.csv
+2019-09-20 14:15:48,176 - INFO - Removing existing file ./results/codoncounts/A3CE68A-1_readsperbc.csv
+2019-09-20 14:15:48,180 - INFO - Removing existing file ./results/codoncounts/A3CE68A-1_bcstats.csv
+2019-09-20 14:15:48,206 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-09-20 14:15:48,207 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/A3CE68A-1_R1.fastq.gz and ./FASTQ_files/A3CE68A-1_R2.fastq.gz
+
+2019-09-20 14:15:48,207 - INFO - Now parsing read pairs...
+2019-09-20 14:15:54,780 - INFO - Reads parsed so far: 500000
+2019-09-20 14:16:00,915 - INFO - Reads parsed so far: 1000000
+2019-09-20 14:16:02,652 - INFO - Parsed 1113915 reads, found 1011684 unique barcodes.
+2019-09-20 14:16:02,657 - INFO - Summary stats on reads:
+   total  fail filter  low Q barcode
+ 1113915            0          29164
+2019-09-20 14:16:02,657 - INFO - Writing these stats to ./results/codoncounts/A3CE68A-1_readstats.csv
+
+2019-09-20 14:16:02,930 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            942866
+2                             64864
+3                              3764
+4                               183
+5                                 5
+12                                1
+96                                1
+2019-09-20 14:16:02,930 - INFO - Writing these stats to ./results/codoncounts/A3CE68A-1_readsperbc.csv
+
+2019-09-20 14:16:02,934 - INFO - Examining the 1011684 barcodes to build and align subamplicons...
+2019-09-20 14:16:04,047 - INFO - Barcodes examined so far: 200000
+2019-09-20 14:16:04,972 - INFO - Barcodes examined so far: 400000
+2019-09-20 14:16:05,695 - INFO - Barcodes examined so far: 600000
+2019-09-20 14:16:06,184 - INFO - Barcodes examined so far: 800000
+2019-09-20 14:16:06,429 - INFO - Barcodes examined so far: 1000000
+2019-09-20 14:16:06,437 - INFO - Examined all barcodes. Summary stats:
+   total  too few reads  not alignable  aligned
+ 1011684         942866           2058    66760
+2019-09-20 14:16:06,438 - INFO - Writing these stats to ./results/codoncounts/A3CE68A-1_bcstats.csv
+
+2019-09-20 14:16:06,464 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-09-20 14:16:06,476 - INFO - Filtered from 1016 to 101 sites.
+2019-09-20 14:16:06,476 - INFO - Writing the counts of each codon identity at each site to ./results/codoncounts/A3CE68A-1_codoncounts.csv
+
+2019-09-20 14:16:06,488 - INFO - Successful completion of dms2_bcsubamp

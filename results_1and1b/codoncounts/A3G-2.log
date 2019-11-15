@@ -1,0 +1,96 @@
+2019-11-14 15:55:18,694 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+
+2019-11-14 15:55:18,695 - INFO - Progress is being logged to ./results_1and1b/codoncounts/A3G-2.log
+2019-11-14 15:55:18,699 - INFO - Version information:
+	Time and date: Thu Nov 14 15:55:18 2019
+	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
+	dms_tools2 version: 2.5.1
+	Bio version: 1.73
+	pandas version: 0.25.1
+	numpy version: 1.16.4
+	IPython version: 7.6.1
+	jupyter version: 1.0.0
+	matplotlib version: 3.1.1
+	plotnine version: 0.6.0
+	natsort version: 6.0.0
+	pystan version: 2.16.0.0
+	scipy version: 1.2.2
+	seaborn version: 0.9.0
+	phydmslib version: 2.3.3
+	statsmodels version: 0.10.0
+	rpy2 version: 2.9.4
+	regex version: 2.5.33
+	umi_tools version: 1.0.0
+
+2019-11-14 15:55:18,699 - INFO - Parsed the following arguments:
+	outdir = ./results_1and1b/codoncounts
+	ncpus = -1
+	use_existing = no
+	refseq = ./data/Bru_Pol.fasta
+	alignspecs = ['205,504,35,34']
+	bclen = 8
+	fastqdir = ./FASTQ_files/
+	R2 = None
+	R1trim = [200]
+	R2trim = [170]
+	bclen2 = None
+	chartype = codon
+	maxmuts = 100
+	minq = 15
+	minreads = 2
+	minfraccall = 0.95
+	minconcur = 0.75
+	sitemask = ./data/sitemask.csv
+	purgeread = 0
+	purgebc = 0
+	bcinfo = True
+	name = A3G-2
+	R1 = ['A3G-2_R1.fastq.gz']
+
+2019-11-14 15:55:18,701 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-2_codoncounts.csv
+2019-11-14 15:55:18,702 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-2_readstats.csv
+2019-11-14 15:55:18,704 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-2_readsperbc.csv
+2019-11-14 15:55:18,706 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-2_bcstats.csv
+2019-11-14 15:55:18,711 - INFO - Removing existing file ./results_1and1b/codoncounts/A3G-2_bcinfo.txt.gz
+2019-11-14 15:55:18,733 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-14 15:55:18,733 - INFO - Reads are in these FASTQ pairs:
+	./FASTQ_files/A3G-2_R1.fastq.gz and ./FASTQ_files/A3G-2_R2.fastq.gz
+
+2019-11-14 15:55:18,733 - INFO - Now parsing read pairs...
+2019-11-14 15:55:25,075 - INFO - Reads parsed so far: 500000
+2019-11-14 15:55:26,880 - INFO - Parsed 666190 reads, found 303618 unique barcodes.
+2019-11-14 15:55:26,885 - INFO - Summary stats on reads:
+  total  fail filter  low Q barcode
+ 666190            0          33505
+2019-11-14 15:55:26,885 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-2_readstats.csv
+
+2019-11-14 15:55:26,959 - INFO - Number of reads per barcode:
+                 number of barcodes
+number of reads                    
+1                            125082
+2                             86654
+3                             53129
+4                             24869
+5                              9533
+6                              3161
+7                               854
+8                               252
+9                                65
+10                               16
+12                                2
+38                                1
+2019-11-14 15:55:26,959 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-2_readsperbc.csv
+
+2019-11-14 15:55:26,963 - INFO - Examining the 303618 barcodes to build and align subamplicons...
+2019-11-14 15:55:48,062 - INFO - Barcodes examined so far: 200000
+2019-11-14 15:55:56,447 - INFO - Examined all barcodes. Summary stats:
+  total  too few reads  not alignable  aligned
+ 303618         125082           3967   174569
+2019-11-14 15:55:56,448 - INFO - Writing these stats to ./results_1and1b/codoncounts/A3G-2_bcstats.csv
+
+2019-11-14 15:55:56,475 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-14 15:55:56,486 - INFO - Filtered from 1016 to 101 sites.
+2019-11-14 15:55:56,486 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/A3G-2_codoncounts.csv
+
+2019-11-14 15:55:56,499 - INFO - Successful completion of dms2_bcsubamp
