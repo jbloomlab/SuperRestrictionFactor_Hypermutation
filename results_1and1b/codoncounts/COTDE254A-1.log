@@ -1,29 +1,29 @@
-2019-11-14 15:55:17,293 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+2019-11-18 10:53:58,314 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
 
-2019-11-14 15:55:17,294 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COTDE254A-1.log
-2019-11-14 15:55:17,301 - INFO - Version information:
-	Time and date: Thu Nov 14 15:55:17 2019
-	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
-	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
-	dms_tools2 version: 2.5.1
-	Bio version: 1.73
+2019-11-18 10:53:58,315 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COTDE254A-1.log
+2019-11-18 10:53:58,323 - INFO - Version information:
+	Time and date: Mon Nov 18 10:53:58 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
+	dms_tools2 version: 2.6.4
+	Bio version: 1.74
 	pandas version: 0.25.1
-	numpy version: 1.16.4
-	IPython version: 7.6.1
-	jupyter version: 1.0.0
+	numpy version: 1.17.2
+	IPython version: 7.8.0
+	jupyter version unknown
 	matplotlib version: 3.1.1
 	plotnine version: 0.6.0
 	natsort version: 6.0.0
-	pystan version: 2.16.0.0
-	scipy version: 1.2.2
+	pystan version: 2.19.0.0
+	scipy version: 1.3.1
 	seaborn version: 0.9.0
-	phydmslib version: 2.3.3
-	statsmodels version: 0.10.0
-	rpy2 version: 2.9.4
-	regex version: 2.5.33
+	phydmslib version: 2.3.4
+	statsmodels version: 0.10.1
+	rpy2 version: 3.1.0
+	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-14 15:55:17,301 - INFO - Parsed the following arguments:
+2019-11-18 10:53:58,323 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
@@ -45,27 +45,23 @@
 	purgeread = 0
 	purgebc = 0
 	bcinfo = True
+	bcinfo_csv = True
 	name = COTDE254A-1
 	R1 = ['COTDE254A-1_R1.fastq.gz']
 
-2019-11-14 15:55:17,303 - INFO - Removing existing file ./results_1and1b/codoncounts/COTDE254A-1_codoncounts.csv
-2019-11-14 15:55:17,310 - INFO - Removing existing file ./results_1and1b/codoncounts/COTDE254A-1_readstats.csv
-2019-11-14 15:55:17,313 - INFO - Removing existing file ./results_1and1b/codoncounts/COTDE254A-1_readsperbc.csv
-2019-11-14 15:55:17,317 - INFO - Removing existing file ./results_1and1b/codoncounts/COTDE254A-1_bcstats.csv
-2019-11-14 15:55:17,319 - INFO - Removing existing file ./results_1and1b/codoncounts/COTDE254A-1_bcinfo.txt.gz
-2019-11-14 15:55:17,356 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-14 15:55:17,358 - INFO - Reads are in these FASTQ pairs:
+2019-11-18 10:53:58,547 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-18 10:53:58,563 - INFO - Reads are in these FASTQ pairs:
 	./FASTQ_files/COTDE254A-1_R1.fastq.gz and ./FASTQ_files/COTDE254A-1_R2.fastq.gz
 
-2019-11-14 15:55:17,358 - INFO - Now parsing read pairs...
-2019-11-14 15:55:24,409 - INFO - Reads parsed so far: 500000
-2019-11-14 15:55:27,775 - INFO - Parsed 749790 reads, found 453813 unique barcodes.
-2019-11-14 15:55:27,780 - INFO - Summary stats on reads:
+2019-11-18 10:53:58,563 - INFO - Now parsing read pairs...
+2019-11-18 10:54:05,769 - INFO - Reads parsed so far: 500000
+2019-11-18 10:54:09,229 - INFO - Parsed 749790 reads, found 453813 unique barcodes.
+2019-11-18 10:54:09,236 - INFO - Summary stats on reads:
   total  fail filter  low Q barcode
  749790            0          39620
-2019-11-14 15:55:27,780 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_readstats.csv
+2019-11-18 10:54:09,236 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_readstats.csv
 
-2019-11-14 15:55:27,892 - INFO - Number of reads per barcode:
+2019-11-18 10:54:09,385 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                            275944
@@ -79,18 +75,18 @@ number of reads
 9                                 4
 10                                1
 168                               1
-2019-11-14 15:55:27,893 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_readsperbc.csv
+2019-11-18 10:54:09,385 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_readsperbc.csv
 
-2019-11-14 15:55:27,896 - INFO - Examining the 453813 barcodes to build and align subamplicons...
-2019-11-14 15:55:41,072 - INFO - Barcodes examined so far: 200000
-2019-11-14 15:55:51,619 - INFO - Barcodes examined so far: 400000
-2019-11-14 15:55:53,744 - INFO - Examined all barcodes. Summary stats:
+2019-11-18 10:54:09,389 - INFO - Examining the 453813 barcodes to build and align subamplicons...
+2019-11-18 10:54:19,358 - INFO - Barcodes examined so far: 200000
+2019-11-18 10:54:26,411 - INFO - Barcodes examined so far: 400000
+2019-11-18 10:54:27,375 - INFO - Examined all barcodes. Summary stats:
   total  too few reads  not alignable  aligned
  453813         275944           4974   172895
-2019-11-14 15:55:53,744 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_bcstats.csv
+2019-11-18 10:54:27,375 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTDE254A-1_bcstats.csv
 
-2019-11-14 15:55:53,766 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-14 15:55:53,787 - INFO - Filtered from 1016 to 101 sites.
-2019-11-14 15:55:53,788 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COTDE254A-1_codoncounts.csv
+2019-11-18 10:54:27,406 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-18 10:54:27,424 - INFO - Filtered from 1016 to 101 sites.
+2019-11-18 10:54:27,424 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COTDE254A-1_codoncounts.csv
 
-2019-11-14 15:55:53,804 - INFO - Successful completion of dms2_bcsubamp
+2019-11-18 10:54:27,434 - INFO - Successful completion of dms2_bcsubamp

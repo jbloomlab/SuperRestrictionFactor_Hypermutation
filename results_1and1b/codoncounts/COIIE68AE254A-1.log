@@ -1,29 +1,29 @@
-2019-11-14 15:55:18,583 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+2019-11-18 10:53:58,338 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
 
-2019-11-14 15:55:18,583 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COIIE68AE254A-1.log
-2019-11-14 15:55:18,586 - INFO - Version information:
-	Time and date: Thu Nov 14 15:55:18 2019
-	Platform: Linux-3.13.0-168-generic-x86_64-with-debian-jessie-sid
-	Python version: 3.6.7 | packaged by conda-forge | (default, Feb 28 2019, 09:07:38)  [GCC 7.3.0]
-	dms_tools2 version: 2.5.1
-	Bio version: 1.73
+2019-11-18 10:53:58,338 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COIIE68AE254A-1.log
+2019-11-18 10:53:58,343 - INFO - Version information:
+	Time and date: Mon Nov 18 10:53:58 2019
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
+	dms_tools2 version: 2.6.4
+	Bio version: 1.74
 	pandas version: 0.25.1
-	numpy version: 1.16.4
-	IPython version: 7.6.1
-	jupyter version: 1.0.0
+	numpy version: 1.17.2
+	IPython version: 7.8.0
+	jupyter version unknown
 	matplotlib version: 3.1.1
 	plotnine version: 0.6.0
 	natsort version: 6.0.0
-	pystan version: 2.16.0.0
-	scipy version: 1.2.2
+	pystan version: 2.19.0.0
+	scipy version: 1.3.1
 	seaborn version: 0.9.0
-	phydmslib version: 2.3.3
-	statsmodels version: 0.10.0
-	rpy2 version: 2.9.4
-	regex version: 2.5.33
+	phydmslib version: 2.3.4
+	statsmodels version: 0.10.1
+	rpy2 version: 3.1.0
+	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-14 15:55:18,587 - INFO - Parsed the following arguments:
+2019-11-18 10:53:58,343 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
@@ -45,27 +45,23 @@
 	purgeread = 0
 	purgebc = 0
 	bcinfo = True
+	bcinfo_csv = True
 	name = COIIE68AE254A-1
 	R1 = ['COIIE68AE254A-1_R1.fastq.gz']
 
-2019-11-14 15:55:18,588 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-1_codoncounts.csv
-2019-11-14 15:55:18,590 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-1_readstats.csv
-2019-11-14 15:55:18,592 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-1_readsperbc.csv
-2019-11-14 15:55:18,593 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-1_bcstats.csv
-2019-11-14 15:55:18,595 - INFO - Removing existing file ./results_1and1b/codoncounts/COIIE68AE254A-1_bcinfo.txt.gz
-2019-11-14 15:55:18,620 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-14 15:55:18,620 - INFO - Reads are in these FASTQ pairs:
+2019-11-18 10:53:58,548 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-18 10:53:58,571 - INFO - Reads are in these FASTQ pairs:
 	./FASTQ_files/COIIE68AE254A-1_R1.fastq.gz and ./FASTQ_files/COIIE68AE254A-1_R2.fastq.gz
 
-2019-11-14 15:55:18,620 - INFO - Now parsing read pairs...
-2019-11-14 15:55:25,021 - INFO - Reads parsed so far: 500000
-2019-11-14 15:55:30,095 - INFO - Parsed 904899 reads, found 477027 unique barcodes.
-2019-11-14 15:55:30,099 - INFO - Summary stats on reads:
+2019-11-18 10:53:58,571 - INFO - Now parsing read pairs...
+2019-11-18 10:54:05,622 - INFO - Reads parsed so far: 500000
+2019-11-18 10:54:11,527 - INFO - Parsed 904899 reads, found 477027 unique barcodes.
+2019-11-18 10:54:11,533 - INFO - Summary stats on reads:
   total  fail filter  low Q barcode
  904899            0          53668
-2019-11-14 15:55:30,099 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_readstats.csv
+2019-11-18 10:54:11,533 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_readstats.csv
 
-2019-11-14 15:55:30,212 - INFO - Number of reads per barcode:
+2019-11-18 10:54:11,693 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                            245763
@@ -80,18 +76,18 @@ number of reads
 10                                1
 11                                4
 77                                1
-2019-11-14 15:55:30,212 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_readsperbc.csv
+2019-11-18 10:54:11,693 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_readsperbc.csv
 
-2019-11-14 15:55:30,216 - INFO - Examining the 477027 barcodes to build and align subamplicons...
-2019-11-14 15:55:43,571 - INFO - Barcodes examined so far: 200000
-2019-11-14 15:55:54,717 - INFO - Barcodes examined so far: 400000
-2019-11-14 15:55:57,814 - INFO - Examined all barcodes. Summary stats:
+2019-11-18 10:54:11,698 - INFO - Examining the 477027 barcodes to build and align subamplicons...
+2019-11-18 10:54:22,990 - INFO - Barcodes examined so far: 200000
+2019-11-18 10:54:32,128 - INFO - Barcodes examined so far: 400000
+2019-11-18 10:54:33,913 - INFO - Examined all barcodes. Summary stats:
   total  too few reads  not alignable  aligned
  477027         245763           6017   225247
-2019-11-14 15:55:57,814 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_bcstats.csv
+2019-11-18 10:54:33,913 - INFO - Writing these stats to ./results_1and1b/codoncounts/COIIE68AE254A-1_bcstats.csv
 
-2019-11-14 15:55:57,836 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-14 15:55:57,853 - INFO - Filtered from 1016 to 101 sites.
-2019-11-14 15:55:57,853 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COIIE68AE254A-1_codoncounts.csv
+2019-11-18 10:54:33,947 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-18 10:54:33,964 - INFO - Filtered from 1016 to 101 sites.
+2019-11-18 10:54:33,965 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COIIE68AE254A-1_codoncounts.csv
 
-2019-11-14 15:55:57,865 - INFO - Successful completion of dms2_bcsubamp
+2019-11-18 10:54:33,977 - INFO - Successful completion of dms2_bcsubamp
