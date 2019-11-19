@@ -1,0 +1,32 @@
+LOCUS       Amplified_RND_1_MM         392 bp ds-DNA     linear       18-NOV-2019
+DEFINITION  .
+ACCESSION   
+VERSION     
+SOURCE      .
+    ORGANISM  .
+COMMENT     >Amplified_RND_1_product with primers
+COMMENT     
+COMMENT     ApEinfo:methylated:1
+FEATURES             Location/Qualifiers
+    BC1              1..8
+                     /locus_tag="BC1"
+                     /label="BC1"  
+    ForPrimer        9..33
+                     /locus_tag="ForPrimer"
+                     /label="ForPrimer"
+    RevPrimer        360..384
+                     /locus_tag="RevPrimer"
+                     /label="RevPrimer"
+    BC2              385..392
+                     /locus_tag="BC2"
+                     /label="BC2"
+
+ORIGIN
+        1 NNNNNNNNGA CAAGGAACTG TATCCTTTAA CTTCCCTCAG ATCACTCTTT GGCAACGACC
+       61 CCTCGTCACA ATAAAGATAG GGGGGCAACT AAAGGAAGCT CTATTAGATA CAGGAGCAGA
+      121 TGATACAGTA TTAGAAGAAA TGAGTTTGCC AGGAAGATGG AAACCAAAAA TGATAGGGGG
+      181 AATTGGAGGT TTTATCAAAG TAAGACAGTA TGATCAGATA CTCATAGAAA TCTGTGGACA
+      241 TAAAGCTATA GGTACAGTAT TAGTAGGACC TACACCTGTC AACATAATTG GAAGAAATCT
+      301 GTTGACTCAG ATTGGTTGCA CTTTAAATTT TCCCATTAGT CCTATTGAAA CTGTACCAGA
+      361 TTAGTCCTAT TGAAACTGTA CCAGNNNNNN NN  
+//
