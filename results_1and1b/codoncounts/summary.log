@@ -1,8 +1,8 @@
-2019-11-18 19:42:07,117 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2019-11-20 10:56:59,820 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-18 19:42:07,117 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
-2019-11-18 19:42:07,180 - INFO - Version information:
-	Time and date: Mon Nov 18 19:42:07 2019
+2019-11-20 10:56:59,820 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
+2019-11-20 10:56:59,828 - INFO - Version information:
+	Time and date: Wed Nov 20 10:56:59 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
@@ -23,20 +23,20 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-18 19:42:07,181 - INFO - Parsed the following arguments:
+2019-11-20 10:56:59,828 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
-	ncpus = 14
+	ncpus = 4
 	use_existing = yes
 	refseq = ./data/Bru_Pol.fasta
 	alignspecs = ['205,504,35,34']
 	bclen = 8
-	fastqdir = ./FASTQ_files/
+	fastqdir = ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files
 	R2 = None
 	R1trim = [200]
 	R2trim = [170]
 	bclen2 = None
 	chartype = codon
-	maxmuts = 100
+	maxmuts = 30
 	minq = 15
 	minreads = 2
 	minfraccall = 0.95
@@ -49,8 +49,8 @@
 	batchfile = ./results_1and1b/codoncounts/batch.csv
 	summaryprefix = summary
 
-2019-11-18 19:42:07,181 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
-2019-11-18 19:42:07,196 - INFO - Read the following sample information:
+2019-11-20 10:56:59,828 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
+2019-11-20 10:56:59,844 - INFO - Read the following sample information:
 name,R1
 PLASMIDCTRL,PLASMIDCTRL_R1.fastq.gz
 NoA3-1,NoA3-1_R1.fastq.gz
@@ -77,4 +77,4 @@ COII-2,COII-2_R1.fastq.gz
 COIIE68AE254A-2,COIIE68AE254A-2_R1.fastq.gz
 
 
-2019-11-18 19:42:07,231 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
+2019-11-20 10:56:59,875 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.

@@ -1,8 +1,8 @@
-2019-11-18 10:53:58,322 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+2019-11-20 10:44:32,832 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-18 10:53:58,322 - INFO - Progress is being logged to ./results_1and1b/codoncounts/PLASMIDCTRL.log
-2019-11-18 10:53:58,327 - INFO - Version information:
-	Time and date: Mon Nov 18 10:53:58 2019
+2019-11-20 10:44:32,833 - INFO - Progress is being logged to ./results_1and1b/codoncounts/PLASMIDCTRL.log
+2019-11-20 10:44:32,842 - INFO - Version information:
+	Time and date: Wed Nov 20 10:44:32 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
@@ -23,20 +23,20 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-18 10:53:58,327 - INFO - Parsed the following arguments:
+2019-11-20 10:44:32,842 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
 	refseq = ./data/Bru_Pol.fasta
 	alignspecs = ['205,504,35,34']
 	bclen = 8
-	fastqdir = ./FASTQ_files/
+	fastqdir = ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files
 	R2 = None
 	R1trim = [200]
 	R2trim = [170]
 	bclen2 = None
 	chartype = codon
-	maxmuts = 100
+	maxmuts = 30
 	minq = 15
 	minreads = 2
 	minfraccall = 0.95
@@ -49,22 +49,27 @@
 	name = PLASMIDCTRL
 	R1 = ['PLASMIDCTRL_R1.fastq.gz']
 
-2019-11-18 10:53:58,547 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-18 10:53:58,568 - INFO - Reads are in these FASTQ pairs:
-	./FASTQ_files/PLASMIDCTRL_R1.fastq.gz and ./FASTQ_files/PLASMIDCTRL_R2.fastq.gz
+2019-11-20 10:44:32,845 - INFO - Removing existing file ./results_1and1b/codoncounts/PLASMIDCTRL_codoncounts.csv
+2019-11-20 10:44:32,966 - INFO - Removing existing file ./results_1and1b/codoncounts/PLASMIDCTRL_readstats.csv
+2019-11-20 10:44:33,104 - INFO - Removing existing file ./results_1and1b/codoncounts/PLASMIDCTRL_readsperbc.csv
+2019-11-20 10:44:33,158 - INFO - Removing existing file ./results_1and1b/codoncounts/PLASMIDCTRL_bcstats.csv
+2019-11-20 10:44:33,195 - INFO - Removing existing file ./results_1and1b/codoncounts/PLASMIDCTRL_bcinfo.csv.gz
+2019-11-20 10:44:33,239 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-20 10:44:33,240 - INFO - Reads are in these FASTQ pairs:
+	../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/PLASMIDCTRL_R1.fastq.gz and ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/PLASMIDCTRL_R2.fastq.gz
 
-2019-11-18 10:53:58,568 - INFO - Now parsing read pairs...
-2019-11-18 10:54:06,841 - INFO - Reads parsed so far: 500000
-2019-11-18 10:54:13,901 - INFO - Reads parsed so far: 1000000
-2019-11-18 10:54:21,174 - INFO - Reads parsed so far: 1500000
-2019-11-18 10:54:28,294 - INFO - Reads parsed so far: 2000000
-2019-11-18 10:54:29,778 - INFO - Parsed 2116299 reads, found 1889724 unique barcodes.
-2019-11-18 10:54:29,783 - INFO - Summary stats on reads:
+2019-11-20 10:44:33,240 - INFO - Now parsing read pairs...
+2019-11-20 10:44:40,875 - INFO - Reads parsed so far: 500000
+2019-11-20 10:44:47,615 - INFO - Reads parsed so far: 1000000
+2019-11-20 10:44:54,684 - INFO - Reads parsed so far: 1500000
+2019-11-20 10:45:01,579 - INFO - Reads parsed so far: 2000000
+2019-11-20 10:45:02,970 - INFO - Parsed 2116299 reads, found 1889724 unique barcodes.
+2019-11-20 10:45:02,976 - INFO - Summary stats on reads:
    total  fail filter  low Q barcode
  2116299            0         125682
-2019-11-18 10:54:29,784 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_readstats.csv
+2019-11-20 10:45:02,976 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_readstats.csv
 
-2019-11-18 10:54:30,384 - INFO - Number of reads per barcode:
+2019-11-20 10:45:03,588 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                           1793183
@@ -74,25 +79,25 @@ number of reads
 5                                 4
 8                                 1
 67                                1
-2019-11-18 10:54:30,384 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_readsperbc.csv
+2019-11-20 10:45:03,588 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_readsperbc.csv
 
-2019-11-18 10:54:30,388 - INFO - Examining the 1889724 barcodes to build and align subamplicons...
-2019-11-18 10:54:34,306 - INFO - Barcodes examined so far: 200000
-2019-11-18 10:54:37,960 - INFO - Barcodes examined so far: 400000
-2019-11-18 10:54:41,462 - INFO - Barcodes examined so far: 600000
-2019-11-18 10:54:44,795 - INFO - Barcodes examined so far: 800000
-2019-11-18 10:54:47,966 - INFO - Barcodes examined so far: 1000000
-2019-11-18 10:54:50,990 - INFO - Barcodes examined so far: 1200000
-2019-11-18 10:54:53,818 - INFO - Barcodes examined so far: 1400000
-2019-11-18 10:54:56,503 - INFO - Barcodes examined so far: 1600000
-2019-11-18 10:54:58,972 - INFO - Barcodes examined so far: 1800000
-2019-11-18 10:55:00,042 - INFO - Examined all barcodes. Summary stats:
+2019-11-20 10:45:03,591 - INFO - Examining the 1889724 barcodes to build and align subamplicons...
+2019-11-20 10:45:07,785 - INFO - Barcodes examined so far: 200000
+2019-11-20 10:45:11,609 - INFO - Barcodes examined so far: 400000
+2019-11-20 10:45:15,232 - INFO - Barcodes examined so far: 600000
+2019-11-20 10:45:19,349 - INFO - Barcodes examined so far: 800000
+2019-11-20 10:45:22,525 - INFO - Barcodes examined so far: 1000000
+2019-11-20 10:45:25,597 - INFO - Barcodes examined so far: 1200000
+2019-11-20 10:45:28,455 - INFO - Barcodes examined so far: 1400000
+2019-11-20 10:45:31,064 - INFO - Barcodes examined so far: 1600000
+2019-11-20 10:45:33,473 - INFO - Barcodes examined so far: 1800000
+2019-11-20 10:45:34,502 - INFO - Examined all barcodes. Summary stats:
    total  too few reads  not alignable  aligned
- 1889724        1793183           3315    93226
-2019-11-18 10:55:00,042 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_bcstats.csv
+ 1889724        1793183           5621    90920
+2019-11-20 10:45:34,502 - INFO - Writing these stats to ./results_1and1b/codoncounts/PLASMIDCTRL_bcstats.csv
 
-2019-11-18 10:55:00,072 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-18 10:55:00,087 - INFO - Filtered from 1016 to 101 sites.
-2019-11-18 10:55:00,087 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/PLASMIDCTRL_codoncounts.csv
+2019-11-20 10:45:34,534 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-20 10:45:34,548 - INFO - Filtered from 1016 to 101 sites.
+2019-11-20 10:45:34,548 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/PLASMIDCTRL_codoncounts.csv
 
-2019-11-18 10:55:00,098 - INFO - Successful completion of dms2_bcsubamp
+2019-11-20 10:45:34,564 - INFO - Successful completion of dms2_bcsubamp

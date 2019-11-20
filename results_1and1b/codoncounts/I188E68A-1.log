@@ -1,8 +1,8 @@
-2019-11-18 10:53:58,365 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+2019-11-20 10:44:32,841 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-18 10:53:58,365 - INFO - Progress is being logged to ./results_1and1b/codoncounts/I188E68A-1.log
-2019-11-18 10:53:58,370 - INFO - Version information:
-	Time and date: Mon Nov 18 10:53:58 2019
+2019-11-20 10:44:32,841 - INFO - Progress is being logged to ./results_1and1b/codoncounts/I188E68A-1.log
+2019-11-20 10:44:32,847 - INFO - Version information:
+	Time and date: Wed Nov 20 10:44:32 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
@@ -23,20 +23,20 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-18 10:53:58,370 - INFO - Parsed the following arguments:
+2019-11-20 10:44:32,848 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
 	refseq = ./data/Bru_Pol.fasta
 	alignspecs = ['205,504,35,34']
 	bclen = 8
-	fastqdir = ./FASTQ_files/
+	fastqdir = ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files
 	R2 = None
 	R1trim = [200]
 	R2trim = [170]
 	bclen2 = None
 	chartype = codon
-	maxmuts = 100
+	maxmuts = 30
 	minq = 15
 	minreads = 2
 	minfraccall = 0.95
@@ -49,20 +49,25 @@
 	name = I188E68A-1
 	R1 = ['I188E68A-1_R1.fastq.gz']
 
-2019-11-18 10:53:58,546 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-18 10:53:58,557 - INFO - Reads are in these FASTQ pairs:
-	./FASTQ_files/I188E68A-1_R1.fastq.gz and ./FASTQ_files/I188E68A-1_R2.fastq.gz
+2019-11-20 10:44:32,851 - INFO - Removing existing file ./results_1and1b/codoncounts/I188E68A-1_codoncounts.csv
+2019-11-20 10:44:32,978 - INFO - Removing existing file ./results_1and1b/codoncounts/I188E68A-1_readstats.csv
+2019-11-20 10:44:33,109 - INFO - Removing existing file ./results_1and1b/codoncounts/I188E68A-1_readsperbc.csv
+2019-11-20 10:44:33,164 - INFO - Removing existing file ./results_1and1b/codoncounts/I188E68A-1_bcstats.csv
+2019-11-20 10:44:33,202 - INFO - Removing existing file ./results_1and1b/codoncounts/I188E68A-1_bcinfo.csv.gz
+2019-11-20 10:44:33,244 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-20 10:44:33,245 - INFO - Reads are in these FASTQ pairs:
+	../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/I188E68A-1_R1.fastq.gz and ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/I188E68A-1_R2.fastq.gz
 
-2019-11-18 10:53:58,557 - INFO - Now parsing read pairs...
-2019-11-18 10:54:06,186 - INFO - Reads parsed so far: 500000
-2019-11-18 10:54:13,270 - INFO - Reads parsed so far: 1000000
-2019-11-18 10:54:14,772 - INFO - Parsed 1120395 reads, found 752985 unique barcodes.
-2019-11-18 10:54:14,777 - INFO - Summary stats on reads:
+2019-11-20 10:44:33,245 - INFO - Now parsing read pairs...
+2019-11-20 10:44:40,522 - INFO - Reads parsed so far: 500000
+2019-11-20 10:44:47,779 - INFO - Reads parsed so far: 1000000
+2019-11-20 10:44:49,319 - INFO - Parsed 1120395 reads, found 752985 unique barcodes.
+2019-11-20 10:44:49,325 - INFO - Summary stats on reads:
    total  fail filter  low Q barcode
  1120395            0          61323
-2019-11-18 10:54:14,778 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_readstats.csv
+2019-11-20 10:44:49,325 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_readstats.csv
 
-2019-11-18 10:54:15,020 - INFO - Number of reads per barcode:
+2019-11-20 10:44:49,618 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                            521611
@@ -75,19 +80,19 @@ number of reads
 8                                 2
 9                                 2
 47                                1
-2019-11-18 10:54:15,021 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_readsperbc.csv
+2019-11-20 10:44:49,618 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_readsperbc.csv
 
-2019-11-18 10:54:15,025 - INFO - Examining the 752985 barcodes to build and align subamplicons...
-2019-11-18 10:54:23,855 - INFO - Barcodes examined so far: 200000
-2019-11-18 10:54:31,820 - INFO - Barcodes examined so far: 400000
-2019-11-18 10:54:38,264 - INFO - Barcodes examined so far: 600000
-2019-11-18 10:54:41,140 - INFO - Examined all barcodes. Summary stats:
+2019-11-20 10:44:49,623 - INFO - Examining the 752985 barcodes to build and align subamplicons...
+2019-11-20 10:44:58,737 - INFO - Barcodes examined so far: 200000
+2019-11-20 10:45:06,462 - INFO - Barcodes examined so far: 400000
+2019-11-20 10:45:12,341 - INFO - Barcodes examined so far: 600000
+2019-11-20 10:45:15,082 - INFO - Examined all barcodes. Summary stats:
   total  too few reads  not alignable  aligned
- 752985         521611           6709   224665
-2019-11-18 10:54:41,140 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_bcstats.csv
+ 752985         521611          11453   219921
+2019-11-20 10:45:15,082 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188E68A-1_bcstats.csv
 
-2019-11-18 10:54:41,167 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-18 10:54:41,185 - INFO - Filtered from 1016 to 101 sites.
-2019-11-18 10:54:41,185 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/I188E68A-1_codoncounts.csv
+2019-11-20 10:45:15,113 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-20 10:45:15,128 - INFO - Filtered from 1016 to 101 sites.
+2019-11-20 10:45:15,128 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/I188E68A-1_codoncounts.csv
 
-2019-11-18 10:54:41,196 - INFO - Successful completion of dms2_bcsubamp
+2019-11-20 10:45:15,140 - INFO - Successful completion of dms2_bcsubamp

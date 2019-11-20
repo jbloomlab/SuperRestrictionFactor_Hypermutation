@@ -1,8 +1,8 @@
-2019-11-18 10:53:58,318 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
+2019-11-20 10:44:32,705 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-18 10:53:58,318 - INFO - Progress is being logged to ./results_1and1b/codoncounts/NoA3-2.log
-2019-11-18 10:53:58,323 - INFO - Version information:
-	Time and date: Mon Nov 18 10:53:58 2019
+2019-11-20 10:44:32,706 - INFO - Progress is being logged to ./results_1and1b/codoncounts/NoA3-2.log
+2019-11-20 10:44:32,713 - INFO - Version information:
+	Time and date: Wed Nov 20 10:44:32 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
@@ -23,20 +23,20 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-18 10:53:58,323 - INFO - Parsed the following arguments:
+2019-11-20 10:44:32,713 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
 	refseq = ./data/Bru_Pol.fasta
 	alignspecs = ['205,504,35,34']
 	bclen = 8
-	fastqdir = ./FASTQ_files/
+	fastqdir = ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files
 	R2 = None
 	R1trim = [200]
 	R2trim = [170]
 	bclen2 = None
 	chartype = codon
-	maxmuts = 100
+	maxmuts = 30
 	minq = 15
 	minreads = 2
 	minfraccall = 0.95
@@ -49,19 +49,24 @@
 	name = NoA3-2
 	R1 = ['NoA3-2_R1.fastq.gz']
 
-2019-11-18 10:53:58,549 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-18 10:53:58,573 - INFO - Reads are in these FASTQ pairs:
-	./FASTQ_files/NoA3-2_R1.fastq.gz and ./FASTQ_files/NoA3-2_R2.fastq.gz
+2019-11-20 10:44:32,731 - INFO - Removing existing file ./results_1and1b/codoncounts/NoA3-2_codoncounts.csv
+2019-11-20 10:44:32,840 - INFO - Removing existing file ./results_1and1b/codoncounts/NoA3-2_readstats.csv
+2019-11-20 10:44:32,940 - INFO - Removing existing file ./results_1and1b/codoncounts/NoA3-2_readsperbc.csv
+2019-11-20 10:44:33,098 - INFO - Removing existing file ./results_1and1b/codoncounts/NoA3-2_bcstats.csv
+2019-11-20 10:44:33,153 - INFO - Removing existing file ./results_1and1b/codoncounts/NoA3-2_bcinfo.csv.gz
+2019-11-20 10:44:33,209 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-11-20 10:44:33,210 - INFO - Reads are in these FASTQ pairs:
+	../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/NoA3-2_R1.fastq.gz and ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/NoA3-2_R2.fastq.gz
 
-2019-11-18 10:53:58,573 - INFO - Now parsing read pairs...
-2019-11-18 10:54:05,929 - INFO - Reads parsed so far: 500000
-2019-11-18 10:54:13,312 - INFO - Parsed 997050 reads, found 802374 unique barcodes.
-2019-11-18 10:54:13,317 - INFO - Summary stats on reads:
+2019-11-20 10:44:33,210 - INFO - Now parsing read pairs...
+2019-11-20 10:44:40,468 - INFO - Reads parsed so far: 500000
+2019-11-20 10:44:47,633 - INFO - Parsed 997050 reads, found 802374 unique barcodes.
+2019-11-20 10:44:47,639 - INFO - Summary stats on reads:
   total  fail filter  low Q barcode
  997050            0          52186
-2019-11-18 10:54:13,317 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_readstats.csv
+2019-11-20 10:44:47,639 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_readstats.csv
 
-2019-11-18 10:54:13,583 - INFO - Number of reads per barcode:
+2019-11-20 10:44:48,004 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                            678109
@@ -71,20 +76,20 @@ number of reads
 5                               137
 6                                 6
 96                                1
-2019-11-18 10:54:13,584 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_readsperbc.csv
+2019-11-20 10:44:48,004 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_readsperbc.csv
 
-2019-11-18 10:54:13,588 - INFO - Examining the 802374 barcodes to build and align subamplicons...
-2019-11-18 10:54:19,521 - INFO - Barcodes examined so far: 200000
-2019-11-18 10:54:24,690 - INFO - Barcodes examined so far: 400000
-2019-11-18 10:54:29,077 - INFO - Barcodes examined so far: 600000
-2019-11-18 10:54:32,104 - INFO - Barcodes examined so far: 800000
-2019-11-18 10:54:32,155 - INFO - Examined all barcodes. Summary stats:
+2019-11-20 10:44:48,009 - INFO - Examining the 802374 barcodes to build and align subamplicons...
+2019-11-20 10:44:54,394 - INFO - Barcodes examined so far: 200000
+2019-11-20 10:44:59,698 - INFO - Barcodes examined so far: 400000
+2019-11-20 10:45:04,310 - INFO - Barcodes examined so far: 600000
+2019-11-20 10:45:07,853 - INFO - Barcodes examined so far: 800000
+2019-11-20 10:45:07,908 - INFO - Examined all barcodes. Summary stats:
   total  too few reads  not alignable  aligned
- 802374         678109           3887   120378
-2019-11-18 10:54:32,155 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_bcstats.csv
+ 802374         678109           6622   117643
+2019-11-20 10:45:07,908 - INFO - Writing these stats to ./results_1and1b/codoncounts/NoA3-2_bcstats.csv
 
-2019-11-18 10:54:32,184 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-18 10:54:32,198 - INFO - Filtered from 1016 to 101 sites.
-2019-11-18 10:54:32,199 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/NoA3-2_codoncounts.csv
+2019-11-20 10:45:07,938 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-11-20 10:45:07,958 - INFO - Filtered from 1016 to 101 sites.
+2019-11-20 10:45:07,958 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/NoA3-2_codoncounts.csv
 
-2019-11-18 10:54:32,208 - INFO - Successful completion of dms2_bcsubamp
+2019-11-20 10:45:07,974 - INFO - Successful completion of dms2_bcsubamp
