@@ -1,29 +1,29 @@
-2019-11-20 10:56:59,820 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2019-12-03 09:51:16,423 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-20 10:56:59,820 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
-2019-11-20 10:56:59,828 - INFO - Version information:
-	Time and date: Wed Nov 20 10:56:59 2019
-	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+2019-12-03 09:51:16,423 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
+2019-12-03 09:51:16,553 - INFO - Version information:
+	Time and date: Tue Dec  3 09:51:16 2019
+	Platform: Linux-3.13.0-165-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
 	Bio version: 1.74
-	pandas version: 0.25.1
+	pandas version: 0.25.3
 	numpy version: 1.17.2
 	IPython version: 7.8.0
 	jupyter version unknown
-	matplotlib version: 3.1.1
+	matplotlib version: 3.1.2
 	plotnine version: 0.6.0
 	natsort version: 6.0.0
 	pystan version: 2.19.0.0
 	scipy version: 1.3.1
 	seaborn version: 0.9.0
-	phydmslib version: 2.3.4
+	phydmslib version: 2.3.6
 	statsmodels version: 0.10.1
 	rpy2 version: 3.1.0
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-20 10:56:59,828 - INFO - Parsed the following arguments:
+2019-12-03 09:51:16,553 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = 4
 	use_existing = yes
@@ -49,8 +49,8 @@
 	batchfile = ./results_1and1b/codoncounts/batch.csv
 	summaryprefix = summary
 
-2019-11-20 10:56:59,828 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
-2019-11-20 10:56:59,844 - INFO - Read the following sample information:
+2019-12-03 09:51:16,553 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
+2019-12-03 09:51:16,567 - INFO - Read the following sample information:
 name,R1
 PLASMIDCTRL,PLASMIDCTRL_R1.fastq.gz
 NoA3-1,NoA3-1_R1.fastq.gz
@@ -77,4 +77,4 @@ COII-2,COII-2_R1.fastq.gz
 COIIE68AE254A-2,COIIE68AE254A-2_R1.fastq.gz
 
 
-2019-11-20 10:56:59,875 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
+2019-12-03 09:51:16,678 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
