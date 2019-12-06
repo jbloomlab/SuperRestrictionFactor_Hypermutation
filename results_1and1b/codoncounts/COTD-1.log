@@ -1,29 +1,29 @@
-2019-11-20 10:44:32,513 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2019-12-05 17:05:44,010 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-11-20 10:44:32,513 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COTD-1.log
-2019-11-20 10:44:32,517 - INFO - Version information:
-	Time and date: Wed Nov 20 10:44:32 2019
+2019-12-05 17:05:44,010 - INFO - Progress is being logged to ./results_1and1b/codoncounts/COTD-1.log
+2019-12-05 17:05:44,017 - INFO - Version information:
+	Time and date: Thu Dec  5 17:05:44 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
 	Bio version: 1.74
-	pandas version: 0.25.1
+	pandas version: 0.25.3
 	numpy version: 1.17.2
 	IPython version: 7.8.0
 	jupyter version unknown
-	matplotlib version: 3.1.1
+	matplotlib version: 3.1.2
 	plotnine version: 0.6.0
 	natsort version: 6.0.0
 	pystan version: 2.19.0.0
 	scipy version: 1.3.1
 	seaborn version: 0.9.0
-	phydmslib version: 2.3.4
+	phydmslib version: 2.3.6
 	statsmodels version: 0.10.1
 	rpy2 version: 3.1.0
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-11-20 10:44:32,517 - INFO - Parsed the following arguments:
+2019-12-05 17:05:44,018 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
@@ -36,8 +36,8 @@
 	R2trim = [170]
 	bclen2 = None
 	chartype = codon
-	maxmuts = 30
-	minq = 15
+	maxmuts = 33
+	minq = 17
 	minreads = 2
 	minfraccall = 0.95
 	minconcur = 0.75
@@ -49,31 +49,31 @@
 	name = COTD-1
 	R1 = ['COTD-1_R1.fastq.gz']
 
-2019-11-20 10:44:32,520 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_codoncounts.csv
-2019-11-20 10:44:32,552 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_readstats.csv
-2019-11-20 10:44:32,584 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_readsperbc.csv
-2019-11-20 10:44:32,626 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_bcstats.csv
-2019-11-20 10:44:32,772 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_bcinfo.csv.gz
-2019-11-20 10:44:32,872 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-11-20 10:44:32,873 - INFO - Reads are in these FASTQ pairs:
+2019-12-05 17:05:44,019 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_codoncounts.csv
+2019-12-05 17:05:44,024 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_readstats.csv
+2019-12-05 17:05:44,032 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_readsperbc.csv
+2019-12-05 17:05:44,036 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_bcstats.csv
+2019-12-05 17:05:44,044 - INFO - Removing existing file ./results_1and1b/codoncounts/COTD-1_bcinfo.csv.gz
+2019-12-05 17:05:44,077 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2019-12-05 17:05:44,079 - INFO - Reads are in these FASTQ pairs:
 	../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/COTD-1_R1.fastq.gz and ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/COTD-1_R2.fastq.gz
 
-2019-11-20 10:44:32,873 - INFO - Now parsing read pairs...
-2019-11-20 10:44:40,135 - INFO - Reads parsed so far: 500000
-2019-11-20 10:44:48,253 - INFO - Reads parsed so far: 1000000
-2019-11-20 10:44:55,060 - INFO - Reads parsed so far: 1500000
-2019-11-20 10:45:03,065 - INFO - Reads parsed so far: 2000000
-2019-11-20 10:45:11,262 - INFO - Reads parsed so far: 2500000
-2019-11-20 10:45:12,833 - INFO - Parsed 2613994 reads, found 1711488 unique barcodes.
-2019-11-20 10:45:12,839 - INFO - Summary stats on reads:
+2019-12-05 17:05:44,079 - INFO - Now parsing read pairs...
+2019-12-05 17:05:50,655 - INFO - Reads parsed so far: 500000
+2019-12-05 17:05:58,239 - INFO - Reads parsed so far: 1000000
+2019-12-05 17:06:04,965 - INFO - Reads parsed so far: 1500000
+2019-12-05 17:06:11,601 - INFO - Reads parsed so far: 2000000
+2019-12-05 17:06:18,404 - INFO - Reads parsed so far: 2500000
+2019-12-05 17:06:19,681 - INFO - Parsed 2613994 reads, found 1711487 unique barcodes.
+2019-12-05 17:06:19,688 - INFO - Summary stats on reads:
    total  fail filter  low Q barcode
- 2613994            0         156991
-2019-11-20 10:45:12,839 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_readstats.csv
+ 2613994            0         156992
+2019-12-05 17:06:19,688 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_readstats.csv
 
-2019-11-20 10:45:13,388 - INFO - Number of reads per barcode:
+2019-12-05 17:06:20,261 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
-1                           1167726
+1                           1167725
 2                            386883
 3                            120763
 4                             29148
@@ -85,24 +85,24 @@ number of reads
 13                                1
 33                                1
 395                               1
-2019-11-20 10:45:13,388 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_readsperbc.csv
+2019-12-05 17:06:20,261 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_readsperbc.csv
 
-2019-11-20 10:45:13,392 - INFO - Examining the 1711488 barcodes to build and align subamplicons...
-2019-11-20 10:45:23,797 - INFO - Barcodes examined so far: 200000
-2019-11-20 10:45:33,646 - INFO - Barcodes examined so far: 400000
-2019-11-20 10:45:42,662 - INFO - Barcodes examined so far: 600000
-2019-11-20 10:45:50,766 - INFO - Barcodes examined so far: 800000
-2019-11-20 10:45:58,236 - INFO - Barcodes examined so far: 1000000
-2019-11-20 10:46:04,620 - INFO - Barcodes examined so far: 1200000
-2019-11-20 10:46:09,999 - INFO - Barcodes examined so far: 1400000
-2019-11-20 10:46:14,013 - INFO - Barcodes examined so far: 1600000
-2019-11-20 10:46:15,572 - INFO - Examined all barcodes. Summary stats:
+2019-12-05 17:06:20,268 - INFO - Examining the 1711487 barcodes to build and align subamplicons...
+2019-12-05 17:06:28,884 - INFO - Barcodes examined so far: 200000
+2019-12-05 17:06:36,942 - INFO - Barcodes examined so far: 400000
+2019-12-05 17:06:44,559 - INFO - Barcodes examined so far: 600000
+2019-12-05 17:06:51,510 - INFO - Barcodes examined so far: 800000
+2019-12-05 17:06:58,011 - INFO - Barcodes examined so far: 1000000
+2019-12-05 17:07:03,749 - INFO - Barcodes examined so far: 1200000
+2019-12-05 17:07:08,495 - INFO - Barcodes examined so far: 1400000
+2019-12-05 17:07:12,115 - INFO - Barcodes examined so far: 1600000
+2019-12-05 17:07:13,537 - INFO - Examined all barcodes. Summary stats:
    total  too few reads  not alignable  aligned
- 1711488        1167726          28627   515135
-2019-11-20 10:46:15,572 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_bcstats.csv
+ 1711487        1167725          28477   515285
+2019-12-05 17:07:13,538 - INFO - Writing these stats to ./results_1and1b/codoncounts/COTD-1_bcstats.csv
 
-2019-11-20 10:46:15,609 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-11-20 10:46:15,631 - INFO - Filtered from 1016 to 101 sites.
-2019-11-20 10:46:15,631 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COTD-1_codoncounts.csv
+2019-12-05 17:07:13,578 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2019-12-05 17:07:13,624 - INFO - Filtered from 1016 to 101 sites.
+2019-12-05 17:07:13,625 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/COTD-1_codoncounts.csv
 
-2019-11-20 10:46:15,643 - INFO - Successful completion of dms2_bcsubamp
+2019-12-05 17:07:13,639 - INFO - Successful completion of dms2_bcsubamp
