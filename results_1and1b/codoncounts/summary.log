@@ -1,8 +1,8 @@
-2019-12-18 21:27:26,632 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2019-12-19 22:26:12,164 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-12-18 21:27:26,722 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
-2019-12-18 21:27:26,747 - INFO - Version information:
-	Time and date: Wed Dec 18 21:27:26 2019
+2019-12-19 22:26:12,165 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
+2019-12-19 22:26:12,192 - INFO - Version information:
+	Time and date: Thu Dec 19 22:26:12 2019
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
@@ -23,7 +23,7 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-12-18 21:27:26,748 - INFO - Parsed the following arguments:
+2019-12-19 22:26:12,197 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = 2
 	use_existing = yes
@@ -49,8 +49,8 @@
 	batchfile = ./results_1and1b/codoncounts/batch.csv
 	summaryprefix = summary
 
-2019-12-18 21:27:26,750 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
-2019-12-18 21:27:26,783 - INFO - Read the following sample information:
+2019-12-19 22:26:12,198 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
+2019-12-19 22:26:12,232 - INFO - Read the following sample information:
 name,R1
 PLASMIDCTRL,PLASMIDCTRL_R1.fastq.gz
 NoA3-1,NoA3-1_R1.fastq.gz
@@ -77,4 +77,4 @@ COII-2,COII-2_R1.fastq.gz
 COIIE68AE254A-2,COIIE68AE254A-2_R1.fastq.gz
 
 
-2019-12-18 21:27:26,862 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
+2019-12-19 22:26:12,317 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
