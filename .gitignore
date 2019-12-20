@@ -8,3 +8,4 @@ FASTQ_files
 slurm*
 FASTQ_files_exp2
 FASTQ_files_initialMiseqOnly
+results_1and1b/mutinfo_csvs/*
