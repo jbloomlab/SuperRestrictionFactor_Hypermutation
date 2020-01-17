@@ -1,15 +1,15 @@
-2019-12-05 17:07:22,896 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2020-01-17 14:23:55,707 - INFO - Beginning execution of dms2_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2019-12-05 17:07:22,897 - INFO - Progress is being logged to ./results_1and1b/codoncounts/I188-1.log
-2019-12-05 17:07:22,908 - INFO - Version information:
-	Time and date: Thu Dec  5 17:07:22 2019
+2020-01-17 14:23:55,708 - INFO - Progress is being logged to ./results_1and1b/codoncounts/I188-1.log
+2020-01-17 14:23:55,728 - INFO - Version information:
+	Time and date: Fri Jan 17 14:23:55 2020
 	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
 	Bio version: 1.74
 	pandas version: 0.25.3
 	numpy version: 1.17.2
-	IPython version: 7.8.0
+	IPython version: 7.10.2
 	jupyter version unknown
 	matplotlib version: 3.1.2
 	plotnine version: 0.6.0
@@ -17,13 +17,13 @@
 	pystan version: 2.19.0.0
 	scipy version: 1.3.1
 	seaborn version: 0.9.0
-	phydmslib version: 2.3.6
+	phydmslib version: 2.3.8
 	statsmodels version: 0.10.1
 	rpy2 version: 3.1.0
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2019-12-05 17:07:22,908 - INFO - Parsed the following arguments:
+2020-01-17 14:23:55,729 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = -1
 	use_existing = no
@@ -49,25 +49,25 @@
 	name = I188-1
 	R1 = ['I188-1_R1.fastq.gz']
 
-2019-12-05 17:07:22,910 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_codoncounts.csv
-2019-12-05 17:07:22,934 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_readstats.csv
-2019-12-05 17:07:22,940 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_readsperbc.csv
-2019-12-05 17:07:22,946 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_bcstats.csv
-2019-12-05 17:07:22,952 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_bcinfo.csv.gz
-2019-12-05 17:07:22,987 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
-2019-12-05 17:07:22,990 - INFO - Reads are in these FASTQ pairs:
+2020-01-17 14:23:55,731 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_codoncounts.csv
+2020-01-17 14:23:55,734 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_readstats.csv
+2020-01-17 14:23:55,754 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_readsperbc.csv
+2020-01-17 14:23:55,756 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_bcstats.csv
+2020-01-17 14:23:55,758 - INFO - Removing existing file ./results_1and1b/codoncounts/I188-1_bcinfo.csv.gz
+2020-01-17 14:23:55,870 - INFO - Read refseq of 3048 codons from ./data/Bru_Pol.fasta
+2020-01-17 14:23:55,873 - INFO - Reads are in these FASTQ pairs:
 	../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/I188-1_R1.fastq.gz and ../../../../adingens/2019/SuperRes_Hypermut/FASTQ_files/I188-1_R2.fastq.gz
 
-2019-12-05 17:07:22,990 - INFO - Now parsing read pairs...
-2019-12-05 17:07:30,090 - INFO - Reads parsed so far: 500000
-2019-12-05 17:07:36,409 - INFO - Reads parsed so far: 1000000
-2019-12-05 17:07:37,594 - INFO - Parsed 1100078 reads, found 932522 unique barcodes.
-2019-12-05 17:07:37,600 - INFO - Summary stats on reads:
+2020-01-17 14:23:55,873 - INFO - Now parsing read pairs...
+2020-01-17 14:24:05,860 - INFO - Reads parsed so far: 500000
+2020-01-17 14:24:15,344 - INFO - Reads parsed so far: 1000000
+2020-01-17 14:24:17,044 - INFO - Parsed 1100078 reads, found 932522 unique barcodes.
+2020-01-17 14:24:17,063 - INFO - Summary stats on reads:
    total  fail filter  low Q barcode
  1100078            0          42655
-2019-12-05 17:07:37,600 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_readstats.csv
+2020-01-17 14:24:17,064 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_readstats.csv
 
-2019-12-05 17:07:37,883 - INFO - Number of reads per barcode:
+2020-01-17 14:24:17,413 - INFO - Number of reads per barcode:
                  number of barcodes
 number of reads                    
 1                            820246
@@ -79,20 +79,20 @@ number of reads
 8                                 1
 16                                1
 153                               1
-2019-12-05 17:07:37,884 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_readsperbc.csv
+2020-01-17 14:24:17,414 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_readsperbc.csv
 
-2019-12-05 17:07:37,889 - INFO - Examining the 932522 barcodes to build and align subamplicons...
-2019-12-05 17:07:42,995 - INFO - Barcodes examined so far: 200000
-2019-12-05 17:07:47,593 - INFO - Barcodes examined so far: 400000
-2019-12-05 17:07:51,289 - INFO - Barcodes examined so far: 600000
-2019-12-05 17:07:54,416 - INFO - Barcodes examined so far: 800000
-2019-12-05 17:07:55,993 - INFO - Examined all barcodes. Summary stats:
+2020-01-17 14:24:17,419 - INFO - Examining the 932522 barcodes to build and align subamplicons...
+2020-01-17 14:24:23,095 - INFO - Barcodes examined so far: 200000
+2020-01-17 14:24:28,478 - INFO - Barcodes examined so far: 400000
+2020-01-17 14:24:32,957 - INFO - Barcodes examined so far: 600000
+2020-01-17 14:24:36,766 - INFO - Barcodes examined so far: 800000
+2020-01-17 14:24:39,146 - INFO - Examined all barcodes. Summary stats:
   total  too few reads  not alignable  aligned
  932522         820246           7111   105165
-2019-12-05 17:07:55,993 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_bcstats.csv
+2020-01-17 14:24:39,147 - INFO - Writing these stats to ./results_1and1b/codoncounts/I188-1_bcstats.csv
 
-2019-12-05 17:07:56,027 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
-2019-12-05 17:07:56,059 - INFO - Filtered from 1016 to 101 sites.
-2019-12-05 17:07:56,059 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/I188-1_codoncounts.csv
+2020-01-17 14:24:39,185 - INFO - Filtering to only sites listed in sitemask ./data/sitemask.csv
+2020-01-17 14:24:39,282 - INFO - Filtered from 1016 to 101 sites.
+2020-01-17 14:24:39,283 - INFO - Writing the counts of each codon identity at each site to ./results_1and1b/codoncounts/I188-1_codoncounts.csv
 
-2019-12-05 17:07:56,071 - INFO - Successful completion of dms2_bcsubamp
+2020-01-17 14:24:39,298 - INFO - Successful completion of dms2_bcsubamp
