@@ -1,15 +1,15 @@
-2020-01-17 14:18:07,317 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2020-01-21 12:54:46,748 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2020-01-17 14:18:07,319 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
-2020-01-17 14:18:07,343 - INFO - Version information:
-	Time and date: Fri Jan 17 14:18:07 2020
-	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
+2020-01-21 12:54:46,749 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
+2020-01-21 12:54:46,776 - INFO - Version information:
+	Time and date: Tue Jan 21 12:54:46 2020
+	Platform: Linux-3.13.0-165-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
 	Bio version: 1.74
 	pandas version: 0.25.3
 	numpy version: 1.17.2
-	IPython version: 7.10.2
+	IPython version: 7.11.1
 	jupyter version unknown
 	matplotlib version: 3.1.2
 	plotnine version: 0.6.0
@@ -23,10 +23,10 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2020-01-17 14:18:07,344 - INFO - Parsed the following arguments:
+2020-01-21 12:54:46,777 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = 2
-	use_existing = no
+	use_existing = yes
 	refseq = ./data/Bru_Pol.fasta
 	alignspecs = ['205,504,35,34']
 	bclen = 8
@@ -49,8 +49,8 @@
 	batchfile = ./results_1and1b/codoncounts/batch.csv
 	summaryprefix = summary
 
-2020-01-17 14:18:07,345 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
-2020-01-17 14:18:07,371 - INFO - Read the following sample information:
+2020-01-21 12:54:46,778 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
+2020-01-21 12:54:46,834 - INFO - Read the following sample information:
 name,R1
 PLASMIDCTRL,PLASMIDCTRL_R1.fastq.gz
 NoA3-1,NoA3-1_R1.fastq.gz
@@ -77,26 +77,4 @@ COII-2,COII-2_R1.fastq.gz
 COIIE68AE254A-2,COIIE68AE254A-2_R1.fastq.gz
 
 
-2020-01-17 14:18:07,438 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_readstats.pdf
-2020-01-17 14:18:07,449 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_bcstats.pdf
-2020-01-17 14:18:07,452 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_readsperbc.pdf
-2020-01-17 14:18:07,454 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_depth.pdf
-2020-01-17 14:18:07,456 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_mutfreq.pdf
-2020-01-17 14:18:07,458 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_codonmuttypes.pdf
-2020-01-17 14:18:07,460 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_codonmuttypes.csv
-2020-01-17 14:18:07,484 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_codonntchanges.pdf
-2020-01-17 14:18:07,487 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_singlentchanges.pdf
-2020-01-17 14:18:07,489 - INFO - Removing existing file ./results_1and1b/codoncounts/summary_cumulmutcounts.pdf
-2020-01-17 14:18:07,491 - INFO - Running dms2_bcsubamp on all samples using 2 CPUs...
-2020-01-17 14:35:25,961 - INFO - Completed runs of dms2_bcsubamp.
-
-2020-01-17 14:35:26,037 - INFO - Plotting read stats to ./results_1and1b/codoncounts/summary_readstats.pdf
-2020-01-17 14:35:30,848 - INFO - Plotting barcode stats to ./results_1and1b/codoncounts/summary_bcstats.pdf
-2020-01-17 14:35:34,767 - INFO - Plotting reads per barcode to ./results_1and1b/codoncounts/summary_readsperbc.pdf
-2020-01-17 14:35:43,620 - INFO - Plotting count depth to ./results_1and1b/codoncounts/summary_depth.pdf
-2020-01-17 14:35:51,788 - INFO - Plotting mutation frequencies to ./results_1and1b/codoncounts/summary_mutfreq.pdf
-2020-01-17 14:36:03,615 - INFO - Plotting average frequencies of codon mutation types to ./results_1and1b/codoncounts/summary_codonmuttypes.pdf, writing the data to ./results_1and1b/codoncounts/summary_codonmuttypes.csv
-2020-01-17 14:36:12,357 - INFO - Plotting average frequencies of nucleotide changes per codon mutation to ./results_1and1b/codoncounts/summary_codonntchanges.pdf
-2020-01-17 14:36:20,802 - INFO - Plotting frequencies of nucleotide changes in 1-nucleotide mutations to ./results_1and1b/codoncounts/summary_singlentchanges.pdf
-2020-01-17 14:36:30,543 - INFO - Plotting fraction of mutations seen less than some number of times to ./results_1and1b/codoncounts/summary_cumulmutcounts.pdf
-2020-01-17 14:36:44,261 - INFO - Successful completion of dms2_batch_bcsubamp
+2020-01-21 12:54:46,921 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
