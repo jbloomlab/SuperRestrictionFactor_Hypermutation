@@ -1,9 +1,9 @@
-2020-01-21 12:54:46,748 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
+2020-02-03 20:40:56,588 - INFO - Beginning execution of dms2_batch_bcsubamp in directory /fh/fast/bloom_j/computational_notebooks/kdusenbu/2019/SuperRFs/SuperRestrictionFactor_Hypermutation
 
-2020-01-21 12:54:46,749 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
-2020-01-21 12:54:46,776 - INFO - Version information:
-	Time and date: Tue Jan 21 12:54:46 2020
-	Platform: Linux-3.13.0-165-generic-x86_64-with-debian-jessie-sid
+2020-02-03 20:40:56,590 - INFO - Progress is being logged to ./results_1and1b/codoncounts/summary.log
+2020-02-03 20:40:56,694 - INFO - Version information:
+	Time and date: Mon Feb  3 20:40:56 2020
+	Platform: Linux-3.13.0-143-generic-x86_64-with-debian-jessie-sid
 	Python version: 3.6.7 | packaged by conda-forge | (default, Jul  2 2019, 02:18:42)  [GCC 7.3.0]
 	dms_tools2 version: 2.6.4
 	Bio version: 1.74
@@ -23,7 +23,7 @@
 	regex version: 2.5.64
 	umi_tools version: 1.0.0
 
-2020-01-21 12:54:46,777 - INFO - Parsed the following arguments:
+2020-02-03 20:40:56,695 - INFO - Parsed the following arguments:
 	outdir = ./results_1and1b/codoncounts
 	ncpus = 2
 	use_existing = yes
@@ -49,8 +49,8 @@
 	batchfile = ./results_1and1b/codoncounts/batch.csv
 	summaryprefix = summary
 
-2020-01-21 12:54:46,778 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
-2020-01-21 12:54:46,834 - INFO - Read the following sample information:
+2020-02-03 20:40:56,698 - INFO - Parsing sample info from ./results_1and1b/codoncounts/batch.csv
+2020-02-03 20:40:56,723 - INFO - Read the following sample information:
 name,R1
 PLASMIDCTRL,PLASMIDCTRL_R1.fastq.gz
 NoA3-1,NoA3-1_R1.fastq.gz
@@ -77,4 +77,4 @@ COII-2,COII-2_R1.fastq.gz
 COIIE68AE254A-2,COIIE68AE254A-2_R1.fastq.gz
 
 
-2020-01-21 12:54:46,921 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
+2020-02-03 20:40:56,809 - INFO - Output files already exist and '--use_existing' is 'yes', so exiting with no further action.
