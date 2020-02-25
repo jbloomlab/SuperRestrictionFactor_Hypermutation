@@ -1,5 +1,5 @@
 # Super restriction factor hypermutation analysis
-### Adam S. Dingens and Kate H. D. Crawford
+### Kate H. D. Crawford and Adam S. Dingens 
 ### In collabortation with Mollie McDonnell and Michael Emerman
 
 Analysis performed by Adam Dingens and Kate Crawford in the [Bloom lab](http://research.fhcrc.org/bloom/en.html) in early 2019. Cell culture experiments performed by Mollie McDonnell, and sequencing prep performed by Mollie with Adam's guidance.
@@ -21,6 +21,7 @@ import random
 import pandas as pd
 import numpy as np
 
+from os import path
 from ast import literal_eval
 from plotnine import *
 from IPython.display import display, HTML, Image
@@ -50,9 +51,11 @@ if not os.path.isdir(resultsdir):
 # CPUs to use, -1 means all available
 ncpus = 2
 
-# do we use existing results or generate everything new?
-use_existing = "yes"
+use_existing = 'yes'
 ```
+
+    WARNING:matplotlib.font_manager:Matplotlib is building the font cache using fc-list. This may take a moment.
+
 
     Using dms_tools2 version 2.6.5
 
@@ -107,67 +110,165 @@ print("Here are the names of the downloaded files now found in {0}".format(fastq
 display(HTML(samples.to_html(index=False)))
 ```
 
-    Downloading FASTQ files from the SRA...
-
-
-    INFO:numexpr.utils:Note: NumExpr detected 56 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+    INFO:numexpr.utils:Note: NumExpr detected 24 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
     INFO:numexpr.utils:NumExpr defaulting to 8 threads.
 
 
-
-    ---------------------------------------------------------------------------
-
-    KeyboardInterrupt                         Traceback (most recent call last)
-
-    <ipython-input-2-343952cc2920> in <module>
-         35         fastq_dump='fastq-dump', # valid path to this program on the Hutch server
-         36         fastqdir=fastqdir,
-    ---> 37         aspera= None#(
-         38         #    '/app/aspera-connect/3.7.5/bin/ascp', # valid path to ascp on Hutch server
-         39         #    '/app/aspera-connect/3.7.5/etc/asperaweb_id_dsa.openssh' # Aspera key on Hutch server
+    Downloading FASTQ files from the SRA...
+    Here are the names of the downloaded files now found in ./results/FASTQ_files/
 
 
-    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/site-packages/dms_tools2/sra.py in fastqFromSRA(samples, fastq_dump, fastqdir, aspera, overwrite, passonly, no_downloads, ncpus)
-        128     if ncpus == 1:
-        129         for args in args_list:
-    --> 130             _getSingleFastqFromSRA(*args)
-        131     else:
-        132         with multiprocessing.Pool(ncpus) as pool:
 
-
-    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/site-packages/dms_tools2/sra.py in _getSingleFastqFromSRA(fastqdir, run, passonly, aspera, overwrite, fastq_dump, r1, r2)
-        198     else:
-        199         cmds.append(run)
-    --> 200     out = subprocess.check_output(cmds)
-        201 
-        202     os.rename(r1init, r1)
-
-
-    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/subprocess.py in check_output(timeout, *popenargs, **kwargs)
-        334 
-        335     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
-    --> 336                **kwargs).stdout
-        337 
-        338 
-
-
-    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/subprocess.py in run(input, timeout, check, *popenargs, **kwargs)
-        403     with Popen(*popenargs, **kwargs) as process:
-        404         try:
-    --> 405             stdout, stderr = process.communicate(input, timeout=timeout)
-        406         except TimeoutExpired:
-        407             process.kill()
-
-
-    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/subprocess.py in communicate(self, input, timeout)
-        828                 self._stdin_write(input)
-        829             elif self.stdout:
-    --> 830                 stdout = self.stdout.read()
-        831                 self.stdout.close()
-        832             elif self.stderr:
-
-
-    KeyboardInterrupt: 
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>run</th>
+      <th>R1</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PLASMIDCTRL</td>
+      <td>SRR11059589</td>
+      <td>PLASMIDCTRL_R1.fastq.gz</td>
+      <td>PLASMIDCTRL_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>NoA3_1</td>
+      <td>SRR11059588</td>
+      <td>NoA3_1_R1.fastq.gz</td>
+      <td>NoA3_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3G_1</td>
+      <td>SRR11059577</td>
+      <td>A3G_1_R1.fastq.gz</td>
+      <td>A3G_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3C_1</td>
+      <td>SRR11059573</td>
+      <td>A3C_1_R1.fastq.gz</td>
+      <td>A3C_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3CE68A_1</td>
+      <td>SRR11059572</td>
+      <td>A3CE68A_1_R1.fastq.gz</td>
+      <td>A3CE68A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTD_1</td>
+      <td>SRR11059571</td>
+      <td>COTD_1_R1.fastq.gz</td>
+      <td>COTD_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE254A_1</td>
+      <td>SRR11059570</td>
+      <td>COTDE254A_1_R1.fastq.gz</td>
+      <td>COTDE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE68AE254A_1</td>
+      <td>SRR11059569</td>
+      <td>COTDE68AE254A_1_R1.fastq.gz</td>
+      <td>COTDE68AE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188_1</td>
+      <td>SRR11059568</td>
+      <td>I188_1_R1.fastq.gz</td>
+      <td>I188_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188E68A_1</td>
+      <td>SRR11059567</td>
+      <td>I188E68A_1_R1.fastq.gz</td>
+      <td>I188E68A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COII_1</td>
+      <td>SRR11059587</td>
+      <td>COII_1_R1.fastq.gz</td>
+      <td>COII_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COIIE68AE254A_1</td>
+      <td>SRR11059586</td>
+      <td>COIIE68AE254A_1_R1.fastq.gz</td>
+      <td>COIIE68AE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>NoA3_2</td>
+      <td>SRR11059585</td>
+      <td>NoA3_2_R1.fastq.gz</td>
+      <td>NoA3_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3G_2</td>
+      <td>SRR11059584</td>
+      <td>A3G_2_R1.fastq.gz</td>
+      <td>A3G_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3C_2</td>
+      <td>SRR11059583</td>
+      <td>A3C_2_R1.fastq.gz</td>
+      <td>A3C_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3CE68A_2</td>
+      <td>SRR11059582</td>
+      <td>A3CE68A_2_R1.fastq.gz</td>
+      <td>A3CE68A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTD_2</td>
+      <td>SRR11059581</td>
+      <td>COTD_2_R1.fastq.gz</td>
+      <td>COTD_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE254A_2</td>
+      <td>SRR11059580</td>
+      <td>COTDE254A_2_R1.fastq.gz</td>
+      <td>COTDE254A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE68AE254A_2</td>
+      <td>SRR11059579</td>
+      <td>COTDE68AE254A_2_R1.fastq.gz</td>
+      <td>COTDE68AE254A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188_2</td>
+      <td>SRR11059578</td>
+      <td>I188_2_R1.fastq.gz</td>
+      <td>I188_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188E68A_2</td>
+      <td>SRR11059576</td>
+      <td>I188E68A_2_R1.fastq.gz</td>
+      <td>I188E68A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COII_2</td>
+      <td>SRR11059575</td>
+      <td>COII_2_R1.fastq.gz</td>
+      <td>COII_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COIIE68AE254A_2</td>
+      <td>SRR11059574</td>
+      <td>COIIE68AE254A_2_R1.fastq.gz</td>
+      <td>COIIE68AE254A_2_R2.fastq.gz</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ## Define samples from FASTQ_files
@@ -185,34 +286,30 @@ R1_df["name"] = R1_df['name'].str.replace("_", "-")
 print(R1_df)
 ```
 
-    INFO:numexpr.utils:Note: NumExpr detected 56 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
-    INFO:numexpr.utils:NumExpr defaulting to 8 threads.
-
-
                    name                           R1
     0       PLASMIDCTRL      PLASMIDCTRL_R1.fastq.gz
-    1            NoA3-1           NoA3-1_R1.fastq.gz
-    2             A3G-1            A3G-1_R1.fastq.gz
-    3             A3C-1            A3C-1_R1.fastq.gz
-    4         A3CE68A-1        A3CE68A-1_R1.fastq.gz
-    5            COTD-1           COTD-1_R1.fastq.gz
-    6       COTDE254A-1      COTDE254A-1_R1.fastq.gz
-    7   COTDE68AE254A-1  COTDE68AE254A-1_R1.fastq.gz
-    8            I188-1           I188-1_R1.fastq.gz
-    9        I188E68A-1       I188E68A-1_R1.fastq.gz
-    10           COII-1           COII-1_R1.fastq.gz
-    11  COIIE68AE254A-1  COIIE68AE254A-1_R1.fastq.gz
-    12           NoA3-2           NoA3-2_R1.fastq.gz
-    13            A3G-2            A3G-2_R1.fastq.gz
-    14            A3C-2            A3C-2_R1.fastq.gz
-    15        A3CE68A-2        A3CE68A-2_R1.fastq.gz
-    16           COTD-2           COTD-2_R1.fastq.gz
-    17      COTDE254A-2      COTDE254A-2_R1.fastq.gz
-    18  COTDE68AE254A-2  COTDE68AE254A-2_R1.fastq.gz
-    19           I188-2           I188-2_R1.fastq.gz
-    20       I188E68A-2       I188E68A-2_R1.fastq.gz
-    21           COII-2           COII-2_R1.fastq.gz
-    22  COIIE68AE254A-2  COIIE68AE254A-2_R1.fastq.gz
+    1            NoA3-1           NoA3_1_R1.fastq.gz
+    2             A3G-1            A3G_1_R1.fastq.gz
+    3             A3C-1            A3C_1_R1.fastq.gz
+    4         A3CE68A-1        A3CE68A_1_R1.fastq.gz
+    5            COTD-1           COTD_1_R1.fastq.gz
+    6       COTDE254A-1      COTDE254A_1_R1.fastq.gz
+    7   COTDE68AE254A-1  COTDE68AE254A_1_R1.fastq.gz
+    8            I188-1           I188_1_R1.fastq.gz
+    9        I188E68A-1       I188E68A_1_R1.fastq.gz
+    10           COII-1           COII_1_R1.fastq.gz
+    11  COIIE68AE254A-1  COIIE68AE254A_1_R1.fastq.gz
+    12           NoA3-2           NoA3_2_R1.fastq.gz
+    13            A3G-2            A3G_2_R1.fastq.gz
+    14            A3C-2            A3C_2_R1.fastq.gz
+    15        A3CE68A-2        A3CE68A_2_R1.fastq.gz
+    16           COTD-2           COTD_2_R1.fastq.gz
+    17      COTDE254A-2      COTDE254A_2_R1.fastq.gz
+    18  COTDE68AE254A-2  COTDE68AE254A_2_R1.fastq.gz
+    19           I188-2           I188_2_R1.fastq.gz
+    20       I188E68A-2       I188E68A_2_R1.fastq.gz
+    21           COII-2           COII_2_R1.fastq.gz
+    22  COIIE68AE254A-2  COIIE68AE254A_2_R1.fastq.gz
 
 
 ## Process the FASTQ files to count the mutations for each sample
@@ -266,91 +363,91 @@ sitemaskfile = "./data/sitemask.csv"
     </tr>
     <tr>
       <td>NoA3-1</td>
-      <td>NoA3-1_R1.fastq.gz</td>
+      <td>NoA3_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3G-1</td>
-      <td>A3G-1_R1.fastq.gz</td>
+      <td>A3G_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3C-1</td>
-      <td>A3C-1_R1.fastq.gz</td>
+      <td>A3C_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3CE68A-1</td>
-      <td>A3CE68A-1_R1.fastq.gz</td>
+      <td>A3CE68A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTD-1</td>
-      <td>COTD-1_R1.fastq.gz</td>
+      <td>COTD_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE254A-1</td>
-      <td>COTDE254A-1_R1.fastq.gz</td>
+      <td>COTDE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE68AE254A-1</td>
-      <td>COTDE68AE254A-1_R1.fastq.gz</td>
+      <td>COTDE68AE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188-1</td>
-      <td>I188-1_R1.fastq.gz</td>
+      <td>I188_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188E68A-1</td>
-      <td>I188E68A-1_R1.fastq.gz</td>
+      <td>I188E68A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COII-1</td>
-      <td>COII-1_R1.fastq.gz</td>
+      <td>COII_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COIIE68AE254A-1</td>
-      <td>COIIE68AE254A-1_R1.fastq.gz</td>
+      <td>COIIE68AE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>NoA3-2</td>
-      <td>NoA3-2_R1.fastq.gz</td>
+      <td>NoA3_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3G-2</td>
-      <td>A3G-2_R1.fastq.gz</td>
+      <td>A3G_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3C-2</td>
-      <td>A3C-2_R1.fastq.gz</td>
+      <td>A3C_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3CE68A-2</td>
-      <td>A3CE68A-2_R1.fastq.gz</td>
+      <td>A3CE68A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTD-2</td>
-      <td>COTD-2_R1.fastq.gz</td>
+      <td>COTD_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE254A-2</td>
-      <td>COTDE254A-2_R1.fastq.gz</td>
+      <td>COTDE254A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE68AE254A-2</td>
-      <td>COTDE68AE254A-2_R1.fastq.gz</td>
+      <td>COTDE68AE254A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188-2</td>
-      <td>I188-2_R1.fastq.gz</td>
+      <td>I188_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188E68A-2</td>
-      <td>I188E68A-2_R1.fastq.gz</td>
+      <td>I188E68A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COII-2</td>
-      <td>COII-2_R1.fastq.gz</td>
+      <td>COII_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COIIE68AE254A-2</td>
-      <td>COIIE68AE254A-2_R1.fastq.gz</td>
+      <td>COIIE68AE254A_2_R1.fastq.gz</td>
     </tr>
   </tbody>
 </table>
@@ -508,11 +605,9 @@ The analysis below uses the `.csv` output of the `bcinfo file`.
 
 The main outputs are: 
 
-1. bar plots (and line plots) of the percent of reads in each sample with a given number of substitutions (all substitutions or subset on G->A subs).
+1. Bar plots of the percent of reads in each sample with a given number of G-to-A substitutions.
 
-2. Heat maps of the most frequent nucleotides on the 5' and 3' side of a substitution. 
-
-3. Logo plots of what nucleotides are more likely to be mutated and what the 5' and 3' nucleotides are likely to be.
+2. Logo plots of what nucleotides are more likely to be mutated and what the 5' and 3' nucleotides are likely to be.
 
 Note: After looking at sequences with large number of mutations (>10) in the non-A3G samples, it became clear that a substantial portion of reads were simply misaligned in the overlap region between R1 and R2, which was resulting in an artificially high number of mutations for some reads. 
 
@@ -612,6 +707,7 @@ def getSubstitutions_Nokay_maskG(mutant, wildtype):
 ```python
 NTS_noN = 'ACTG'
 def motif_counts(seq):
+    """Return the count of each possible 3-nucleotide motif in a sequence"""
     motif_counts = {}
     possible_motifs = itertools.product(NTS_noN, repeat=3)
     for motif in possible_motifs:
@@ -620,6 +716,12 @@ def motif_counts(seq):
     return(motif_counts)
 
 def get_n_subs(subs_str):
+    """Return number of substitutions from a mutation string
+    
+        The mutation string must have the form:
+            'A1G C5T'
+        
+    """
     if subs_str == '':
         return(0)
     else:
@@ -692,6 +794,10 @@ _ = plot_motif_counts.draw()
 ![png](analysis_notebook_files/analysis_notebook_34_0.png)
 
 
+## Make 'mutinfo' `csv` files.
+
+These `.csv`s contain information about the number and identity of mutations in each read. Store this data as `.csv` files for ease of further analyses and for examining outside of this notebook.
+
 
 ```python
 # deal with '-' and '_' discrepencies in sample names
@@ -704,7 +810,6 @@ for sample in samplenames:
 
 ```python
 # csvs of processed reads with mutation information placed in this directory
-# This is useful for re-running and modifying analyses, but can probably be changed/removed for final analyses.
 csvsdir = os.path.join(resultsdir, 'mutinfo_csvs')
 if not os.path.isdir(csvsdir):
     os.mkdir(csvsdir)
@@ -712,22 +817,65 @@ if not os.path.isdir(csvsdir):
 
 
 ```python
-if use_existing == 'no': # only remake `csv`s if specified.
-    for sample in df_samplenames:
-        print(f"Processing reads for {sample}...")
-        bcinfo_file = f"{countsdir}/{sample}_bcinfo.csv.gz"
-        bcinfo_df = pd.read_csv(bcinfo_file)
-        bcinfo_df_retained = bcinfo_df[bcinfo_df['Retained'] == True].reset_index(drop=True)
-        bcinfo_df_retained['mid_seq'] = bcinfo_df_retained['Consensus'].apply(lambda x: x[130:170])
-        bcinfo_df_retained['mid_subs'] = bcinfo_df_retained['mid_seq'].apply(getSubstitutions_Nokay_maskG, args=(midrefseq,))
-        bcinfo_df_retained['n_mid_subs'] = bcinfo_df_retained['mid_subs'].apply(get_n_subs)     
-        bcinfo_df_retained['subs'] = bcinfo_df_retained['Consensus'].apply(getSubstitutions_Nokay, args=(trimmedrefseq,))
-        bcinfo_df_retained['n_subs'] = bcinfo_df_retained['subs'].apply(get_n_subs)
-        bcinfo_df_retained['n_ga_subs'] = bcinfo_df_retained['subs'].apply(get_n_ga_subs)
-        bcinfo_df_retained['sub_tups'] = bcinfo_df_retained['subs'].apply(subs_to_motifs, args=(trimmedrefseq,))
-        bcinfo_df_retained['Sample'] = [sample]*len(bcinfo_df_retained)
-        bcinfo_df_retained.to_csv(f"{csvsdir}/{sample}.csv")       
+def process_bcinfo_csv(bcinfo_csv, out_dir):
+    """Process bcinfo csv into mutinfo csv."""
+    bcinfo_df = pd.read_csv(bcinfo_csv)
+    bcinfo_df_retained = bcinfo_df[bcinfo_df['Retained'] == True].reset_index(drop=True)
+    bcinfo_df_retained['mid_seq'] = bcinfo_df_retained['Consensus'].apply(lambda x: x[130:170])
+    bcinfo_df_retained['mid_subs'] = bcinfo_df_retained['mid_seq'].apply(getSubstitutions_Nokay_maskG, args=(midrefseq,))
+    bcinfo_df_retained['n_mid_subs'] = bcinfo_df_retained['mid_subs'].apply(get_n_subs)     
+    bcinfo_df_retained['subs'] = bcinfo_df_retained['Consensus'].apply(getSubstitutions_Nokay, args=(trimmedrefseq,))
+    bcinfo_df_retained['n_subs'] = bcinfo_df_retained['subs'].apply(get_n_subs)
+    bcinfo_df_retained['n_ga_subs'] = bcinfo_df_retained['subs'].apply(get_n_ga_subs)
+    bcinfo_df_retained['sub_tups'] = bcinfo_df_retained['subs'].apply(subs_to_motifs, args=(trimmedrefseq,))
+    bcinfo_df_retained['Sample'] = [sample]*len(bcinfo_df_retained)
+    bcinfo_df_retained.to_csv(f"{out_dir}/{sample}.csv") 
 ```
+
+
+```python
+def make_mutinfo_csv(sample, in_dir, out_dir, overwrite=False):
+    if not path.exists(f"{out_dir}/{sample}.csv"):
+        print(f"Making mutinfo csv for {sample}...")
+        process_bcinfo_csv(f"{in_dir}/{sample}_bcinfo.csv.gz", out_dir)
+    elif overwrite:
+        print(f"Overwriting previous mutinfo csv for {sample}...")
+        process_bcinfo_csv(f"{in_dir}/{sample}_bcinfo.csv.gz")
+    else:
+        print(f"Mutinfo csv already exists for {sample}.")
+    
+```
+
+
+```python
+for sample in df_samplenames:
+    make_mutinfo_csv(sample, countsdir, csvsdir, overwrite=False)
+```
+
+    Making mutinfo csv for PLASMIDCTRL...
+    Making mutinfo csv for NoA3-1...
+    Making mutinfo csv for A3G-1...
+    Making mutinfo csv for A3C-1...
+    Making mutinfo csv for A3CE68A-1...
+    Making mutinfo csv for COTD-1...
+    Making mutinfo csv for COTDE254A-1...
+    Making mutinfo csv for COTDE68AE254A-1...
+    Making mutinfo csv for I188-1...
+    Making mutinfo csv for I188E68A-1...
+    Making mutinfo csv for COII-1...
+    Making mutinfo csv for COIIE68AE254A-1...
+    Making mutinfo csv for NoA3-2...
+    Making mutinfo csv for A3G-2...
+    Making mutinfo csv for A3C-2...
+    Making mutinfo csv for A3CE68A-2...
+    Making mutinfo csv for COTD-2...
+    Making mutinfo csv for COTDE254A-2...
+    Making mutinfo csv for COTDE68AE254A-2...
+    Making mutinfo csv for I188-2...
+    Making mutinfo csv for I188E68A-2...
+    Making mutinfo csv for COII-2...
+    Making mutinfo csv for COIIE68AE254A-2...
+
 
 ## Read in data and filter on the number of mutations in the middle of the sequence
 
@@ -1042,7 +1190,9 @@ for sample in df_samplenames:
 mut_ga_count_plot = (ggplot(all_samples_df, aes(x='n_ga_subs')) +
                   geom_histogram(binwidth=5) + 
                   facet_wrap('~ Sample', ncol=6) +
-                  labs(title='Number of Reads with X Mutations') +
+                  labs(title='Number of Reads with X G-to-A Mutations') +
+                  ylab('Read Count') +
+                  xlab('Number of G to A Substitutions') +
                   theme(axis_text_x=element_text(angle=0),
                         figure_size=(10, 10),
                        )
@@ -1051,7 +1201,7 @@ _ = mut_ga_count_plot.draw()
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_46_0.png)
+![png](analysis_notebook_files/analysis_notebook_49_0.png)
 
 
 ## Frequency of reads for each sample with that number of substitutions rather than count.
@@ -1104,120 +1254,7 @@ all_ga_sub_counts_df = pd.concat((reps_ga_avg, plasmid_binned_df), ignore_index=
 
 
 ```python
-display(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'A3G'])
-```
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Sample</th>
-      <th>n_ga_sub_count</th>
-      <th>n_ga_sub_freq</th>
-      <th>n_ga_subs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>11</th>
-      <td>A3G</td>
-      <td>89254</td>
-      <td>12.047986</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>A3G</td>
-      <td>37852</td>
-      <td>5.121133</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>A3G</td>
-      <td>37713</td>
-      <td>5.089946</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>A3G</td>
-      <td>42521</td>
-      <td>5.683068</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>A3G</td>
-      <td>46946</td>
-      <td>6.342105</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>A3G</td>
-      <td>49984</td>
-      <td>6.738876</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>A3G</td>
-      <td>52246</td>
-      <td>7.055807</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>A3G</td>
-      <td>52576</td>
-      <td>7.095491</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>A3G</td>
-      <td>51579</td>
-      <td>6.992135</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>A3G</td>
-      <td>47387</td>
-      <td>6.388635</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>A3G</td>
-      <td>231894</td>
-      <td>31.444817</td>
-      <td>10+</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-```python
-display(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'NoA3'])
+display(all_ga_sub_counts_df)
 ```
 
 
@@ -1282,67 +1319,59 @@ display(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'NoA3'])
       <td>4</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>NoA3</td>
-      <td>175</td>
-      <td>0.061228</td>
-      <td>5</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>NoA3</td>
-      <td>153</td>
-      <td>0.052772</td>
+      <th>127</th>
+      <td>PLASMIDCTRL</td>
+      <td>0</td>
+      <td>0.000000</td>
       <td>6</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>NoA3</td>
-      <td>120</td>
-      <td>0.042199</td>
+      <th>128</th>
+      <td>PLASMIDCTRL</td>
+      <td>2</td>
+      <td>0.002202</td>
       <td>7</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>NoA3</td>
-      <td>111</td>
-      <td>0.039031</td>
+      <th>129</th>
+      <td>PLASMIDCTRL</td>
+      <td>1</td>
+      <td>0.001101</td>
       <td>8</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>NoA3</td>
-      <td>132</td>
-      <td>0.046514</td>
+      <th>130</th>
+      <td>PLASMIDCTRL</td>
+      <td>2</td>
+      <td>0.002202</td>
       <td>9</td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>NoA3</td>
-      <td>2342</td>
-      <td>0.845037</td>
+      <th>131</th>
+      <td>PLASMIDCTRL</td>
+      <td>7</td>
+      <td>0.007706</td>
       <td>10+</td>
     </tr>
   </tbody>
 </table>
+<p>132 rows × 4 columns</p>
 </div>
 
 
 
 ```python
-facet_dict_ga = {'PLASMIDCTRL': f"Plasmid Ctrl\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'PLASMIDCTRL']['n_ga_sub_count']))}", 
-              'NoA3': f"No A3\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'NoA3']['n_ga_sub_count']))}",
-              'A3G': f"A3G\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'A3G']['n_ga_sub_count']))}",
-              'A3C': f"A3C\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'A3C']['n_ga_sub_count']))}",
-              'A3CE68A': f"A3C E68A\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'A3CE68A']['n_ga_sub_count']))}",
-              'COTD': f"A3C-A3C\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'COTD']['n_ga_sub_count']))}",
-              'COTDE254A': f"A3C-A3C E254A\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'COTDE254A']['n_ga_sub_count']))}",
-              'COTDE68AE254A': f"A3C-A3C E68A E254A\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'COTDE68AE254A']['n_ga_sub_count']))}",
-              'I188': f"I188\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'I188']['n_ga_sub_count']))}",
-              'I188E68A': f"I188 E68A\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'I188E68A']['n_ga_sub_count']))}",
-              'COII': f"I188-I188\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'COII']['n_ga_sub_count']))}",
-              'COIIE68AE254A': f"I188-I188 E68A E254A\n n = {int(sum(all_ga_sub_counts_df[all_ga_sub_counts_df['Sample'] == 'COIIE68AE254A']['n_ga_sub_count']))}"
-             }
+facet_dict_ga = {'PLASMIDCTRL': f"Plasmid Ctrl", 'NoA3': f"No A3", 'A3G': f"A3G", 'A3C': f"A3C",
+                 'A3CE68A': f"A3C E68A", 'COTD': f"A3C-A3C", 'COTDE254A': f"A3C-A3C E254A",
+                 'COTDE68AE254A': f"A3C-A3C E68A E254A", 'I188': f"I188", 'I188E68A': f"I188 E68A",
+                 'COII': f"I188-I188", 'COIIE68AE254A': f"I188-I188 E68A E254A"}
 
 def facet_labeller_ga(label):
     return(facet_dict_ga[label])
@@ -1369,7 +1398,7 @@ ga_mut_freq_plot = (ggplot(all_ga_sub_counts_df, aes(x='x_cat', y='n_ga_sub_freq
                   xlab('Number of G to A Substitutions') +
                   theme(axis_text_x=element_text(angle=90),
                         figure_size=(10, 10),
-                        strip_background_x=element_rect(height=1/9),
+                        strip_text_x = element_text(size = 10, weight='bold')
                        )
                   )
 
@@ -1377,7 +1406,7 @@ _ = ga_mut_freq_plot.draw()
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_52_0.png)
+![png](analysis_notebook_files/analysis_notebook_54_0.png)
 
 
 
@@ -1397,8 +1426,6 @@ line_palette = ['#000000', '#999999', '#990000', '#56B4E9', '#0072B2', '#66CC00'
 ga_mut_freq_line_plot = (ggplot(all_ga_sub_counts_df, aes(x='n_ga_subs', y='n_ga_sub_freq', color='facet_cat')) +
                          geom_line() +
                          scale_color_manual(values=line_palette) +
-                         #facet_wrap('~ facet_cat', ncol=4, labeller=facet_labeller_ga) +
-                         labs(title='Percent of Reads by Number of Substitutions in the Read') +
                          ylab('Percent of Reads') +
                          xlab('Number of G to A Substitutions') +
                          theme(axis_text_x=element_text(angle=90),
@@ -1413,13 +1440,8 @@ _ = ga_mut_freq_line_plot.draw()
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_55_0.png)
+![png](analysis_notebook_files/analysis_notebook_57_0.png)
 
-
-
-```python
-plt.close('all')
-```
 
 ### Plot subsets of graphs for publication:
 
@@ -1440,13 +1462,12 @@ ga_mut_freq_plot = (ggplot(NoI188E68A, aes(x='x_cat', y='n_ga_sub_freq')) +
                   geom_bar(stat='identity') + 
                   scale_y_continuous(limits=(0, 100)) +
                   facet_wrap('~ facet_cat', ncol=5, labeller=facet_labeller_ga, scales='free') +
-                  labs(title='Percent of Reads by Number of Substitutions in the Read') +
-                  ylab('Percent of Reads') +
+                  ylab('Frequency of Reads') +
                   xlab('Number of G to A Substitutions') +
                   theme(axis_text_x=element_text(angle=90),
                         figure_size=(15, 8),
-                        strip_background_x=element_rect(height=1/11),
-                        panel_spacing=(0.45)
+                        panel_spacing=(0.45),
+                        strip_text_x = element_text(size = 12)                       
                        )
                   )
 
@@ -1455,11 +1476,12 @@ _ = ga_mut_freq_plot.draw()
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_58_0.png)
+![png](analysis_notebook_files/analysis_notebook_59_0.png)
 
 
 
 ```python
+# clear all plots
 plt.close('all')
 ```
 
@@ -1613,7 +1635,7 @@ for samplename in summed_pfms_dict:
 
 ## Make Logos based on Entropy
 
-Citations:
+Logo plots made based on following references: 
 
 For overall math:
 
@@ -1622,6 +1644,8 @@ https://weblogo.berkeley.edu/Crooks-2004-GR-WebLogo.pdf
 For background corrections:
 1. Stormo, G.D. 1998. Information content and free energy in DNA-protein interactions. J. Theor. Biol. 195: 135–137.
 2. Gorodkin, J., Heyer, L.J., Brunak, S., and Stormo, G.D. 1997. Displaying the information contents of structural RNA alignments: The structure logos. Comput. Appl. Biosci. 13: 583–586.
+
+Along with the code below, the equations are described in the manuscript submitted publishing these results.
 
 
 ```python
@@ -1745,7 +1769,7 @@ fig, axes = dmslogo.facet_plot(melted_entropy_combined,
 
 
 
-![png](analysis_notebook_files/analysis_notebook_74_2.png)
+![png](analysis_notebook_files/analysis_notebook_75_2.png)
 
 
 
@@ -1773,7 +1797,7 @@ fig, axes = dmslogo.facet_plot(melted_entropy_combined,
                                show_col=None,
                                draw_logo_kwargs=dict(letter_col='nt',
                                                      letter_height_col='bits',
-                                                      color_col='color')
+                                                     color_col='color')
                             )
 
 ```
@@ -1782,8 +1806,13 @@ fig, axes = dmslogo.facet_plot(melted_entropy_combined,
 
 
 
-![png](analysis_notebook_files/analysis_notebook_75_1.png)
+![png](analysis_notebook_files/analysis_notebook_76_1.png)
 
+
+
+```python
+
+```
 
 
 ```python
