@@ -6,6 +6,8 @@
 *.sbatch
 FASTQ_files
 slurm*
-FASTQ_files_exp2
-FASTQ_files_initialMiseqOnly
-results_1and1b/mutinfo_csvs/*
+results/FASTQ_files
+results/codoncounts/*_bcinfo.csv.gz
+results/codoncounts/*.log
+results/mutinfo_csvs/*
+results/analysis_notebook_files/*

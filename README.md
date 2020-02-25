@@ -1,17 +1,14 @@
 # Analyzing mutation signitures of an APOBEC super restriction factor
-### Adam S. Dingens, Kate Crawford, Jesse Bloom
+### Kate Crawford, Adam S. Dingens, Jesse Bloom
 ### In collabortation Mollie McDonnell and Michael Emerman
 
-
-FILL IN 
-
-Computational analysis performed by Adam Dingens in the [Bloom lab](http://research.fhcrc.org/bloom/en.html) in Fall 2019. 
+Computational analysis performed by Kate Crawford and Adam Dingens in the [Bloom lab](http://research.fhcrc.org/bloom/en.html) in Fall 2019. 
 
 
 ## Running the analysis
 The main analysis is performed by the Jupyter notebook [analysis_notebook.ipynb](analysis_notebook.ipynb).
 
-To run [analysis_notebook.ipynb](analysis_notebook.ipynb) and generate the [Markdown results](results/analysis_notebook.md), run the bash script [run_notebook.bash](run_notebook.bash) with:
+To run [analysis_notebook.ipynb](analysis_notebook.ipynb) , run the bash script [run_notebook.bash](run_notebook.bash) with:
 
 ./run_notebook.bash
 
@@ -21,7 +18,7 @@ sbatch -p largenode -c 16 --mem=100000 run_notebook.bash
 
 
 ## Organization
-The mutational antigenic profiling analysis is performed by the iPython notebook [`analysis_notebook.ipynb`](analysis_notebook.ipynb). 
+The analysis is performed by the iPython notebook [`analysis_notebook.ipynb`](analysis_notebook.ipynb). 
 
 Subdirectories:
 

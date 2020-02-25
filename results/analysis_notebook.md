@@ -1,101 +1,91 @@
-
 # Super restriction factor hypermutation analysis
-### Adam S. Dingens
+### Kate H. D. Crawford and Adam S. Dingens 
 ### In collabortation with Mollie McDonnell and Michael Emerman
 
-Analysis performed by Adam Dingens in the [Bloom lab](http://research.fhcrc.org/bloom/en.html) in early 2019. Cell culture experiments performed by Mollie McDonnell, and sequencing prep performed by Mollie with Adam's guidance.
+Analysis performed by Adam Dingens and Kate Crawford in the [Bloom lab](http://research.fhcrc.org/bloom/en.html) in early 2019. Cell culture experiments performed by Mollie McDonnell, and sequencing prep performed by Mollie with Adam's guidance.
+
 
 ## Import `Python` modules, define widely used functions
 Set `use_existing` to `yes` below if you want to use any existing output, and `no` if you want to re-generate all output.
 
 
 ```python
-
-```
-
-
-```python
-
-```
-
-
-```python
 import os
-import glob
-%matplotlib inline
+import doctest
+import re
+import tempfile
+import gzip
+import itertools
+import random
+
 import pandas as pd
-from IPython.display import display, HTML
+import numpy as np
+
+from os import path
+from ast import literal_eval
+from plotnine import *
+from IPython.display import display, HTML, Image
+
 import dms_tools2
 import dms_tools2.plot
 import dms_tools2.sra
 import dms_tools2.utils
-import dms_tools2.diffsel
-import dms_tools2.prefs
 from dms_tools2.ipython_utils import showPDF
-import rpy2
-import rpy2.robjects 
-import dms_tools2.rplot
-import string
-import Bio.SeqIO
-import Bio.Seq
-import Bio.SeqRecord
-import numpy as np
-import pylab as plt
+from dms_tools2.utils import getSubstitutions
+
+import dmslogo
+from dmslogo.colorschemes import CBPALETTE
+
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('webagg')
+%matplotlib inline
 
 print("Using dms_tools2 version {0}".format(dms_tools2.__version__))
 
-# results will go in this directory
-resultsdir = './results_1and1b/' 
+# results will go in this directory. This has previously been named "results_1and1b" to keep trakc of what sequencing data was used.
+resultsdir = './results/' 
 if not os.path.isdir(resultsdir):
     os.mkdir(resultsdir)
     
 # CPUs to use, -1 means all available
-ncpus = 14
+ncpus = 2
 
-# do we use existing results or generate everything new?
-use_existing = "yes"
+use_existing = 'yes'
 ```
 
-    Using dms_tools2 version 2.5.1
+    Using dms_tools2 version 2.6.5
 
 
 # Download the sequencing data from the Sequence Read Archive
-UPDATE LATER
+Sequencing reads were deposited to the NCBI SRA under accesion number [PRJNA605864](https://www.ncbi.nlm.nih.gov/sra/PRJNA605864).
 
+
+```python
 samples = pd.DataFrame.from_records(
-#new data published here for 1-18
-        [('BG505_mut_virus_rep3d_1-18-4ug','SRR10014244'),
-         ('BG505_mut_virus_rep3d_1-18-8ug','SRR10014243'),
-         ('BG505_mut_virus_rep2d_1-18-4ug','SRR10014242'),
-         ('BG505_mut_virus_rep2d_1-18-8ug','SRR10014241'),
-         ('BG505_mut_virus_rep2d','SRR10014240'),
-         ('BG505_mut_virus_rep3d','SRR10014239'),
-#Data on VRC01 and 3BNC117 from Dingens et al Immunity 2019 
-#Here, I do not download the data on 10-1074 and pooled 10-1074/3BNC117. While I look at this data briefly for one analysis, I simply download the analyzed files from github rather than redoing all analyses. However these can be downloaded and anaylzed in parallel by uncommentin the relevant lines below. 
-         ('BG505_mut-virus-rep1b','SRR7693968'),
-         ('BG505_mut-virus-rep2b-3BNC117-4ug','SRR7693969'),
-         ('BG505_mut-virus-rep1-VRC01-11ug','SRR7693971'),
-
-         ('BG505_mut-virus-rep3','SRR7693976'),
-         ('BG505_mut-virus-rep3-3BNC117-1-1ug','SRR7693977'),
-         ('BG505_mut-DNA-rep1','SRR7693986'),
-         ('BG505_mut-DNA-rep3','SRR7694021'),
-         ('BG505_mut-virus-rep2b','SRR7694018'),
-         ('BG505_wt-DNA-rep3','SRR7694017'),
-         ('BG505_mut-virus-rep2-VRC01-8ug','SRR7694015'),
-
-         ('BG505_mut-virus-rep1b-3BNC117-4ug','SRR7694006'),
-         ('BG505_mut-virus-rep3b-3BNC117-4ug','SRR7694005'),
-         ('BG505_mut-virus-rep3b','SRR7694003'),
-         ('BG505_mut-DNA-rep2','SRR7694002'),
-         ('BG505_wt-DNA-rep2','SRR7693998'),
-         ('BG505_mut-virus-rep2','SRR7693997'),
-         ('BG505_mut-virus-rep3-VRC01-tr2-11ug','SRR7693996'),
-         ('BG505_mut-virus-rep3-VRC01-11ug','SRR7693992'),
-         ('BG505_mut-virus-rep2-VRC01-11ug','SRR7693991'),
-         ('BG505_mut-virus-rep2b-3BNC117-3ug','SRR7693990'),
-         ('BG505_wt-DNA-rep1','SRR7693989'),
-         ('BG505_mut-virus-rep1','SRR7693987')],
+        [('PLASMIDCTRL','SRR11059589'),
+         ('NoA3_1','SRR11059588'),
+         ('A3G_1','SRR11059577'),
+         ('A3C_1','SRR11059573'),
+         ('A3CE68A_1','SRR11059572'),
+         ('COTD_1','SRR11059571'),
+         ('COTDE254A_1','SRR11059570'),
+         ('COTDE68AE254A_1','SRR11059569'),
+         ('I188_1','SRR11059568'),
+         ('I188E68A_1','SRR11059567'),
+         ('COII_1','SRR11059587'),
+         ('COIIE68AE254A_1','SRR11059586'),
+         ('NoA3_2','SRR11059585'),
+         ('A3G_2','SRR11059584'),
+         ('A3C_2','SRR11059583'),
+         ('A3CE68A_2','SRR11059582'),
+         ('COTD_2','SRR11059581'),
+         ('COTDE254A_2','SRR11059580'),
+         ('COTDE68AE254A_2','SRR11059579'),
+         ('I188_2','SRR11059578'),
+         ('I188E68A_2','SRR11059576'),
+         ('COII_2','SRR11059575'),
+         ('COIIE68AE254A_2','SRR11059574')],
         columns=['name', 'run']
         )
 
@@ -108,13 +98,175 @@ dms_tools2.sra.fastqFromSRA(
         samples=samples,
         fastq_dump='fastq-dump', # valid path to this program on the Hutch server
         fastqdir=fastqdir,
-        aspera=(
-            '/app/aspera-connect/3.5.1/bin/ascp', # valid path to ascp on Hutch server
-            '/app/aspera-connect/3.5.1/etc/asperaweb_id_dsa.openssh' # Aspera key on Hutch server
-            ),
+        aspera= None#(
+        #    '/app/aspera-connect/3.7.5/bin/ascp', # valid path to ascp on Hutch server
+        #    '/app/aspera-connect/3.7.5/etc/asperaweb_id_dsa.openssh' # Aspera key on Hutch server
+        #    ),
         )
 print("Here are the names of the downloaded files now found in {0}".format(fastqdir))
 display(HTML(samples.to_html(index=False)))
+```
+
+    INFO:numexpr.utils:Note: NumExpr detected 24 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+    INFO:numexpr.utils:NumExpr defaulting to 8 threads.
+
+
+    Downloading FASTQ files from the SRA...
+    Here are the names of the downloaded files now found in ./results/FASTQ_files/
+
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>run</th>
+      <th>R1</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PLASMIDCTRL</td>
+      <td>SRR11059589</td>
+      <td>PLASMIDCTRL_R1.fastq.gz</td>
+      <td>PLASMIDCTRL_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>NoA3_1</td>
+      <td>SRR11059588</td>
+      <td>NoA3_1_R1.fastq.gz</td>
+      <td>NoA3_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3G_1</td>
+      <td>SRR11059577</td>
+      <td>A3G_1_R1.fastq.gz</td>
+      <td>A3G_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3C_1</td>
+      <td>SRR11059573</td>
+      <td>A3C_1_R1.fastq.gz</td>
+      <td>A3C_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3CE68A_1</td>
+      <td>SRR11059572</td>
+      <td>A3CE68A_1_R1.fastq.gz</td>
+      <td>A3CE68A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTD_1</td>
+      <td>SRR11059571</td>
+      <td>COTD_1_R1.fastq.gz</td>
+      <td>COTD_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE254A_1</td>
+      <td>SRR11059570</td>
+      <td>COTDE254A_1_R1.fastq.gz</td>
+      <td>COTDE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE68AE254A_1</td>
+      <td>SRR11059569</td>
+      <td>COTDE68AE254A_1_R1.fastq.gz</td>
+      <td>COTDE68AE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188_1</td>
+      <td>SRR11059568</td>
+      <td>I188_1_R1.fastq.gz</td>
+      <td>I188_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188E68A_1</td>
+      <td>SRR11059567</td>
+      <td>I188E68A_1_R1.fastq.gz</td>
+      <td>I188E68A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COII_1</td>
+      <td>SRR11059587</td>
+      <td>COII_1_R1.fastq.gz</td>
+      <td>COII_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COIIE68AE254A_1</td>
+      <td>SRR11059586</td>
+      <td>COIIE68AE254A_1_R1.fastq.gz</td>
+      <td>COIIE68AE254A_1_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>NoA3_2</td>
+      <td>SRR11059585</td>
+      <td>NoA3_2_R1.fastq.gz</td>
+      <td>NoA3_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3G_2</td>
+      <td>SRR11059584</td>
+      <td>A3G_2_R1.fastq.gz</td>
+      <td>A3G_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3C_2</td>
+      <td>SRR11059583</td>
+      <td>A3C_2_R1.fastq.gz</td>
+      <td>A3C_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>A3CE68A_2</td>
+      <td>SRR11059582</td>
+      <td>A3CE68A_2_R1.fastq.gz</td>
+      <td>A3CE68A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTD_2</td>
+      <td>SRR11059581</td>
+      <td>COTD_2_R1.fastq.gz</td>
+      <td>COTD_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE254A_2</td>
+      <td>SRR11059580</td>
+      <td>COTDE254A_2_R1.fastq.gz</td>
+      <td>COTDE254A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COTDE68AE254A_2</td>
+      <td>SRR11059579</td>
+      <td>COTDE68AE254A_2_R1.fastq.gz</td>
+      <td>COTDE68AE254A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188_2</td>
+      <td>SRR11059578</td>
+      <td>I188_2_R1.fastq.gz</td>
+      <td>I188_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>I188E68A_2</td>
+      <td>SRR11059576</td>
+      <td>I188E68A_2_R1.fastq.gz</td>
+      <td>I188E68A_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COII_2</td>
+      <td>SRR11059575</td>
+      <td>COII_2_R1.fastq.gz</td>
+      <td>COII_2_R2.fastq.gz</td>
+    </tr>
+    <tr>
+      <td>COIIE68AE254A_2</td>
+      <td>SRR11059574</td>
+      <td>COIIE68AE254A_2_R1.fastq.gz</td>
+      <td>COIIE68AE254A_2_R2.fastq.gz</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ## Define samples from FASTQ_files
 
@@ -125,36 +277,36 @@ display(HTML(R1fastqfilelist_df.to_html(index=False)))
 ```python
 samplenames = ["PLASMIDCTRL", "NoA3_1", "A3G_1", "A3C_1", "A3CE68A_1", "COTD_1", "COTDE254A_1", "COTDE68AE254A_1", "I188_1", "I188E68A_1", "COII_1", "COIIE68AE254A_1", "NoA3_2", "A3G_2", "A3C_2", "A3CE68A_2", "COTD_2", "COTDE254A_2", "COTDE68AE254A_2", "I188_2", "I188E68A_2", "COII_2", "COIIE68AE254A_2"]
 R1_df = pd.DataFrame({'name':samplenames})
-
-R1_df["name"] = R1_df['name'].str.replace("_", "-")
 R1_df["R1"] = R1_df['name'].astype(str) + "_R1.fastq.gz"
+R1_df["name"] = R1_df['name'].str.replace("_", "-")
+
 print(R1_df)
 ```
 
                    name                           R1
     0       PLASMIDCTRL      PLASMIDCTRL_R1.fastq.gz
-    1            NoA3-1           NoA3-1_R1.fastq.gz
-    2             A3G-1            A3G-1_R1.fastq.gz
-    3             A3C-1            A3C-1_R1.fastq.gz
-    4         A3CE68A-1        A3CE68A-1_R1.fastq.gz
-    5            COTD-1           COTD-1_R1.fastq.gz
-    6       COTDE254A-1      COTDE254A-1_R1.fastq.gz
-    7   COTDE68AE254A-1  COTDE68AE254A-1_R1.fastq.gz
-    8            I188-1           I188-1_R1.fastq.gz
-    9        I188E68A-1       I188E68A-1_R1.fastq.gz
-    10           COII-1           COII-1_R1.fastq.gz
-    11  COIIE68AE254A-1  COIIE68AE254A-1_R1.fastq.gz
-    12           NoA3-2           NoA3-2_R1.fastq.gz
-    13            A3G-2            A3G-2_R1.fastq.gz
-    14            A3C-2            A3C-2_R1.fastq.gz
-    15        A3CE68A-2        A3CE68A-2_R1.fastq.gz
-    16           COTD-2           COTD-2_R1.fastq.gz
-    17      COTDE254A-2      COTDE254A-2_R1.fastq.gz
-    18  COTDE68AE254A-2  COTDE68AE254A-2_R1.fastq.gz
-    19           I188-2           I188-2_R1.fastq.gz
-    20       I188E68A-2       I188E68A-2_R1.fastq.gz
-    21           COII-2           COII-2_R1.fastq.gz
-    22  COIIE68AE254A-2  COIIE68AE254A-2_R1.fastq.gz
+    1            NoA3-1           NoA3_1_R1.fastq.gz
+    2             A3G-1            A3G_1_R1.fastq.gz
+    3             A3C-1            A3C_1_R1.fastq.gz
+    4         A3CE68A-1        A3CE68A_1_R1.fastq.gz
+    5            COTD-1           COTD_1_R1.fastq.gz
+    6       COTDE254A-1      COTDE254A_1_R1.fastq.gz
+    7   COTDE68AE254A-1  COTDE68AE254A_1_R1.fastq.gz
+    8            I188-1           I188_1_R1.fastq.gz
+    9        I188E68A-1       I188E68A_1_R1.fastq.gz
+    10           COII-1           COII_1_R1.fastq.gz
+    11  COIIE68AE254A-1  COIIE68AE254A_1_R1.fastq.gz
+    12           NoA3-2           NoA3_2_R1.fastq.gz
+    13            A3G-2            A3G_2_R1.fastq.gz
+    14            A3C-2            A3C_2_R1.fastq.gz
+    15        A3CE68A-2        A3CE68A_2_R1.fastq.gz
+    16           COTD-2           COTD_2_R1.fastq.gz
+    17      COTDE254A-2      COTDE254A_2_R1.fastq.gz
+    18  COTDE68AE254A-2  COTDE68AE254A_2_R1.fastq.gz
+    19           I188-2           I188_2_R1.fastq.gz
+    20       I188E68A-2       I188E68A_2_R1.fastq.gz
+    21           COII-2           COII_2_R1.fastq.gz
+    22  COIIE68AE254A-2  COIIE68AE254A_2_R1.fastq.gz
 
 
 ## Process the FASTQ files to count the mutations for each sample
@@ -168,37 +320,11 @@ This sequence is based on GenBank accession number [DQ208458.1](https://www.ncbi
 
 
 ```python
-!pwd
-
-```
-
-    /fh/fast/bloom_j/computational_notebooks/adingens/2019/SuperRes_Hypermut
-
-
-
-```python
-#first, initial fastqdir ='../../../../SR/ngs/illumina/bloom_lab/190913_M03100_0478_000000000-CKT45/Data/Intensities/'
-#these are in: "./FASTQ_files_initialMiseqOnly/"
-
-#then the post rnd2 samples were repooled and sequenced again. These additional reads can thus simple be added to the existing reads. I did this by concatenating all reads from both runs into single fastq files, putting them in the same fastq file
-#second miseq to be added with initial miseq run. These are in:
-fastqdir = "./FASTQ_files/"
-
-
-#Mollie also redid rnd2? and resquenced. These read CANNOT be added to the above reads before error correction, as molecules were tagged in spereate PCR rxns?
-#however, in the future, the error corrected mutation counts could be summed together and then analyzed. 
-#For now, I put these reads in a seperate fastqdir:
-#miseq run: 191104_M04866_0302_000000000-CNB5P
-#these are in: "./FASTQ_files_exp2/"
-
-```
-
-
-```python
+fastqdir = "./results/FASTQ_files/"
 refseq = './data/Bru_Pol.fasta'
 
 # define subamplicon alignment specifications
-alignspecs = ' '.join(['204,504,34,34']) #these need to be updated 179,529,25,25
+alignspecs = ' '.join(['205,504,35,34']) #was 204,504,34,34 #these need to be updated 179,529,25,25
 
 
 # counts and alignments placed in this directory
@@ -214,29 +340,6 @@ R1_df[['name', 'R1']].to_csv(countsbatchfile, index=False)
 
 #we will only look at sites sequenced
 sitemaskfile = "./data/sitemask.csv"
-
-#here, we need to allow for a large number of mismatches if the sequence was in fact hypermutated
-print('\nNow running dms2_batch_bcsubamp...')
-log = !dms2_batch_bcsubamp \
-        --batchfile {countsbatchfile} \
-        --refseq {refseq} \
-        --alignspecs {alignspecs} \
-        --outdir {countsdir} \
-        --summaryprefix summary \
-        --R1trim 200 \
-        --R2trim 170 \
-        --minq 15 \
-        --fastqdir {fastqdir} \
-        --maxmuts 100 \
-        --sitemask {sitemaskfile} \
-        --ncpus {ncpus} \
-        --use_existing {use_existing} 
-print("Completed dms2_batch_bcsubamp.")
-
-# need to edit
-
-
-
 ```
 
     Here is the batch file that we write to CSV format to use as input:
@@ -257,95 +360,126 @@ print("Completed dms2_batch_bcsubamp.")
     </tr>
     <tr>
       <td>NoA3-1</td>
-      <td>NoA3-1_R1.fastq.gz</td>
+      <td>NoA3_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3G-1</td>
-      <td>A3G-1_R1.fastq.gz</td>
+      <td>A3G_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3C-1</td>
-      <td>A3C-1_R1.fastq.gz</td>
+      <td>A3C_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3CE68A-1</td>
-      <td>A3CE68A-1_R1.fastq.gz</td>
+      <td>A3CE68A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTD-1</td>
-      <td>COTD-1_R1.fastq.gz</td>
+      <td>COTD_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE254A-1</td>
-      <td>COTDE254A-1_R1.fastq.gz</td>
+      <td>COTDE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE68AE254A-1</td>
-      <td>COTDE68AE254A-1_R1.fastq.gz</td>
+      <td>COTDE68AE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188-1</td>
-      <td>I188-1_R1.fastq.gz</td>
+      <td>I188_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188E68A-1</td>
-      <td>I188E68A-1_R1.fastq.gz</td>
+      <td>I188E68A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COII-1</td>
-      <td>COII-1_R1.fastq.gz</td>
+      <td>COII_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COIIE68AE254A-1</td>
-      <td>COIIE68AE254A-1_R1.fastq.gz</td>
+      <td>COIIE68AE254A_1_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>NoA3-2</td>
-      <td>NoA3-2_R1.fastq.gz</td>
+      <td>NoA3_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3G-2</td>
-      <td>A3G-2_R1.fastq.gz</td>
+      <td>A3G_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3C-2</td>
-      <td>A3C-2_R1.fastq.gz</td>
+      <td>A3C_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>A3CE68A-2</td>
-      <td>A3CE68A-2_R1.fastq.gz</td>
+      <td>A3CE68A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTD-2</td>
-      <td>COTD-2_R1.fastq.gz</td>
+      <td>COTD_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE254A-2</td>
-      <td>COTDE254A-2_R1.fastq.gz</td>
+      <td>COTDE254A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COTDE68AE254A-2</td>
-      <td>COTDE68AE254A-2_R1.fastq.gz</td>
+      <td>COTDE68AE254A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188-2</td>
-      <td>I188-2_R1.fastq.gz</td>
+      <td>I188_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>I188E68A-2</td>
-      <td>I188E68A-2_R1.fastq.gz</td>
+      <td>I188E68A_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COII-2</td>
-      <td>COII-2_R1.fastq.gz</td>
+      <td>COII_2_R1.fastq.gz</td>
     </tr>
     <tr>
       <td>COIIE68AE254A-2</td>
-      <td>COIIE68AE254A-2_R1.fastq.gz</td>
+      <td>COIIE68AE254A_2_R1.fastq.gz</td>
     </tr>
   </tbody>
 </table>
 
+
+
+```python
+
+#here, we need to allow for a large number of mismatches if the sequence was in fact hypermutated
+
+print('\nNow running dms2_batch_bcsubamp...')
+log = !dms2_batch_bcsubamp \
+        --batchfile {countsbatchfile} \
+        --refseq {refseq} \
+        --alignspecs {alignspecs} \
+        --outdir {countsdir} \
+        --summaryprefix summary \
+        --R1trim 200 \
+        --R2trim 170 \
+        --minq 17 \
+        --fastqdir {fastqdir} \
+        --maxmuts 33 \
+        --sitemask {sitemaskfile} \
+        --ncpus {ncpus} \
+        --bcinfo \
+        --bcinfo_csv \
+        --use_existing {use_existing} 
+print("Completed dms2_batch_bcsubamp.")
+
+# need to edit
+
+# Kate picked a `maxmuts` of 33. There are 100 possible codons that could be mutated, so that's a max of about one third of the codons being mutated.
+# When `maxmuts` was 50, there was a cluster of reads in all samples with ~100 substitutions that seemed to come from missaligning. 
+
+```
 
     
     Now running dms2_batch_bcsubamp...
@@ -370,7 +504,7 @@ showPDF(countsplotprefix + '_readstats.pdf', width=600)
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_17_0.png)
+![png](analysis_notebook_files/analysis_notebook_14_0.png)
 
 
 The `*_readsperbc.pdf` plot below shows how many times different barcodes were observed for each sample. Barcodes need to be observed multiple times to be useful for barcoded-subamplicon sequencing error correction.
@@ -381,7 +515,7 @@ showPDF(countsplotprefix + '_readsperbc.pdf')
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_19_0.png)
+![png](analysis_notebook_files/analysis_notebook_16_0.png)
 
 
 The `*_bcstats.pdf` plot below shows statistics on the barcodes. Some of the barcodes had to be discarded because they had too few reads (these are the single-read barcodes in the plot above), a small fraction with adequate reads were not alignable, and the rest aligned to the Env gene properly.
@@ -393,7 +527,7 @@ showPDF(countsplotprefix + '_bcstats.pdf', width=600)
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_21_0.png)
+![png](analysis_notebook_files/analysis_notebook_18_0.png)
 
 
 The `*_depth.pdf` plot below shows the depth (number of called codons) at each site in the gene. 
@@ -407,7 +541,7 @@ showPDF(countsplotprefix + '_depth.pdf')
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_23_0.png)
+![png](analysis_notebook_files/analysis_notebook_20_0.png)
 
 
 The `*_mutfreq.pdf` plot below shows the per-codon frequency of mutations at each site. 
@@ -422,7 +556,7 @@ showPDF(countsplotprefix + '_mutfreq.pdf')
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_25_0.png)
+![png](analysis_notebook_files/analysis_notebook_22_0.png)
 
 
 The `*_codonmuttypes.pdf` plot below shows the per-codon frequency of nonsynonymous, synonymous, and stop codon mutations across the entire gene. 
@@ -433,7 +567,7 @@ showPDF(countsplotprefix + '_codonmuttypes.pdf', width=600)
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_27_0.png)
+![png](analysis_notebook_files/analysis_notebook_24_0.png)
 
 
 The `*_codonntchanges.pdf` plot below shows same data as above but categorizes codon mutations by the number of nucleotides that are changed (e.g., ATG to AAG changes 1 nucleotide, ATG to AAC changes 2 nucleotides, and ATG to CAC changes 3 nucleotides).
@@ -444,7 +578,7 @@ showPDF(countsplotprefix + '_codonntchanges.pdf', width=600)
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_29_0.png)
+![png](analysis_notebook_files/analysis_notebook_26_0.png)
 
 
 The `*_singlentchanges.pdf` plot below shows the frequency of each type of nucleotide change among only codon mutations with one nucleotide change. This plot is mostly useful to check if there is a large bias in which mutations appear. In particular, if you are getting oxidative damage (which causes G to T mutations) during the library preparation process, you will see a large excess of C to A or G to T mutations (or both). There is not much oxidative damage in the samples plotted below, which mostly have a fairly even distribution of nucleotide changes.
@@ -459,449 +593,1225 @@ showPDF(countsplotprefix + '_singlentchanges.pdf', width=600)
 ```
 
 
-![png](analysis_notebook_files/analysis_notebook_31_0.png)
+![png](analysis_notebook_files/analysis_notebook_28_0.png)
 
+
+# Analyze `bcinfo.csv.gz` output
+
+The analysis below uses the `.csv` output of the `bcinfo file`.
+
+The main outputs are: 
+
+1. Bar plots of the percent of reads in each sample with a given number of G-to-A substitutions.
+
+2. Logo plots of what nucleotides are more likely to be mutated and what the 5' and 3' nucleotides are likely to be.
+
+Note: After looking at sequences with large number of mutations (>10) in the non-A3G samples, it became clear that a substantial portion of reads were simply misaligned in the overlap region between R1 and R2, which was resulting in an artificially high number of mutations for some reads. 
+
+In order to correct for this, I extracted the 40 bp in the middle of the gene (from bp 130 to 170), masked all Gs, resulting in 28 nucleotides and counted the number of substitutions in each sequence at those 28 sites. I then threw out all sequences with > 3 substitutions at those 28 non-G sites. 
 
 
 ```python
+# These next three cells define functions for processing reads.
 
+NTS = ('A', 'C', 'T', 'G', 'N')
+
+def getSubstitutions_Nokay(mutant, wildtype):
+    """Get space delimited string of substitutions
+
+    Args:
+        `wildtype` (str):
+             The wildtype sequence
+        `mutant` (str):
+             The mutant sequence
+    Returns:
+        A space delimited string of substitutions present in the
+        mutant sequence. This does not record 'N' mutations.
+
+    >>> getSubstitutions_Nokay('AGT', 'TGT')
+    'A1T'
+    >>> getSubstitutions_Nokay('AAGTAACGA', 'ATCTAACGA')
+    'A2T G3C'
+    >>> getSubstitutions_Nokay('TGNC', 'AGTC')
+    'T1A'
+    """
+    if mutant == 'None':
+        return None
+    elif len(wildtype) != len(mutant):
+        print(wildtype)
+        print(mutant)
+        raise ValueError('wildtype and mutant must be same length')
+    subs = []
+    for site in range(len(wildtype)):
+        wt = wildtype[site]
+        mut = mutant[site]
+        if mut == 'N':
+            continue
+        if wt not in NTS:
+            raise ValueError (f"Invalid wt nucleotide {wt} at site {site+1}")
+        if mut not in NTS:
+            raise ValueError (f"Invalid mutant nucleotide {mut} at site {site+1}")
+        if wt!=mut:
+            pos = str(site + 1)
+            subs.append(f"{wt}{pos}{mut}")
+    subs = ' '.join(subs)
+
+    return subs
 ```
 
 
 ```python
+def getSubstitutions_Nokay_maskG(mutant, wildtype):
+    """Get space delimited string of substitutions not at Gs
 
+    Args:
+        `wildtype` (str):
+             The wildtype sequence
+        `mutant` (str):
+             The mutant sequence
+    Returns:
+        A space delimited string of substitutions present in the
+        mutant sequence. This does not record 'N' mutations.
+
+    """
+    if mutant == 'None':
+        return None
+    elif len(wildtype) != len(mutant):
+        print(wildtype)
+        print(mutant)
+        raise ValueError('wildtype and mutant must be same length')
+    subs = []
+    for site in range(len(wildtype)):
+        wt = wildtype[site]
+        mut = mutant[site]
+        if wt == 'G':
+            continue
+        if mut == 'N':
+            continue
+        if wt not in NTS:
+            raise ValueError (f"Invalid wt nucleotide {wt} at site {site+1}")
+        if mut not in NTS:
+            raise ValueError (f"Invalid mutant nucleotide {mut} at site {site+1}")
+        if wt!=mut:
+            pos = str(site + 1)
+            subs.append(f"{wt}{pos}{mut}")
+    subs = ' '.join(subs)
+
+    return subs
 ```
 
 
 ```python
+NTS_noN = 'ACTG'
+def motif_counts(seq):
+    """Return the count of each possible 3-nucleotide motif in a sequence"""
+    motif_counts = {}
+    possible_motifs = itertools.product(NTS_noN, repeat=3)
+    for motif in possible_motifs:
+        motif = ('').join(motif)
+        motif_counts[motif] = seq.count(motif)
+    return(motif_counts)
 
-```
-
-
-```python
-
-```
-
-## Renumber codon counts to HXB2 numbering 
-The standard numbering scheme for HIV Env is the [HXB2 numbering scheme](https://www.hiv.lanl.gov/content/sequence/HIV/REVIEWS/HXB2.html).
-The file [./data/BF520c2_to_HXB2.csv](./data/BF520c2_to_HXB2.csv) gives the mapping from sequential 1, 2, ... numbering of the BF520 protein sequence to the HXB2 numbering scheme. 
-This file was generated by aligning the HXB2 sequence [taken from Genbank](http://www.ncbi.nlm.nih.gov/protein/1906385) with the BF520c2 sequence using the [LANL alignment interface](http://www.hiv.lanl.gov/cgi-bin/VIRALIGN/viralign.cgi) at the protein sequence level. 
-Insertions relative to HXB2 are given letter suffixes as [described here](http://www.hiv.lanl.gov/content/sequence/HIV/REVIEWS/HXB2.html).
-
-Additionally, not all residues in BF520 Env were mutagenized. 
-The N-terminal signal peptide and the C-terminal cytoplasmic tail were excluded because they seem likely to affect expression level. 
-These sites are not listed in the renumbering file, and so are dropped when we do the re-numbering.
-
-To do the re-numbering, we use the [dms_tools2.utils.renumberSites](https://jbloomlab.github.io/dms_tools2/dms_tools2.utils.html#dms_tools2.utils.renumberSites) function from the [dms_tools Python API](https://jbloomlab.github.io/dms_tools2/api.html) to create a new directory that contains all of the re-numbered files with the same name as in the original codon counts directory produced above.
-
-
-```python
-renumberedcountsdir = os.path.join(resultsdir, 'renumberedcounts')
-```
-
-
-```python
-renumberfile = os.path.join(resultsdir, '/HXB2_numbering/BG505_to_HXB2.csv')
-
-# renumbered counts will go here
-renumberedcountsdir = os.path.join(resultsdir, 'renumberedcounts')
-
-# counts files to renumber
-countsfiles = glob.glob('{0}/*codoncounts.csv'.format(countsdir))
-
-dms_tools2.utils.renumberSites(renumberfile, countsfiles, missing='drop', 
-        outdir=renumberedcountsdir)
-```
-
-## Compute the fraction surviving 
-Now we compute the [fraction surviving](https://jbloomlab.github.io/dms_tools2/fracsurvive.html).This caluclation takes into account the level of antibody selection, found in the input file below. We will use mutliple different controls to estimate the error rates to  correct fo, and put the output in its own subdirectory, named according to its control sample. 
-
-This [csv file](/data/BG505_qPCR_master.csv) contains the fraction remaining infectivity for each antibody selected sample, as quatified using pol qPCR and computed based on a standard curve of infecting cells with dilutions of mutant virus (library and experiment specific), with dilutiuons ranging from 0.1 to .0001. 
-
-We first create a batch file to use with [dms2_batch_fracsurvive](https://jbloomlab.github.io/dms_tools2/dms2_batch_fracsurvive.html). 
-Note we make the **group** argument the antibody, the **name** argument the replicate, and assign the **sel**, **mock**, and **err** arguments based on the names used for the batch file when generating the counts files above with `dms2_batch_bcsubamp`.
-By grouping replicates for the same antibody in the batch file, we tell [dms2_batch_fracsurvive](https://jbloomlab.github.io/dms_tools2/dms2_batch_fracsurvive.html) to analyze these together and take their mean and median.
-
-### Average fraction surviving across multiple antibody dilutions
-For select antibodies, we have escape profiles at numerous dilutions. Oftentimes, the antibody concentrations are quite similar (e.g. 3 vs 4 ug/mL), and the single replicate escape profiles look very similar as well. I am averaging across these additional dilutions. 
-
-
-
-```python
-fracsurvivedir = os.path.join(resultsdir, 'fracsurvive')
-if not os.path.isdir(fracsurvivedir):
-    os.mkdir(fracsurvivedir)
+def get_n_subs(subs_str):
+    """Return number of substitutions from a mutation string
     
-fracsurviveaboveavgdir = os.path.join(resultsdir, 'fracsurviveaboveavg')
-if not os.path.isdir(fracsurviveaboveavgdir):
-    os.mkdir(fracsurviveaboveavgdir) 
+        The mutation string must have the form:
+            'A1G C5T'
+        
+    """
+    if subs_str == '':
+        return(0)
+    else:
+        return(len(subs_str.split(' ')))
+
+def get_n_ga_subs(subs_str):
+    """Return number of substitutions that are G->A subs"""
+    if subs_str == '':
+        return(0)
+    else:
+        subs_list = subs_str.split(' ')
+        num_ga = 0
+        for sub in subs_list:
+            if (sub[0] == 'G') and (sub[-1] == 'A'):
+                num_ga += 1
+        return(num_ga)
+    
+def subs_to_motifs(subs_str, gene):
+    """Return substitution as tuple (5'nt, sub, 3'nt)."""
+    if subs_str == '':
+        return('')
+    else:
+        motifs = []
+        subs_list = subs_str.split(' ')
+        for sub in subs_list:
+            site = int(sub[1:-1])
+            change = f"{sub[0]}{sub[-1]}"
+            if site == 1:
+                threeprime_nt = gene[site]
+                motif = (None, change, threeprime_nt, None)
+            elif site == len(gene):
+                fiveprime_nt = gene[site-2]
+                motif = (fiveprime_nt, change, None, None)
+            else:
+                fiveprime_nt = gene[site-2]
+                threeprime_nt = gene[site]
+                threent_motif = gene[site-2:site+1]
+                motif = (fiveprime_nt, change, threeprime_nt, threent_motif)
+            motifs.append(motif)
+        return(motifs)
+```
+
+## Define and examine reference sequence
+
+The sequenced region of *pol* is defined as `trimmedrefseq`. 
+
+We also look at the frequency of each 3-nucleotide motif. As seen, some 3-nt motifs do not exist in this sequence, but all nucleotides are present at least once as the 5' or 3' nucleotide in a motif. 
+
+
+```python
+trimmedrefseq = "CCTCAGATCACTCTTTGGCAACGACCCCTCGTCACAATAAAGATAGGGGGGCAACTAAAGGAAGCTCTATTAGATACAGGAGCAGATGATACAGTATTAGAAGAAATGAGTTTGCCAGGAAGATGGAAACCAAAAATGATAGGGGGAATTGGAGGTTTTATCAAAGTAAGACAGTATGATCAGATACTCATAGAAATCTGTGGACATAAAGCTATAGGTACAGTATTAGTAGGACCTACACCTGTCAACATAATTGGAAGAAATCTGTTGACTCAGATTGGTTGCACTTTAAATTTTCCC"
+midrefseq = trimmedrefseq[130:170]
+refseq_motif_counts = motif_counts(trimmedrefseq)
+baseline_motif_counts_df = pd.DataFrame.from_dict(refseq_motif_counts, orient='index', columns=['count']).sort_values('count')
+baseline_motif_counts_df = baseline_motif_counts_df.reset_index().rename(columns={'index': 'motif'})
+
+plot_motif_counts = (ggplot(baseline_motif_counts_df, aes(x='motif', y='count')) +
+                     geom_bar(stat='identity') + 
+                     scale_y_continuous(breaks=range(0, 13, 1)) + 
+                     labs(title='Number of Times Each Motif in Ref Seq') +
+                     theme(axis_text_x=element_text(angle=90),
+                           figure_size=(12, 5),
+                          )
+                    )
+
+_ = plot_motif_counts.draw()
+```
+
+
+![png](analysis_notebook_files/analysis_notebook_34_0.png)
+
+
+## Make 'mutinfo' `csv` files.
+
+These `.csv`s contain information about the number and identity of mutations in each read. Store this data as `.csv` files for ease of further analyses and for examining outside of this notebook.
+
+
+```python
+# deal with '-' and '_' discrepencies in sample names
+df_samplenames = []
+for sample in samplenames:
+    df_samplename = sample.replace('_', '-')
+    df_samplenames.append(df_samplename)
 ```
 
 
 ```python
-fracsurvivebatchavg = pd.read_csv("./data/118_VRC01_3BNC117_avgconcentrations_fracsurvive.csv", header =0)
-fracsurvivebatchavg = fracsurvivebatchavg.sort_values(by='group')
-display(HTML(fracsurvivebatchavg.to_html(index=False)))
+# csvs of processed reads with mutation information placed in this directory
+csvsdir = os.path.join(resultsdir, 'mutinfo_csvs')
+if not os.path.isdir(csvsdir):
+    os.mkdir(csvsdir)
 ```
 
 
+```python
+def process_bcinfo_csv(bcinfo_csv, out_dir):
+    """Process bcinfo csv into mutinfo csv."""
+    bcinfo_df = pd.read_csv(bcinfo_csv)
+    bcinfo_df_retained = bcinfo_df[bcinfo_df['Retained'] == True].reset_index(drop=True)
+    bcinfo_df_retained['mid_seq'] = bcinfo_df_retained['Consensus'].apply(lambda x: x[130:170])
+    bcinfo_df_retained['mid_subs'] = bcinfo_df_retained['mid_seq'].apply(getSubstitutions_Nokay_maskG, args=(midrefseq,))
+    bcinfo_df_retained['n_mid_subs'] = bcinfo_df_retained['mid_subs'].apply(get_n_subs)     
+    bcinfo_df_retained['subs'] = bcinfo_df_retained['Consensus'].apply(getSubstitutions_Nokay, args=(trimmedrefseq,))
+    bcinfo_df_retained['n_subs'] = bcinfo_df_retained['subs'].apply(get_n_subs)
+    bcinfo_df_retained['n_ga_subs'] = bcinfo_df_retained['subs'].apply(get_n_ga_subs)
+    bcinfo_df_retained['sub_tups'] = bcinfo_df_retained['subs'].apply(subs_to_motifs, args=(trimmedrefseq,))
+    bcinfo_df_retained['Sample'] = [sample]*len(bcinfo_df_retained)
+    bcinfo_df_retained.to_csv(f"{out_dir}/{sample}.csv") 
+```
+
+
+```python
+def make_mutinfo_csv(sample, in_dir, out_dir, overwrite=False):
+    if not path.exists(f"{out_dir}/{sample}.csv"):
+        print(f"Making mutinfo csv for {sample}...")
+        process_bcinfo_csv(f"{in_dir}/{sample}_bcinfo.csv.gz", out_dir)
+    elif overwrite:
+        print(f"Overwriting previous mutinfo csv for {sample}...")
+        process_bcinfo_csv(f"{in_dir}/{sample}_bcinfo.csv.gz")
+    else:
+        print(f"Mutinfo csv already exists for {sample}.")
+    
+```
+
+
+```python
+for sample in df_samplenames:
+    make_mutinfo_csv(sample, countsdir, csvsdir, overwrite=False)
+```
+
+    Mutinfo csv already exists for PLASMIDCTRL.
+    Mutinfo csv already exists for NoA3-1.
+    Mutinfo csv already exists for A3G-1.
+    Mutinfo csv already exists for A3C-1.
+    Mutinfo csv already exists for A3CE68A-1.
+    Mutinfo csv already exists for COTD-1.
+    Mutinfo csv already exists for COTDE254A-1.
+    Mutinfo csv already exists for COTDE68AE254A-1.
+    Mutinfo csv already exists for I188-1.
+    Mutinfo csv already exists for I188E68A-1.
+    Mutinfo csv already exists for COII-1.
+    Mutinfo csv already exists for COIIE68AE254A-1.
+    Mutinfo csv already exists for NoA3-2.
+    Mutinfo csv already exists for A3G-2.
+    Mutinfo csv already exists for A3C-2.
+    Mutinfo csv already exists for A3CE68A-2.
+    Mutinfo csv already exists for COTD-2.
+    Mutinfo csv already exists for COTDE254A-2.
+    Mutinfo csv already exists for COTDE68AE254A-2.
+    Mutinfo csv already exists for I188-2.
+    Mutinfo csv already exists for I188E68A-2.
+    Mutinfo csv already exists for COII-2.
+    Mutinfo csv already exists for COIIE68AE254A-2.
+
+
+## Read in data and filter on the number of mutations in the middle of the sequence
+
+
+```python
+mutinfo_dfs = {}
+sub_count_dfs = {}
+ga_sub_count_dfs = {}
+for sample in df_samplenames:
+    print(f"Reading in data for {sample}...")
+    sample_mutinfo_df = pd.read_csv(f"{csvsdir}/{sample}.csv").fillna(value='')
+    sample_mutinfo_df = sample_mutinfo_df[sample_mutinfo_df['n_mid_subs'] <= 3]
+    sub_count_df = pd.DataFrame({'n_sub_count': sample_mutinfo_df.groupby('n_subs').size()}).reset_index()
+    sub_count_df['n_sub_freq'] = sub_count_df['n_sub_count'] / sum(sub_count_df['n_sub_count'])
+    ga_sub_count_df = pd.DataFrame({'n_ga_sub_count': sample_mutinfo_df.groupby('n_ga_subs').size()}).reset_index()
+    ga_sub_count_df['n_ga_sub_freq'] = ga_sub_count_df['n_ga_sub_count'] / sum(ga_sub_count_df['n_ga_sub_count'])
+    ga_sub_count_dfs[sample] = ga_sub_count_df
+    sub_count_dfs[sample] = sub_count_df    
+    mutinfo_dfs[sample] = sample_mutinfo_df
+```
+
+    Reading in data for PLASMIDCTRL...
+    Reading in data for NoA3-1...
+    Reading in data for A3G-1...
+    Reading in data for A3C-1...
+    Reading in data for A3CE68A-1...
+    Reading in data for COTD-1...
+    Reading in data for COTDE254A-1...
+    Reading in data for COTDE68AE254A-1...
+    Reading in data for I188-1...
+    Reading in data for I188E68A-1...
+    Reading in data for COII-1...
+    Reading in data for COIIE68AE254A-1...
+    Reading in data for NoA3-2...
+    Reading in data for A3G-2...
+    Reading in data for A3C-2...
+    Reading in data for A3CE68A-2...
+    Reading in data for COTD-2...
+    Reading in data for COTDE254A-2...
+    Reading in data for COTDE68AE254A-2...
+    Reading in data for I188-2...
+    Reading in data for I188E68A-2...
+    Reading in data for COII-2...
+    Reading in data for COIIE68AE254A-2...
+
+
+## Begin Sequence Analysis
+
+
+
+```python
+read_count_dict = {'Sample': [], 'Total_Reads': [], 'Reads_with_Subs': [], 'Reads_with_2+_Subs': [],
+                   'Reads_with_GA_Subs': [], 'Reads_with_2+_GA_Subs': [], '%_Reads_Sub': [], 
+                   '%_Reads_2+_Subs': [], '%_Reads_GA_Sub': [], '%_Reads_2+_GA_Subs': []}
+
+for sample in df_samplenames:
+    sample_df = mutinfo_dfs[sample]
+    sample_reads = len(sample_df)
+    sample_sub_reads = len(sample_df[sample_df['n_subs'] > 0])
+    sample_2ormoresubs_reads = len(sample_df[sample_df['n_subs'] > 1])
+    sample_ga_sub_reads = len(sample_df[sample_df['n_ga_subs'] > 0])
+    sample_2ormore_ga_subs_reads = len(sample_df[sample_df['n_ga_subs'] > 1])
+    read_count_dict['Sample'].append(sample) 
+    read_count_dict['Total_Reads'].append(sample_reads)
+    read_count_dict['Reads_with_Subs'].append(sample_sub_reads)
+    read_count_dict['Reads_with_2+_Subs'].append(sample_2ormoresubs_reads)
+    read_count_dict['Reads_with_GA_Subs'].append(sample_ga_sub_reads)
+    read_count_dict['Reads_with_2+_GA_Subs'].append(sample_2ormore_ga_subs_reads)
+    read_count_dict['%_Reads_Sub'].append(round(sample_sub_reads/sample_reads*100, 2))
+    read_count_dict['%_Reads_2+_Subs'].append(round(sample_2ormoresubs_reads/sample_reads*100, 2))
+    read_count_dict['%_Reads_GA_Sub'].append(round(sample_ga_sub_reads/sample_reads*100, 2))
+    read_count_dict['%_Reads_2+_GA_Subs'].append(round(sample_2ormore_ga_subs_reads/sample_reads*100, 2))
+read_count_df = pd.DataFrame.from_dict(read_count_dict, orient='columns')
+
+```
+
+## Combine technical replicates
+
+
+```python
+plasmid_read_counts = read_count_df.iloc[0]
+read_count_df_rep1 = read_count_df.iloc[1:12].copy()
+read_count_df_rep1['Sample'] = read_count_df_rep1['Sample'].str[:-2]
+read_count_df_rep1 = read_count_df_rep1.drop(['%_Reads_Sub', '%_Reads_2+_Subs', '%_Reads_GA_Sub', '%_Reads_2+_GA_Subs'], axis=1)
+
+read_count_df_rep2 = read_count_df.iloc[12:].copy()
+read_count_df_rep2['Sample'] = read_count_df_rep2['Sample'].str[:-2]
+samples2 = read_count_df_rep2['Sample']
+read_count_df_rep2 = read_count_df_rep2.drop(['%_Reads_Sub', '%_Reads_2+_Subs', '%_Reads_GA_Sub', '%_Reads_2+_GA_Subs'], axis=1)
+
+for col in ['Total_Reads', 'Reads_with_Subs', 'Reads_with_2+_Subs', 'Reads_with_GA_Subs', 'Reads_with_2+_GA_Subs']:
+    read_count_df_rep1[col] = read_count_df_rep1[col].astype(int)
+    read_count_df_rep2[col] = read_count_df_rep2[col].astype(int)
+
+
+read_counts_reps_summed = pd.concat([read_count_df_rep1, read_count_df_rep2]).groupby(['Sample']).sum().reset_index()
+read_counts_reps_summed['%_Reads_Sub'] = round((read_counts_reps_summed['Reads_with_Subs'] / read_counts_reps_summed['Total_Reads'])*100, 2)
+read_counts_reps_summed['%_Reads_2+_Subs'] = round((read_counts_reps_summed['Reads_with_2+_Subs'] / read_counts_reps_summed['Total_Reads'])*100, 2)
+read_counts_reps_summed['%_Reads_GA_Sub'] = round((read_counts_reps_summed['Reads_with_GA_Subs'] / read_counts_reps_summed['Total_Reads'])*100, 2)
+read_counts_reps_summed['%_Reads_2+_GA_Subs'] = round((read_counts_reps_summed['Reads_with_2+_GA_Subs'] / read_counts_reps_summed['Total_Reads'])*100, 2)
+read_counts_reps_summed = read_counts_reps_summed.append(plasmid_read_counts)
+display(read_counts_reps_summed)
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>group</th>
-      <th>name</th>
-      <th>sel</th>
-      <th>mock</th>
-      <th>err</th>
-      <th>mds_names</th>
-      <th>libfracsurvive</th>
+      <th></th>
+      <th>Sample</th>
+      <th>Total_Reads</th>
+      <th>Reads_with_Subs</th>
+      <th>Reads_with_2+_Subs</th>
+      <th>Reads_with_GA_Subs</th>
+      <th>Reads_with_2+_GA_Subs</th>
+      <th>%_Reads_Sub</th>
+      <th>%_Reads_2+_Subs</th>
+      <th>%_Reads_GA_Sub</th>
+      <th>%_Reads_2+_GA_Subs</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>118</td>
-      <td>4ug-rep2d</td>
-      <td>mut-virus-rep2d-118-4ug</td>
-      <td>mut-virus-rep2d</td>
-      <td>wt-DNA-rep2</td>
-      <td>118-4ug-rep2d</td>
-      <td>0.005177</td>
+      <th>0</th>
+      <td>A3C</td>
+      <td>268874</td>
+      <td>83732</td>
+      <td>28384</td>
+      <td>73445</td>
+      <td>25216</td>
+      <td>31.14</td>
+      <td>10.56</td>
+      <td>27.32</td>
+      <td>9.38</td>
     </tr>
     <tr>
-      <td>118</td>
-      <td>8ug-rep2d</td>
-      <td>mut-virus-rep2d-118-8ug</td>
-      <td>mut-virus-rep2d</td>
-      <td>wt-DNA-rep2</td>
-      <td>118-8ug-rep2d</td>
-      <td>0.000168</td>
+      <th>1</th>
+      <td>A3CE68A</td>
+      <td>302407</td>
+      <td>33655</td>
+      <td>5410</td>
+      <td>14792</td>
+      <td>3940</td>
+      <td>11.13</td>
+      <td>1.79</td>
+      <td>4.89</td>
+      <td>1.30</td>
     </tr>
     <tr>
-      <td>118</td>
-      <td>4ug-rep3d</td>
-      <td>mut-virus-rep3d-118-4ug</td>
-      <td>mut-virus-rep3d</td>
-      <td>wt-DNA-rep3</td>
-      <td>118-4ug-rep3d</td>
-      <td>0.005182</td>
+      <th>2</th>
+      <td>A3G</td>
+      <td>739952</td>
+      <td>656629</td>
+      <td>616044</td>
+      <td>650698</td>
+      <td>612846</td>
+      <td>88.74</td>
+      <td>83.25</td>
+      <td>87.94</td>
+      <td>82.82</td>
     </tr>
     <tr>
-      <td>118</td>
-      <td>8ug-rep3d</td>
-      <td>mut-virus-rep3d-118-8ug</td>
-      <td>mut-virus-rep3d</td>
-      <td>wt-DNA-rep3</td>
-      <td>118-8ug-rep3d</td>
-      <td>0.000673</td>
+      <th>3</th>
+      <td>COII</td>
+      <td>601985</td>
+      <td>292617</td>
+      <td>165605</td>
+      <td>273843</td>
+      <td>157505</td>
+      <td>48.61</td>
+      <td>27.51</td>
+      <td>45.49</td>
+      <td>26.16</td>
     </tr>
     <tr>
-      <td>3BNC117</td>
-      <td>3ug-rep2b</td>
-      <td>mut-virus-rep2b-3BNC117-3ug</td>
-      <td>mut-virus-rep2b</td>
-      <td>wt-DNA-rep2</td>
-      <td>3BNC117-3ug-rep2b</td>
-      <td>0.009847</td>
+      <th>4</th>
+      <td>COIIE68AE254A</td>
+      <td>727830</td>
+      <td>77981</td>
+      <td>11709</td>
+      <td>30664</td>
+      <td>8038</td>
+      <td>10.71</td>
+      <td>1.61</td>
+      <td>4.21</td>
+      <td>1.10</td>
     </tr>
     <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep2b</td>
-      <td>mut-virus-rep2b-3BNC117-4ug</td>
-      <td>mut-virus-rep2b</td>
-      <td>wt-DNA-rep2</td>
-      <td>3BNC117-4ug-rep2b</td>
-      <td>0.022027</td>
+      <th>5</th>
+      <td>COTD</td>
+      <td>905916</td>
+      <td>277425</td>
+      <td>96247</td>
+      <td>234575</td>
+      <td>84235</td>
+      <td>30.62</td>
+      <td>10.62</td>
+      <td>25.89</td>
+      <td>9.30</td>
     </tr>
     <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep3b</td>
-      <td>mut-virus-rep3b-3BNC117-4ug</td>
-      <td>mut-virus-rep3b</td>
-      <td>wt-DNA-rep3</td>
-      <td>3BNC117-4ug-rep3b</td>
-      <td>0.006475</td>
+      <th>6</th>
+      <td>COTDE254A</td>
+      <td>355151</td>
+      <td>104025</td>
+      <td>32736</td>
+      <td>84853</td>
+      <td>27434</td>
+      <td>29.29</td>
+      <td>9.22</td>
+      <td>23.89</td>
+      <td>7.72</td>
     </tr>
     <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep1b</td>
-      <td>mut-virus-rep1b-3BNC117-4ug</td>
-      <td>mut-virus-rep1b</td>
-      <td>wt-DNA-rep1</td>
-      <td>3BNC117-4ug-rep1b</td>
-      <td>0.008765</td>
+      <th>7</th>
+      <td>COTDE68AE254A</td>
+      <td>734866</td>
+      <td>81411</td>
+      <td>15679</td>
+      <td>30470</td>
+      <td>11901</td>
+      <td>11.08</td>
+      <td>2.13</td>
+      <td>4.15</td>
+      <td>1.62</td>
     </tr>
     <tr>
-      <td>VRC01</td>
-      <td>11ug-rep1</td>
-      <td>mut-virus-rep1-VRC01-11ug</td>
-      <td>mut-virus-rep1</td>
-      <td>wt-DNA-rep1</td>
-      <td>VRC01-11ug-rep1</td>
-      <td>0.002029</td>
+      <th>8</th>
+      <td>I188</td>
+      <td>454940</td>
+      <td>241596</td>
+      <td>134488</td>
+      <td>224862</td>
+      <td>126110</td>
+      <td>53.11</td>
+      <td>29.56</td>
+      <td>49.43</td>
+      <td>27.72</td>
     </tr>
     <tr>
-      <td>VRC01</td>
-      <td>11ug-rep3</td>
-      <td>mut-virus-rep3-VRC01-11ug</td>
-      <td>mut-virus-rep3</td>
-      <td>wt-DNA-rep3</td>
-      <td>VRC01-11ug-rep3</td>
-      <td>0.007226</td>
+      <th>9</th>
+      <td>I188E68A</td>
+      <td>742263</td>
+      <td>80749</td>
+      <td>14694</td>
+      <td>37948</td>
+      <td>11259</td>
+      <td>10.88</td>
+      <td>1.98</td>
+      <td>5.11</td>
+      <td>1.52</td>
     </tr>
     <tr>
-      <td>VRC01</td>
-      <td>11ug-rep3-tr2</td>
-      <td>mut-virus-rep3-VRC01-tr2-11ug</td>
-      <td>mut-virus-rep3</td>
-      <td>wt-DNA-rep3</td>
-      <td>VRC01-11ug-rep3-tr2</td>
-      <td>0.001008</td>
+      <th>10</th>
+      <td>NoA3</td>
+      <td>288421</td>
+      <td>39230</td>
+      <td>8081</td>
+      <td>21466</td>
+      <td>6287</td>
+      <td>13.60</td>
+      <td>2.80</td>
+      <td>7.44</td>
+      <td>2.18</td>
     </tr>
     <tr>
-      <td>VRC01</td>
-      <td>11ug-rep2</td>
-      <td>mut-virus-rep2-VRC01-11ug</td>
-      <td>mut-virus-rep2</td>
-      <td>wt-DNA-rep2</td>
-      <td>VRC01-11ug-rep2</td>
-      <td>0.009827</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>8ug-rep2</td>
-      <td>mut-virus-rep2-VRC01-8ug</td>
-      <td>mut-virus-rep2</td>
-      <td>wt-DNA-rep2</td>
-      <td>VRC01-8ug-rep2</td>
-      <td>0.027775</td>
+      <th>0</th>
+      <td>PLASMIDCTRL</td>
+      <td>90833</td>
+      <td>2107</td>
+      <td>44</td>
+      <td>182</td>
+      <td>14</td>
+      <td>2.32</td>
+      <td>0.05</td>
+      <td>0.20</td>
+      <td>0.02</td>
     </tr>
   </tbody>
 </table>
+</div>
 
 
+# Make bar plots of # templates (y-axis) vs mutation count per template (x-axis) for each sample. 
 
-```python
-fracsurvivebatchavgcopy = fracsurvivebatchavg.copy()
-
-
-names = fracsurvivebatchavg["group"].astype(str) + "-" + fracsurvivebatchavg["name"].astype(str)
-names = names.tolist()
-```
-
-We now `run dms2_batch_survive` twice with the following difference:
-    1. First we run it simply computing the fraction surviving for each mutation.
-    2. Then we run it with the --aboveavg yes option to compute the fraction surviving for each mutation above the overall library average.
-
-Note how the results for these two different runs are output to two different subdirectories.
-
+Subset on G-to-A mutations
 
 
 ```python
-fracsurvivebatch = fracsurvivebatchavg.copy()
-fracsurvivebatchfile = os.path.join(fracsurvivedir, 'batch.csv')
-print("Here is the batch input that we write to the CSV file {0}:".format(fracsurvivebatchfile))
-display(HTML(fracsurvivebatch.to_html(index=False)))
-fracsurvivebatch.to_csv(fracsurvivebatchfile, index=False, encoding='utf-8')
-
-
-for (arg_aboveavg, outdir) in [('', fracsurvivedir), ('--aboveavg yes', fracsurviveaboveavgdir)]:
-    print("\nRunning dms2_batch_fracsurvive {0}and writing output to {1}".format(
-            {'':'', '--aboveavg yes':'with `--aboveavg yes` '}[arg_aboveavg], outdir))
-    log = !dms2_batch_fracsurvive \
-            --summaryprefix summary \
-            --batchfile {fracsurvivebatchfile} \
-            --outdir {outdir} \
-            --indir {renumberedcountsdir} \
-            --use_existing {use_existing} \
-            {arg_aboveavg} 
-    print("Completed run.")
-```
-
-    Here is the batch input that we write to the CSV file ./results/fracsurvive/batch.csv:
-
-
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>group</th>
-      <th>name</th>
-      <th>sel</th>
-      <th>mock</th>
-      <th>err</th>
-      <th>mds_names</th>
-      <th>libfracsurvive</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>118</td>
-      <td>4ug-rep2d</td>
-      <td>mut-virus-rep2d-118-4ug</td>
-      <td>mut-virus-rep2d</td>
-      <td>wt-DNA-rep2</td>
-      <td>118-4ug-rep2d</td>
-      <td>0.005177</td>
-    </tr>
-    <tr>
-      <td>118</td>
-      <td>8ug-rep2d</td>
-      <td>mut-virus-rep2d-118-8ug</td>
-      <td>mut-virus-rep2d</td>
-      <td>wt-DNA-rep2</td>
-      <td>118-8ug-rep2d</td>
-      <td>0.000168</td>
-    </tr>
-    <tr>
-      <td>118</td>
-      <td>4ug-rep3d</td>
-      <td>mut-virus-rep3d-118-4ug</td>
-      <td>mut-virus-rep3d</td>
-      <td>wt-DNA-rep3</td>
-      <td>118-4ug-rep3d</td>
-      <td>0.005182</td>
-    </tr>
-    <tr>
-      <td>118</td>
-      <td>8ug-rep3d</td>
-      <td>mut-virus-rep3d-118-8ug</td>
-      <td>mut-virus-rep3d</td>
-      <td>wt-DNA-rep3</td>
-      <td>118-8ug-rep3d</td>
-      <td>0.000673</td>
-    </tr>
-    <tr>
-      <td>3BNC117</td>
-      <td>3ug-rep2b</td>
-      <td>mut-virus-rep2b-3BNC117-3ug</td>
-      <td>mut-virus-rep2b</td>
-      <td>wt-DNA-rep2</td>
-      <td>3BNC117-3ug-rep2b</td>
-      <td>0.009847</td>
-    </tr>
-    <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep2b</td>
-      <td>mut-virus-rep2b-3BNC117-4ug</td>
-      <td>mut-virus-rep2b</td>
-      <td>wt-DNA-rep2</td>
-      <td>3BNC117-4ug-rep2b</td>
-      <td>0.022027</td>
-    </tr>
-    <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep3b</td>
-      <td>mut-virus-rep3b-3BNC117-4ug</td>
-      <td>mut-virus-rep3b</td>
-      <td>wt-DNA-rep3</td>
-      <td>3BNC117-4ug-rep3b</td>
-      <td>0.006475</td>
-    </tr>
-    <tr>
-      <td>3BNC117</td>
-      <td>4ug-rep1b</td>
-      <td>mut-virus-rep1b-3BNC117-4ug</td>
-      <td>mut-virus-rep1b</td>
-      <td>wt-DNA-rep1</td>
-      <td>3BNC117-4ug-rep1b</td>
-      <td>0.008765</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>11ug-rep1</td>
-      <td>mut-virus-rep1-VRC01-11ug</td>
-      <td>mut-virus-rep1</td>
-      <td>wt-DNA-rep1</td>
-      <td>VRC01-11ug-rep1</td>
-      <td>0.002029</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>11ug-rep3</td>
-      <td>mut-virus-rep3-VRC01-11ug</td>
-      <td>mut-virus-rep3</td>
-      <td>wt-DNA-rep3</td>
-      <td>VRC01-11ug-rep3</td>
-      <td>0.007226</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>11ug-rep3-tr2</td>
-      <td>mut-virus-rep3-VRC01-tr2-11ug</td>
-      <td>mut-virus-rep3</td>
-      <td>wt-DNA-rep3</td>
-      <td>VRC01-11ug-rep3-tr2</td>
-      <td>0.001008</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>11ug-rep2</td>
-      <td>mut-virus-rep2-VRC01-11ug</td>
-      <td>mut-virus-rep2</td>
-      <td>wt-DNA-rep2</td>
-      <td>VRC01-11ug-rep2</td>
-      <td>0.009827</td>
-    </tr>
-    <tr>
-      <td>VRC01</td>
-      <td>8ug-rep2</td>
-      <td>mut-virus-rep2-VRC01-8ug</td>
-      <td>mut-virus-rep2</td>
-      <td>wt-DNA-rep2</td>
-      <td>VRC01-8ug-rep2</td>
-      <td>0.027775</td>
-    </tr>
-  </tbody>
-</table>
-
-
-    
-    Running dms2_batch_fracsurvive and writing output to ./results/fracsurvive
-    Completed run.
-    
-    Running dms2_batch_fracsurvive with `--aboveavg yes` and writing output to ./results/fracsurviveaboveavg
-    Completed run.
-
-
-Running [dms2_batch_fracsurvive](https://jbloomlab.github.io/dms_tools2/dms2_batch_fracsurvive.html) creates plots showing how the fraction surviving estimates correlate among replicates. 
-These plots have names like `summary_*-avgfracsurvivecorr.pdf` and `summary_*-maxfracsurvivecorr.pdf`. 
-Note that the plots show the correlations between all pairs, and also on the diagonal show the density of the different selection values for each replicates (most of them are close to zero).
-
-
-```python
-fracsurviveprefix = os.path.join(fracsurvivedir, 'summary_')
-groups = fracsurvivebatchavg['group'].unique()
-
+all_samples_df = pd.DataFrame()
+for sample in df_samplenames:
+    sample_df = mutinfo_dfs[sample]
+    all_samples_df = all_samples_df.append(sample_df, ignore_index=True)
 ```
 
 
 ```python
-for seltype in ['avgfracsurvive', 'maxfracsurvive']:
-    print("\n{0} correlations:".format(seltype))
-    plots = []
-    for g in groups:
-        plot = fracsurviveprefix + g + '-' + seltype + 'corr.pdf'
-        if os.path.isfile(plot):
-            plots.append(plot)
+mut_ga_count_plot = (ggplot(all_samples_df, aes(x='n_ga_subs')) +
+                  geom_histogram(binwidth=5) + 
+                  facet_wrap('~ Sample', ncol=6) +
+                  labs(title='Number of Reads with X G-to-A Mutations') +
+                  ylab('Read Count') +
+                  xlab('Number of G to A Substitutions') +
+                  theme(axis_text_x=element_text(angle=0),
+                        figure_size=(10, 10),
+                       )
+                  )
+_ = mut_ga_count_plot.draw()
+```
+
+
+![png](analysis_notebook_files/analysis_notebook_49_0.png)
+
+
+## Frequency of reads for each sample with that number of substitutions rather than count.
+
+Still subsetting on G-to-A mutations.
+
+As seen above, technical replicates have same distributions, just different count numbers. So averaging
+frequencies between replicates.
+
+
+```python
+all_ga_sub_counts_df = pd.DataFrame()
+rep1_ga_sub_counts_df = pd.DataFrame()
+rep2_ga_sub_counts_df = pd.DataFrame()
+for sample in df_samplenames:
+    sample_binned_dict = {}
+    sample_df = ga_sub_count_dfs[sample]
+    for i in range(0, 10):
+        if i in sample_df['n_ga_subs'].to_list():
+            idx = sample_df.index[sample_df['n_ga_subs'] == i][0]
+            sample_binned_dict[str(i)] = sample_df.at[idx, 'n_ga_sub_count']
         else:
-            print("{0} does not exist.".format(plot))
-    showPDF(plots, width=1800)
+            sample_binned_dict[str(i)] = 0
+    sample_binned_dict['10+'] = sum(sample_df[sample_df['n_ga_subs'] >= 10]['n_ga_sub_count'])
+    assert(sum(sample_df['n_ga_sub_count']) == sum(sample_binned_dict.values()))
+    sample_binned_df = pd.DataFrame.from_dict(sample_binned_dict, orient='index').reset_index().rename(columns={'index': 'n_ga_subs', 0: 'n_ga_sub_count'})
+    sample_binned_df['n_ga_sub_freq'] = sample_binned_df['n_ga_sub_count'] / sum(sample_binned_df['n_ga_sub_count']) * 100
+    sample_binned_df['Sample'] = [sample.split('-')[0]]*len(sample_binned_df)
+    if sample == 'PLASMIDCTRL':
+        plasmid_binned_df = sample_binned_df
+    elif '-1' in sample:
+        rep1_ga_sub_counts_df = rep1_ga_sub_counts_df.append(sample_binned_df, ignore_index=True)
+    elif '-2' in sample:
+        rep2_ga_sub_counts_df = rep2_ga_sub_counts_df.append(sample_binned_df, ignore_index=True)
+    else:
+        print(f'Invalid sample name {sample}')
+        break
+
+reps_ga_concat = pd.concat((rep1_ga_sub_counts_df, rep2_ga_sub_counts_df))
+ga_by_row_index = reps_ga_concat.groupby(reps_ga_concat.index)
+reps_ga_avg = pd.DataFrame()
+reps_ga_avg['n_ga_sub_freq'] = ga_by_row_index['n_ga_sub_freq'].mean()
+reps_ga_avg['n_ga_sub_count'] = ga_by_row_index['n_ga_sub_count'].sum()
+reps_ga_avg['n_ga_subs'] = rep1_ga_sub_counts_df['n_ga_subs']
+reps_ga_avg['Sample'] = rep1_ga_sub_counts_df['Sample']
+    
+    
+all_ga_sub_counts_df = pd.concat((reps_ga_avg, plasmid_binned_df), ignore_index=True, sort=True)
 ```
 
+
+```python
+display(all_ga_sub_counts_df)
+```
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sample</th>
+      <th>n_ga_sub_count</th>
+      <th>n_ga_sub_freq</th>
+      <th>n_ga_subs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NoA3</td>
+      <td>266955</td>
+      <td>92.550398</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NoA3</td>
+      <td>15179</td>
+      <td>5.240197</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NoA3</td>
+      <td>2310</td>
+      <td>0.799907</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NoA3</td>
+      <td>653</td>
+      <td>0.222770</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NoA3</td>
+      <td>291</td>
+      <td>0.099947</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>127</th>
+      <td>PLASMIDCTRL</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>PLASMIDCTRL</td>
+      <td>2</td>
+      <td>0.002202</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>129</th>
+      <td>PLASMIDCTRL</td>
+      <td>1</td>
+      <td>0.001101</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>PLASMIDCTRL</td>
+      <td>2</td>
+      <td>0.002202</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>PLASMIDCTRL</td>
+      <td>7</td>
+      <td>0.007706</td>
+      <td>10+</td>
+    </tr>
+  </tbody>
+</table>
+<p>132 rows × 4 columns</p>
+</div>
+
+
+
+```python
+facet_dict_ga = {'PLASMIDCTRL': f"Plasmid Ctrl", 'NoA3': f"No A3", 'A3G': f"A3G", 'A3C': f"A3C",
+                 'A3CE68A': f"A3C E68A", 'COTD': f"A3C-A3C", 'COTDE254A': f"A3C-A3C E254A",
+                 'COTDE68AE254A': f"A3C-A3C E68A E254A", 'I188': f"I188", 'I188E68A': f"I188 E68A",
+                 'COII': f"I188-I188", 'COIIE68AE254A': f"I188-I188 E68A E254A"}
+
+def facet_labeller_ga(label):
+    return(facet_dict_ga[label])
+```
+
+
+```python
+x_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
+x_cat = pd.Categorical(all_ga_sub_counts_df['n_ga_subs'], categories=x_list)
+
+facet_list = ["PLASMIDCTRL", 'NoA3', 'A3G', 'A3C', 'A3CE68A', 'COTD', 'COTDE254A', 'COTDE68AE254A',
+              'I188', 'I188E68A', 'COII', 'COIIE68AE254A']
+facet_cat = pd.Categorical(all_ga_sub_counts_df['Sample'], categories=facet_list)
+
+
+all_ga_sub_counts_df = all_ga_sub_counts_df.assign(x_cat = x_cat)
+all_ga_sub_counts_df = all_ga_sub_counts_df.assign(facet_cat = facet_cat)
+
+ga_mut_freq_plot = (ggplot(all_ga_sub_counts_df, aes(x='x_cat', y='n_ga_sub_freq')) +
+                  geom_bar(stat='identity') + 
+                  facet_wrap('~ facet_cat', ncol=4, labeller=facet_labeller_ga) +
+                  labs(title='Percent of Reads by Number of Substitutions in the Read') +
+                  ylab('Percent of Reads') +
+                  xlab('Number of G to A Substitutions') +
+                  theme(axis_text_x=element_text(angle=90),
+                        figure_size=(10, 10),
+                        strip_text_x = element_text(size = 10, weight='bold')
+                       )
+                  )
+
+_ = ga_mut_freq_plot.draw()
+```
+
+
+![png](analysis_notebook_files/analysis_notebook_54_0.png)
+
+
+
+```python
+# Replace '10+' string with '10' for plotting line plots
+all_ga_sub_counts_df['n_ga_subs'].replace('10+', '10', inplace=True)
+all_ga_sub_counts_df['n_ga_subs'] = all_ga_sub_counts_df['n_ga_subs'].astype(int)
+```
+
+### Looking at the distributions of line plots allows for easier comparison of mutation per read distributions
+
+
+```python
+line_palette = ['#000000', '#999999', '#990000', '#56B4E9', '#0072B2', '#66CC00', '#009E73','#006400', '#F0E442', 
+             '#E69F00', '#D55E00',  '#CC79A7']
+
+ga_mut_freq_line_plot = (ggplot(all_ga_sub_counts_df, aes(x='n_ga_subs', y='n_ga_sub_freq', color='facet_cat')) +
+                         geom_line() +
+                         scale_color_manual(values=line_palette) +
+                         ylab('Percent of Reads') +
+                         xlab('Number of G to A Substitutions') +
+                         theme(axis_text_x=element_text(angle=90),
+                               figure_size=(5, 5),
+                               strip_background_x=element_rect(height=1/9),
+                              ) +
+                         scale_x_continuous(breaks=range(0, 11, 1), labels=['0', '1', '2', '3', '4', '5', 
+                                                                            '6', '7', '8', '9', '10+'])
+                          )
+
+_ = ga_mut_freq_line_plot.draw()
+```
+
+
+![png](analysis_notebook_files/analysis_notebook_57_0.png)
+
+
+### Plot subsets of graphs for publication:
+
+Again, we are subsetting only on G to A substitutions.
+
+
+```python
+NoI188E68A = pd.concat([all_ga_sub_counts_df[(all_ga_sub_counts_df['Sample'] != 'I188E68A') &
+                                             (all_ga_sub_counts_df['Sample'] != 'COIIE68AE254A')]])
+
+facet_list = ["PLASMIDCTRL", 'NoA3', 'A3G', 'A3C', 'A3CE68A', 'COTD', 'COTDE254A', 'COTDE68AE254A',
+              'I188', 'COII']
+facet_cat = pd.Categorical(NoI188E68A['Sample'], categories=facet_list)
+
+NoI188E68A = NoI188E68A.assign(facet_cat = facet_cat)
+
+ga_mut_freq_plot = (ggplot(NoI188E68A, aes(x='x_cat', y='n_ga_sub_freq')) +
+                  geom_bar(stat='identity') + 
+                  scale_y_continuous(limits=(0, 100)) +
+                  facet_wrap('~ facet_cat', ncol=5, labeller=facet_labeller_ga, scales='free') +
+                  ylab('Percent of Reads') +
+                  xlab('Number of G to A Substitutions') +
+                  theme(axis_text_x=element_text(angle=90),
+                        figure_size=(15, 8),
+                        panel_spacing=(0.45),
+                        strip_text_x = element_text(size = 12)                       
+                       )
+                  )
+
+_ = ga_mut_freq_plot.draw()
+
+```
+
+
+![png](analysis_notebook_files/analysis_notebook_59_0.png)
+
+
+
+```python
+# clear all plots
+plt.close('all')
+```
+
+## Analyze Mutation Motifs
+
+Extract the substitution and 5' and 3' nucleotide identities information for each sample.
+
+
+```python
+dfs_to_make_pwms = {}
+print(f"Extracting motif substitution information...")
+for sample in df_samplenames:
+    print(sample)
+    sample_df = mutinfo_dfs[sample]
+    sub_df = sample_df[sample_df['n_subs'] != 0].reset_index(drop=True)
+    sample_motif_counts = pd.DataFrame(columns = ['sub',"5'", "3'", 'motif', 'count', 'freq', 'sample'])
     
-    avgfracsurvive correlations:
+    sub_df['sub_tups'] = sub_df['sub_tups'].apply(literal_eval)
+    sub_tups_list = sub_df['sub_tups'].to_list()
+    sub_info_list=[]
+    sub_info_list = [sub_tup for sub_tups in sub_tups_list for sub_tup in sub_tups]
+    sub_info_df = pd.DataFrame(sub_info_list, columns=["5'", 'sub', "3'", "motif"])
+    dfs_to_make_pwms[sample] = sub_info_df # save these dataframes for making PWMs below
+```
+
+    Extracting motif substitution information...
+    PLASMIDCTRL
+    NoA3-1
+    A3G-1
+    A3C-1
+    A3CE68A-1
+    COTD-1
+    COTDE254A-1
+    COTDE68AE254A-1
+    I188-1
+    I188E68A-1
+    COII-1
+    COIIE68AE254A-1
+    NoA3-2
+    A3G-2
+    A3C-2
+    A3CE68A-2
+    COTD-2
+    COTDE254A-2
+    COTDE68AE254A-2
+    I188-2
+    I188E68A-2
+    COII-2
+    COIIE68AE254A-2
 
 
+## Make PPMs (and PWMs) for mutation sites. 
 
-![png](analysis_notebook_files/analysis_notebook_47_1.png)
+But don't make logo plots. The PPMs will be used to make logo plots based on entropy (below).
+
+Start by looking at any site with a substitution, then subset on G->A as I think that's what Mollie and Michael will want.
 
 
+```python
+rep1_pfm_dict = {}
+rep2_pfm_dict = {}
+for sample in df_samplenames:
+    print(f"Making pfm for {sample}...")
+    sample_sub_info = dfs_to_make_pwms[sample].copy()
+    sample_sub_info['0'] = sample_sub_info['sub'].astype(str).str[0]
+    sample_sub_info.rename(columns={"3'": '1', "5'": '-1'}, inplace=True)
+    sample_sub_info.drop(['motif', 'sub'], axis=1, inplace=True)
     
-    maxfracsurvive correlations:
+    sample_pfm = pd.DataFrame(columns=['-1', '0', '1'], index=['A', 'C', 'G', 'T'])
+    nucleotides = ['A', 'C', 'G', 'T']
+    for site in ['-1', '0', '1']:
+        for nt in nucleotides:
+            sample_pfm.at[nt, site] = len(sample_sub_info[sample_sub_info[site] == nt])
+        
+    assert(len(sample_sub_info) == sum(sample_pfm['0']))
+        
+    if sample == 'PLASMIDCTRL':
+        plasmid_pfm = sample_pfm
+    elif '-1' in sample:
+        rep1_pfm_dict[sample[:-2]] = sample_pfm
+    elif '-2' in sample:
+        rep2_pfm_dict[sample[:-2]] = sample_pfm
+    else:
+        print(f'Invalid sample name {sample}')
+        break
+```
+
+    Making pfm for PLASMIDCTRL...
+    Making pfm for NoA3-1...
+    Making pfm for A3G-1...
+    Making pfm for A3C-1...
+    Making pfm for A3CE68A-1...
+    Making pfm for COTD-1...
+    Making pfm for COTDE254A-1...
+    Making pfm for COTDE68AE254A-1...
+    Making pfm for I188-1...
+    Making pfm for I188E68A-1...
+    Making pfm for COII-1...
+    Making pfm for COIIE68AE254A-1...
+    Making pfm for NoA3-2...
+    Making pfm for A3G-2...
+    Making pfm for A3C-2...
+    Making pfm for A3CE68A-2...
+    Making pfm for COTD-2...
+    Making pfm for COTDE254A-2...
+    Making pfm for COTDE68AE254A-2...
+    Making pfm for I188-2...
+    Making pfm for I188E68A-2...
+    Making pfm for COII-2...
+    Making pfm for COIIE68AE254A-2...
 
 
 
-![png](analysis_notebook_files/analysis_notebook_47_3.png)
+```python
+print("Combine PFMs (sum reads for replicates)...")
+summed_pfms_dict = {}
+num_subs_dict = {}
+
+summed_pfms_dict['PLASMIDCTRL'] = plasmid_pfm
+num_subs_dict['PLASMIDCTRL'] = sum(plasmid_pfm['0'])
+for samplename in rep1_pfm_dict:
+    summed_pfms_dict[samplename] = (rep1_pfm_dict[samplename] + rep2_pfm_dict[samplename])
+    num_subs_dict[samplename] = sum(summed_pfms_dict[samplename]['0'])
+
+```
+
+    Combine PFMs (sum reads for replicates)...
 
 
-Next, we can look at the correlation for the `fraction surviving above average` values.
+
+```python
+print('Making PWMs...')
+pseudocount = 1
+pwms_dict = {}
+background = summed_pfms_dict['NoA3']
+background = background + pseudocount
+background_ppm = background / background.sum(axis=0)
+
+ppms_dict = {}
+
+for samplename in summed_pfms_dict:
+    sample_pfm = summed_pfms_dict[samplename]
+    sample_pfm_pseudo = sample_pfm + (sample_pfm.sum(axis=0) / background.sum(axis=0))
+    sample_ppm = sample_pfm_pseudo / sample_pfm_pseudo.sum(axis=0)
+    ppms_dict[samplename] = sample_ppm
+    pwms_dict[samplename] = np.log2((sample_ppm / background_ppm).astype('float64'))
+```
+
+    Making PWMs...
+
+
+## Make Logos based on Entropy
+
+Logo plots made based on following references: 
+
+For overall math:
+
+https://weblogo.berkeley.edu/Crooks-2004-GR-WebLogo.pdf
+
+For background corrections:
+1. Stormo, G.D. 1998. Information content and free energy in DNA-protein interactions. J. Theor. Biol. 195: 135–137.
+2. Gorodkin, J., Heyer, L.J., Brunak, S., and Stormo, G.D. 1997. Displaying the information contents of structural RNA alignments: The structure logos. Comput. Appl. Biosci. 13: 583–586.
+
+Along with the code below, the equations are described in the manuscript submitted publishing these results.
+
+
+```python
+def entropy(ppm):
+    entropy_df = pd.DataFrame(columns=['-1', '0', '1'], index=['0'])
+    for i in ppm.columns:
+        entropy = 0.
+        site_ppm = ppm[i].to_list()      
+        for j in site_ppm:
+            entropy -= j * np.log2(j)
+        entropy_df.at['0', i] = entropy
+    return(entropy_df)
+```
+
+
+```python
+print('Example with maximum entropy.')
+equal_ppm = pd.DataFrame({'-1':[0.25, 0.25, 0.25, 0.25], '0': [0.25, 0.25, 0.25, 0.25], '1': [0.25, 0.25, 0.25, 0.25]})
+print(entropy(equal_ppm))
+
+print('\nExample with minimum entropy.')
+one_nt_ppm = pd.DataFrame({'-1':[0.0001, 0.0001, 0.0001, 0.9997], '0': [0.001, 0.001, 0.997, 0.001], '1': [0.001, 0.001, 0.997, 0.001]})
+print(entropy(one_nt_ppm))
+
+```
+
+    Example with maximum entropy.
+      -1  0  1
+    0  2  2  2
+    
+    Example with minimum entropy.
+               -1          0          1
+    0  0.00441906  0.0342189  0.0342189
+
+
+Without the background frequency correction, the max entropy is 2.
+With the background frequency correction, the max entropy is 0.
+
+
+```python
+max_ent = 2
+```
+
+## Entropy calculations
+
+I am correcting for the background using the `PlasmidCtrl` frequencies in order to calculate corrected frequencies (similar to 'type 2 logo' plots (described in Gorodkin, et al., 1997)). From these corrected frequencies, I construct logo plots more like a 'type 1 logo' or those described in Crooks, et al.
+
+Should I add back in the other analyses?
+
+
+```python
+sample_height_dict = {}
+
+bg_ppm = ppms_dict['PLASMIDCTRL']
+
+for samplename in ppms_dict:
+    sample_ppm = ppms_dict[samplename]
+    bg_corrected_ppm = pd.DataFrame(columns = ['-1', '0', '1'], index=['A', 'C', 'G', 'T'])
+    for i in sample_ppm.columns:
+        sum_bg_correction = sum(sample_ppm[i]/bg_ppm[i])
+        bg_corrected_ppm[i] = (sample_ppm[i]/bg_ppm[i])/sum_bg_correction
+    sample_entropy = entropy(bg_corrected_ppm)
+    sample_ic = max_ent - (sample_entropy)
+    
+    sample_height = pd.DataFrame(columns = ['-1', '0', '1'], index=['A', 'C', 'G', 'T'])
+    for j in bg_corrected_ppm.columns:
+        site_ic = float(sample_ic[j])
+        sample_height[j] = bg_corrected_ppm[j].apply(lambda x: (x*site_ic))
+    
+    sample_height_dict[samplename] = sample_height
+```
+
+
+```python
+logo_labels_dict = {'PLASMIDCTRL': "Plasmid Ctrl", 
+              'NoA3': "No A3",
+              'A3G': "A3G",
+              'A3C': "A3C",
+              'A3CE68A': "A3C E68A",
+              'COTD': "A3C-A3C",
+              'COTDE254A': "A3C-A3C E254A",
+              'COTDE68AE254A': "A3C-A3C E68A E254A",
+              'I188': "I188",
+              'I188E68A': "I188 E68A",
+              'COII': "I188-I188",
+              'COIIE68AE254A': "I188-I188 E68A E254A"
+             }
+```
+
+
+```python
+print('Making entropy logo plots from PPMs with plasmid control as background correction...')
+melted_entropy_combined = pd.DataFrame(columns = ['nt', 'site', 'bits', 'color', 'sample'])
+for samplename in sample_height_dict:
+    sample_logo = sample_height_dict[samplename].reset_index()
+    melted_logo = sample_logo.melt(id_vars='index')
+    melted_logo.rename(columns={'index':'nt', 'variable':'site', 'value':'bits'}, inplace=True)
+    melted_logo['site'] = melted_logo['site'].astype(int)
+    melted_logo['color'] = ['green', 'blue', 'black', 'red', 'green', 'blue', 'black', 'red', 'green', 'blue', 'black', 'red']
+    melted_logo['sample'] = [logo_labels_dict[samplename]]*len(melted_logo)
+    melted_entropy_combined = melted_entropy_combined.append(melted_logo)
+    
+fig, axes = dmslogo.facet_plot(melted_entropy_combined,
+                               gridrow_col='sample',
+                               x_col='site',
+                               show_col=None,
+                               draw_logo_kwargs=dict(letter_col='nt',
+                                                     letter_height_col='bits',
+                                                     color_col='color')
+                            )
+
+```
+
+    Making entropy logo plots from PPMs with plasmid control as background correction...
+
+
+    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/site-packages/dmslogo/logo.py:443: UserWarning: Attempting to set identical bottom == top == 0.0 results in singular transformations; automatically expanding.
+      ax.set_ylim(ymin, ymax)
+    /fh/fast/bloom_j/software/conda_v2/envs/BloomLab/lib/python3.6/site-packages/dmslogo/facet.py:193: UserWarning: Tight layout not applied. The left and right margins cannot be made large enough to accommodate all axes decorations. 
+      fig.tight_layout()
+
+
+
+![png](analysis_notebook_files/analysis_notebook_75_2.png)
+
+
+
+```python
+print('Making entropy logo plots from PPMs with Plasmid Ctrl as background correction...')
+melted_entropy_combined = pd.DataFrame(columns = ['nt', 'site', 'bits', 'color', 'sample'])
+logos_to_plot = {'A3G': 'B', 'A3C': 'C', 'COTD': 'D', 'NoA3': 'A'} #, 'PLASMIDCTRL']
+for samplename in logos_to_plot:
+    sample_logo = sample_height_dict[samplename].reset_index()
+    melted_logo = sample_logo.melt(id_vars='index')
+    melted_logo.rename(columns={'index':'nt', 'variable':'site', 'value':'bits'}, inplace=True)
+    melted_logo['site'] = melted_logo['site'].astype(int)
+    melted_logo['color'] = ['green', 'blue', 'black', 'red', 'green', 'blue', 'black', 'red', 'green', 'blue', 'black', 'red']
+    melted_logo['sample'] = [logo_labels_dict[samplename]]*len(melted_logo)
+    melted_logo['order'] = [logos_to_plot[samplename]]*len(melted_logo)
+    melted_entropy_combined = melted_entropy_combined.append(melted_logo)
+    
+melted_entropy_combined['sample'] = pd.Categorical(melted_entropy_combined['sample'], 
+                                                  ordered=True,
+                                                  categories=['No A3', 'A3G', 'A3C', 'A3C-A3C'])
+        
+fig, axes = dmslogo.facet_plot(melted_entropy_combined,
+                               gridcol_col='sample',
+                               x_col='site',
+                               show_col=None,
+                               draw_logo_kwargs=dict(letter_col='nt',
+                                                     letter_height_col='bits',
+                                                     color_col='color')
+                            )
+
+```
+
+    Making entropy logo plots from PPMs with Plasmid Ctrl as background correction...
+
+
+
+![png](analysis_notebook_files/analysis_notebook_76_1.png)
+
+
+
+```python
+
+```
+
+
+```python
+
+```

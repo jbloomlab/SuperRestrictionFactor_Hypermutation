@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESULTSDIR="results_1and1b"
+RESULTSDIR="results"
 NB="analysis_notebook.ipynb"
 
 mkdir -p $RESULTSDIR
